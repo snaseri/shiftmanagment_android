@@ -10,8 +10,12 @@ tools:context=".MainActivity">
         android:id="@+id/Save_Button"
         android:layout_width="106dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="36dp"
         android:background="@color/colorPrimary"
         android:text="@string/save"
-        android:textColor="@color/colorTextTwo" />
+        android:textColor="@color/colorTextTwo"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </RelativeLayout>
