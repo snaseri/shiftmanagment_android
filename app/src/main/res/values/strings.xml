@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Record Keeper</string>
     <string name="save">Save</string>
-    <string name="company">company</string>
+    <string name="company">Company</string>
 </resources>
