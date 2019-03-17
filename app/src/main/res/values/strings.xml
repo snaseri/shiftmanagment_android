@@ -9,5 +9,6 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="past_logs">PastLogs</string>
-    <string name="created_logs">Created Logs</string>
+    <string name="shift_log">Shift Log</string>
+
 </resources>

@@ -7,9 +7,9 @@
         android:title="@string/action_settings"
         app:showAsAction="never" />
     <item
-        android:id="@+id/created_logs"
+        android:id="@+id/past_logs"
         android:orderInCategory="100"
-        android:title="@string/created_logs"
+        android:title="@string/past_logs"
         app:showAsAction="never" />
 
 </menu>

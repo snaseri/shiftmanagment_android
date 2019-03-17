@@ -9,7 +9,7 @@ tools:context=".MainActivity">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Shift Logs"
+        android:text="@string/shift_log"
         android:textAllCaps="true"
         android:textColor="@color/black"
         android:textSize="20dp"
