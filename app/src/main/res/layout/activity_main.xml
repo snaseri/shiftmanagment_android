@@ -25,4 +25,11 @@ tools:context=".MainActivity">
         android:layout_height="wrap_content"
         android:text="Check if you own and can drive a vehicle" />
 
+    <CheckBox
+        android:id="@+id/nightout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Are you willing to spend nights out" />
+
 </RelativeLayout>
