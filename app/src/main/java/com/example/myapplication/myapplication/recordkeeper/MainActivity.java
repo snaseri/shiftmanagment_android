@@ -24,7 +24,28 @@ public class MainActivity extends AppCompatActivity {
         nightout = ((CheckBox)findViewById(R.id.nightout));
         AppCompatButton saveButton = findViewById(R.id.Save_Button);
 
-        
+
+        //Checkbox click listners
+        vehcileUse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox)v).isChecked()) {
+                    Toast.makeText(MainActivity.this,
+                            "Vehicle operating selected",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        nightout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (((CheckBox)v).isChecked()) {
+                    Toast.makeText(MainActivity.this,
+                            "Nights out availability selected",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
         //Save button Listner
         saveButton.setOnClickListener(new View.OnClickListener() {
