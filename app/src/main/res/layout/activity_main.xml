@@ -23,14 +23,14 @@ tools:context=".MainActivity">
         android:id="@+id/vehicleUse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:text="Check if you own and can drive a vehicle" />
+        android:layout_marginTop="200dp"
+        android:text="Do you own and can drive a vehicle?" />
 
     <CheckBox
         android:id="@+id/nightout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="240dp"
         android:text="Are you willing to spend nights out" />
 
     <Button
@@ -41,11 +41,29 @@ tools:context=".MainActivity">
         android:text="Pick a Start Date" />
 
     <Button
-        android:layout_below="@id/btnStartDatePicker"
         android:id="@+id/btnStartTimePicker"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/btnStartDatePicker"
+        android:layout_marginTop="-3dp"
         android:text="Pick a Start Time" />
+
+    <Button
+        android:id="@+id/btnEndDatePicker"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnStartTimePicker"
+        android:layout_marginTop="-2dp"
+        android:text="Pick an End Date" />
+
+    <Button
+        android:id="@+id/btnEndTimePicker"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnEndDatePicker"
+        android:text="Pick an End Time" />
 
 </RelativeLayout>

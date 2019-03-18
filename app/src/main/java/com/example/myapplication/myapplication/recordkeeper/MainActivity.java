@@ -42,6 +42,10 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         nightout = ((CheckBox)findViewById(R.id.nightout));
         AppCompatButton saveButton = findViewById(R.id.Save_Button);
 
+
+
+
+        //Time picker
         Button button = (Button) findViewById(R.id.btnStartTimePicker);
         button.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -131,4 +135,6 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         TextView textView = (TextView)findViewById(R.id.btnStartTimePicker);
         textView.setText("Hour: " + hourOfDay + " Minute: " + minute);
     }
+
+
 }
