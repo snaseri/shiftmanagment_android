@@ -27,8 +27,6 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
 
     private static final String TAG = "MainActivity";
 
-    private String lastTimeInput = "SD";
-
     private CheckBox vehcileUse;
     private CheckBox nightout;
     private TextView mDisplayStartDate;
@@ -90,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
                         year,month,day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable((Color.TRANSPARENT)));
                 dialog.show();
-                lastTimeInput = "SD";
             }
 
         });
@@ -110,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
                         year,month,day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable((Color.TRANSPARENT)));
                 dialog.show();
-                lastTimeInput = "ED";
+
             }
 
         });
@@ -171,13 +168,11 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        if (lastTimeInput.equalsIgnoreCase("SD")) {
-            TextView textView = (TextView) findViewById(R.id.btnStartTimePicker);
-            textView.setText(hourOfDay + " : " + minute);
-        } else if (lastTimeInput.equalsIgnoreCase("ED")) {
-            TextView textView = (TextView) findViewById(R.id.btnEndTimePicker);
-            textView.setText(hourOfDay + " : " + minute);
-        }
+        Toast.makeText(  //toast pop up message creation
+                getApplicationContext(),  // came as this good if this cant b used
+                String.format("Selected Time: " + hourOfDay + ":" + minute),
+                Toast.LENGTH_SHORT
+        ).show();
     }
 
     @Override
