@@ -3,6 +3,8 @@ package com.example.myapplication.myapplication.recordkeeper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -14,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         AppCompatButton saveButton = findViewById(R.id.Save_Button);
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -26,6 +30,15 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT
                 ).show();
             }
+
         });
+
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.navigation, menu);
+        return true;
+    }
+
 }
