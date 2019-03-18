@@ -1,18 +1,30 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
+import android.app.DatePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.CheckBox;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
+
     private CheckBox vehcileUse;
     private CheckBox nightout;
+    private TextView mDisplayStartDate;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
 
 
 
@@ -20,12 +32,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mDisplayStartDate = (TextView) findViewById(R.id.btnStartDatePicker);
         vehcileUse = ((CheckBox)findViewById(R.id.vehicleUse));
         nightout = ((CheckBox)findViewById(R.id.nightout));
         AppCompatButton saveButton = findViewById(R.id.Save_Button);
 
 
-        //Checkbox click listners
+        //Date Listener
+
+
+
+        //Checkbox click listeners
         vehcileUse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,8 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
                 Toast.makeText(  //toast pop up message creation
                         getApplicationContext(),  // came as this good if this cant b used
-//                        String.format ("Your shift log has been saved"),
-                        //Testing the checkboxes saved values
                         result.toString(),
                         Toast.LENGTH_SHORT
                 ).show();

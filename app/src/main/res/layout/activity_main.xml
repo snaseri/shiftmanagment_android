@@ -23,13 +23,29 @@ tools:context=".MainActivity">
         android:id="@+id/vehicleUse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
         android:text="Check if you own and can drive a vehicle" />
 
     <CheckBox
         android:id="@+id/nightout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="140dp"
         android:text="Are you willing to spend nights out" />
+
+    <Button
+        android:id="@+id/btnStartDatePicker"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pick a Start Date" />
+
+    <Button
+        android:layout_below="@id/btnStartDatePicker"
+        android:id="@+id/btnStartTimePicker"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pick a Start Time" />
 
 </RelativeLayout>
