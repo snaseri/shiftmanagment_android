@@ -23,21 +23,27 @@ tools:context=".MainActivity">
         android:id="@+id/vehicleUse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
-        android:text="Do you own and can drive a vehicle?" />
+        android:layout_below="@id/btnEndTimePicker"
+        android:layout_marginTop="14dp"
+        android:text="Do you own and can drive a vehicle?"
+        android:textColorLink="@color/buttonColour" />
 
     <CheckBox
         android:id="@+id/nightout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="240dp"
-        android:text="Are you willing to spend nights out" />
+        android:layout_below="@id/vehicleUse"
+        android:layout_marginTop="14dp"
+        android:text="Are you willing to spend nights out"
+        android:textColorLink="@color/buttonColour" />
 
     <Button
         android:id="@+id/btnStartDatePicker"
         style="@style/Widget.AppCompat.Button.Colored"
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Pick a Start Date" />
 
     <Button
@@ -46,7 +52,8 @@ tools:context=".MainActivity">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/btnStartDatePicker"
-        android:layout_marginTop="-3dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
         android:text="Pick a Start Time" />
 
     <Button
@@ -55,7 +62,8 @@ tools:context=".MainActivity">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/btnStartTimePicker"
-        android:layout_marginTop="-2dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorPrimary"
         android:text="Pick an End Date" />
 
     <Button
@@ -64,7 +72,9 @@ tools:context=".MainActivity">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/btnEndDatePicker"
-        android:layout_marginTop="-2dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
         android:text="Pick an End Time" />
+
 
 </RelativeLayout>
