@@ -33,10 +33,30 @@ tools:context=".MainActivity">
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/companyInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/companyName"
         android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/AgencyName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/agency"
+        android:textSize="18sp"
+        android:textColor="@color/colorTextThree"
+        android:layout_below="@id/companyInput"
+        app:layout_constraintBottom_toBottomOf="@id/companyInput"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <android.support.v7.widget.AppCompatEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/AgencyName"
+        android:layout_marginTop="8dp" />
+
 
 
 
