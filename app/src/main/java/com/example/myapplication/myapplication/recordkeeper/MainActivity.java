@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
 
     private static final String TAG = "MainActivity";
 
+    private String lastTimeInput = "SD";
+
     private CheckBox vehcileUse;
     private CheckBox nightout;
     private TextView mDisplayStartDate;
@@ -48,16 +50,25 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
 
 
         //Time picker
-        Button button = (Button) findViewById(R.id.btnStartTimePicker);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button startTimePicker = (Button) findViewById(R.id.btnStartTimePicker);
+        Button endTimePicker = (Button) findViewById(R.id.btnEndTimePicker);
+
+        startTimePicker.setOnClickListener(new View.OnClickListener() {
            @Override
             public void onClick(View v) {
-               DialogFragment timepicker = new TimePickerFragment();
-               timepicker.show(getSupportFragmentManager(), "Select Start Time");
+               DialogFragment timePicker = new TimePickerFragment();
+               timePicker.show(getSupportFragmentManager(), "Select Start Time");
 
            }
+        });
 
+        endTimePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getSupportFragmentManager(), "Select End Time");
 
+            }
         });
 
         //Date Listener
@@ -77,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
                         year,month,day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable((Color.TRANSPARENT)));
                 dialog.show();
+                lastTimeInput = "SD";
             }
 
         });
@@ -96,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
                         year,month,day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable((Color.TRANSPARENT)));
                 dialog.show();
+                lastTimeInput = "ED";
             }
 
         });
@@ -152,10 +165,16 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         });
     }
 
+
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        TextView textView = (TextView)findViewById(R.id.btnStartTimePicker);
-        textView.setText("Hour: " + hourOfDay + " Minute: " + minute);
+        if (lastTimeInput.equalsIgnoreCase("SD")) {
+            TextView textView = (TextView) findViewById(R.id.btnStartTimePicker);
+            textView.setText(hourOfDay + " : " + minute);
+        } else if (lastTimeInput.equalsIgnoreCase("ED")) {
+            TextView textView = (TextView) findViewById(R.id.btnEndTimePicker);
+            textView.setText(hourOfDay + " : " + minute);
+        }
     }
 
 
