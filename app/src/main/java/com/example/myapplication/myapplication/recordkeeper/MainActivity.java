@@ -28,8 +28,9 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
     private CheckBox vehcileUse;
     private CheckBox nightout;
     private TextView mDisplayStartDate;
+    private TextView mDisplayEndDate;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
-
+    private DatePickerDialog.OnDateSetListener mEndDateSetListener;
 
 
     @Override
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         setContentView(R.layout.activity_main);
 
         mDisplayStartDate = (TextView) findViewById(R.id.btnStartDatePicker);
+        mDisplayEndDate = (TextView) findViewById(R.id.btnEndDatePicker);
         vehcileUse = ((CheckBox)findViewById(R.id.vehicleUse));
         nightout = ((CheckBox)findViewById(R.id.nightout));
         AppCompatButton saveButton = findViewById(R.id.Save_Button);
@@ -79,10 +81,29 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
 
         });
 
+        mDisplayEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View view) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        MainActivity.this,
+                        android.R.style.Theme_Black,
+                        mDateSetListener,
+                        year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable((Color.TRANSPARENT)));
+                dialog.show();
+            }
+
+        });
+
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                Log.d(TAG, "onStartDateSet: dd/mm/yyyy: " + dayOfMonth + "/" + month + "/" + year);
+                Log.d(TAG, "onDateSet: dd/mm/yyyy: " + dayOfMonth + "/" + month + "/" + year);
                 Toast.makeText(  //toast pop up message creation
                         getApplicationContext(),  // came as this good if this cant b used
                         String.format("Selected Date: " + dayOfMonth + "/" + month + "/" + year),
@@ -90,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
                 ).show();
             }
         };
+
 
         //Checkbox click listeners
         vehcileUse.setOnClickListener(new View.OnClickListener() {
