@@ -64,7 +64,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
                 Log.d(TAG, "onStartDateSet: dd/mm/yyyy: " + dayOfMonth + "/" + month + "/" + year);
-
+                Toast.makeText(  //toast pop up message creation
+                        getApplicationContext(),  // came as this good if this cant b used
+                        String.format("Selected Date: " + dayOfMonth + "/" + month + "/" + year),
+                        Toast.LENGTH_SHORT
+                ).show();
             }
         };
 
