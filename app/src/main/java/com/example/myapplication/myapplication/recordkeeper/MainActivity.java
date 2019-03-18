@@ -1,11 +1,14 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
@@ -13,11 +16,12 @@ import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     private static final String TAG = "MainActivity";
 
@@ -38,6 +42,17 @@ public class MainActivity extends AppCompatActivity {
         nightout = ((CheckBox)findViewById(R.id.nightout));
         AppCompatButton saveButton = findViewById(R.id.Save_Button);
 
+        Button button = (Button) findViewById(R.id.btnStartTimePicker);
+        button.setOnClickListener(new View.OnClickListener() {
+           @Override
+            public void onClick(View v) {
+               DialogFragment timepicker = new TimePickerFragment();
+               timepicker.show(getSupportFragmentManager(), "Select Start Time");
+
+           }
+
+
+        });
 
         //Date Listener
 
@@ -109,5 +124,11 @@ public class MainActivity extends AppCompatActivity {
                 ).show();
             }
         });
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        TextView textView = (TextView)findViewById(R.id.btnStartTimePicker);
+        textView.setText("Hour: " + hourOfDay + " Minute: " + minute);
     }
 }
