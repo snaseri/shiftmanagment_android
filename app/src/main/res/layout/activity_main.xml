@@ -6,6 +6,24 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/shiftLogLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/shift_log"
+        android:textAllCaps="true"
+        android:textColor="@color/colorTextThree"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/Save_Button"
         android:layout_width="106dp"
@@ -14,7 +32,7 @@ tools:context=".MainActivity">
         android:layout_centerInParent="true"
         android:layout_centerVertical="true"
         android:layout_marginBottom="14dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
         android:text="@string/save"
         android:textColor="@color/colorTextTwo"
         app:layout_constraintRight_toRightOf="parent" />
@@ -40,6 +58,7 @@ tools:context=".MainActivity">
     <Button
         android:id="@+id/btnStartDatePicker"
         style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_below="@id/AgencyInput"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -76,5 +95,43 @@ tools:context=".MainActivity">
         android:background="@color/colorPrimary"
         android:text="Pick an End Time" />
 
+    <TextView
+        android:id="@+id/companyName"
+        android:layout_marginTop="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/company"
+        android:textSize="18sp"
+        android:textColor="@color/colorTextThree"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/companyInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/companyName"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/AgencyName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/agency"
+        android:textSize="18sp"
+        android:textColor="@color/colorTextThree"
+        android:layout_below="@id/companyInput"
+        app:layout_constraintBottom_toBottomOf="@id/companyInput"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/AgencyInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/AgencyName"
+        android:layout_marginTop="8dp" />
 
 </RelativeLayout>

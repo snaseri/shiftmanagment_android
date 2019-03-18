@@ -11,6 +11,8 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
@@ -162,9 +164,10 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
                         Toast.LENGTH_SHORT
                 ).show();
             }
-        });
-    }
 
+        });
+
+    }
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -177,5 +180,10 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         }
     }
 
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.navigation, menu);
+        return true;
+    }
 }
