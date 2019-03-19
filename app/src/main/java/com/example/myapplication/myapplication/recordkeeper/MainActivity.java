@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
 
 
 
-
         //Time picker
         Button startTimePicker = (Button) findViewById(R.id.btnStartTimePicker);
         Button endTimePicker = (Button) findViewById(R.id.btnEndTimePicker);
@@ -157,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
 
                 Toast.makeText(  //toast pop up message creation
                         getApplicationContext(),  // came as this good if this cant b used
-                        result.toString(),
+                        "Saved",
                         Toast.LENGTH_SHORT
                 ).show();
             }
