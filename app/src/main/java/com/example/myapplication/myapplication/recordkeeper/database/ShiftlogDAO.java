@@ -10,14 +10,16 @@ import java.util.List;
 public interface ShiftlogDAO {
 
     @Query("SELECT * FROM Shiftlog")
-    List<Shiftlog> getAllBooks();
+    List<Shiftlog> getAllShiftlogs();
 
     @Insert
-    void insertBooks(Shiftlog... book);
+    void insertShiftlog(Shiftlog... book);
 
     @Query("DELETE FROM Shiftlog")
-    void clearBooks();
+    void clearShiftlogs();
 
+    @Query("DELETE FROM Shiftlog WHERE shiftlog_name=:nameToDelete")
+    void deleteShiftlogs(String nameToDelete);
 
 
 }

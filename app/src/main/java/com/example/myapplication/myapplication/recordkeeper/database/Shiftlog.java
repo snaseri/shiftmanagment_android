@@ -46,7 +46,7 @@ public class Shiftlog {
         this.name = aName;
         this.company = aCompany;
         this.agency = aAgency;
-        this.startDate = aStartDate;
+        this.startDate= aStartDate;
         this.startTime = aStartTime;
         this.endDate = aEndDate;
         this.endTime = aEndTime;
