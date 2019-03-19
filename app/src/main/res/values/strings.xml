@@ -14,4 +14,5 @@
     <string name="shift_logs">Shift Logs</string>
     <string name="company">Company</string>
     <string name="agency">Agency</string>
+    <string name="Name">Name</string>
 </resources>
