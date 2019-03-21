@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         Button startTimePicker = (Button) findViewById(R.id.btnStartTimePicker);
         Button endTimePicker = (Button) findViewById(R.id.btnEndTimePicker);
 
+        TimePickerApp startTime = new TimePickerApp(getSupportFragmentManager(), startTimePicker);
+
         startTimePicker.setOnClickListener(new View.OnClickListener() {
            @Override
             public void onClick(View v) {
