@@ -6,13 +6,16 @@ import android.view.View;
 import android.widget.Button;
 
 public class DatePickerApp {
-    Button timeButton;
-    public DatePickerApp(final FragmentManager supportFragmentManager, Button button) {
-        timeButton = button;
-        timeButton.setOnClickListener(new View.OnClickListener() {
+    Button dateButton;
+    Integer year;
+    Integer month;
+    Integer day;
+    public DatePickerApp(final FragmentManager supportFragmentManager, Button button, final int tag) {
+        dateButton = button;
+        dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment datePicker = new DatePickerFragment();
+                DialogFragment datePicker = DatePickerFragment.newInstance(tag);
                 datePicker.show(supportFragmentManager, "Select Start Time");
 
             }
@@ -20,4 +23,31 @@ public class DatePickerApp {
 
     }
 
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Integer getMonth() {
+        return month;
+    }
+
+    public void setMonth(Integer month) {
+        this.month = month;
+    }
+
+    public Integer getDay() {
+        return day;
+    }
+
+    public Button getDateButton() {
+        return dateButton;
+    }
+
+    public void setDay(Integer day) {
+        this.day = day;
+    }
 }

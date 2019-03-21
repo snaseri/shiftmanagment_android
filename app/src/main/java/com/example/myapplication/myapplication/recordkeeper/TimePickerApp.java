@@ -7,17 +7,37 @@ import android.widget.Button;
 
 public class TimePickerApp{
     Button timeButton;
-    public TimePickerApp(final FragmentManager supportFragmentManager, Button button) {
+    Integer hour;
+    Integer minute;
+    public TimePickerApp(final FragmentManager supportFragmentManager, Button button, final int tag) {
         timeButton = button;
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment timePicker = new TimePickerFragment();
-                timePicker.show(supportFragmentManager, "Select Start Time");
-
+                DialogFragment timePicker = TimePickerFragment.newInstance(tag);
+                timePicker.show(supportFragmentManager, "timePicker");
             }
         });
 
     }
 
+    public Button getTimeButton() {
+        return timeButton;
+    }
+
+    public Integer getHour() {
+        return hour;
+    }
+
+    public void setHour(Integer hour) {
+        this.hour = hour;
+    }
+
+    public Integer getMinute() {
+        return minute;
+    }
+
+    public void setMinute(Integer minute) {
+        this.minute = minute;
+    }
 }
