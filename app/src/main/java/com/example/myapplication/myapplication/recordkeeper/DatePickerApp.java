@@ -5,15 +5,15 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.Button;
 
-public class TimePickerApp{
+public class DatePickerApp {
     Button timeButton;
-    public TimePickerApp(final FragmentManager supportFragmentManager, Button button) {
+    public DatePickerApp(final FragmentManager supportFragmentManager, Button button) {
         timeButton = button;
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment timePicker = new TimePickerFragment();
-                timePicker.show(supportFragmentManager, "Select Start Time");
+                DialogFragment datePicker = new DatePickerFragment();
+                datePicker.show(supportFragmentManager, "Select Start Time");
 
             }
         });

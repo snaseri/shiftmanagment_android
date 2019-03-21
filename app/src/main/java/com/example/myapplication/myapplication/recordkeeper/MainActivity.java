@@ -32,8 +32,6 @@ public class MainActivity extends AppCompatActivity
 
     private CheckBox vehcileUse;
     private CheckBox nightout;
-    private TextView mDisplayStartDate;
-    private TextView mDisplayEndDate;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private DatePickerDialog.OnDateSetListener mEndDateSetListener;
 
@@ -42,9 +40,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mDisplayStartDate = (TextView) findViewById(R.id.btnStartDatePicker);
-        mDisplayEndDate = (TextView) findViewById(R.id.btnEndDatePicker);
+        
         vehcileUse = ((CheckBox)findViewById(R.id.vehicleUse));
         nightout = ((CheckBox)findViewById(R.id.nightout));
         AppCompatButton saveButton = findViewById(R.id.Save_Button);
@@ -61,58 +57,14 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        //Date Listener
+        //Date picker
 
-        mDisplayStartDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
+        Button startDatePicker = (Button) findViewById(R.id.btnStartDatePicker);
+        Button endDatePicker = (Button) findViewById(R.id.btnEndDatePicker);
 
-                DatePickerDialog dialog = new DatePickerDialog(
-                        MainActivity.this,
-                        android.R.style.Theme_Black,
-                        mDateSetListener,
-                        year,month,day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable((Color.TRANSPARENT)));
-                dialog.show();
-            }
+        DatePickerApp startDate = new DatePickerApp(getSupportFragmentManager(), startDatePicker);
+        DatePickerApp endDate = new DatePickerApp(getSupportFragmentManager(), endDatePicker);
 
-        });
-
-        mDisplayEndDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dialog = new DatePickerDialog(
-                        MainActivity.this,
-                        android.R.style.Theme_Black,
-                        mDateSetListener,
-                        year,month,day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable((Color.TRANSPARENT)));
-                dialog.show();
-
-            }
-
-        });
-
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                Log.d(TAG, "onDateSet: dd/mm/yyyy: " + dayOfMonth + "/" + month + "/" + year);
-                Toast.makeText(  //toast pop up message creation
-                        getApplicationContext(),  // came as this good if this cant b used
-                        String.format("Selected Date: " + dayOfMonth + "/" + month + "/" + year),
-                        Toast.LENGTH_SHORT
-                ).show();
-            }
-        };
 
 
         //Checkbox click listeners

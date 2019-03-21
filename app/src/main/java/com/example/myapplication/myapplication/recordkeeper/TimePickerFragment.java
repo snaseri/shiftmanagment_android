@@ -20,6 +20,9 @@ public class TimePickerFragment extends DialogFragment {
         int hour = cal.get(Calendar.HOUR_OF_DAY);
         int min = cal.get(Calendar.MINUTE);
 
-        return new TimePickerDialog(getActivity(), (TimePickerDialog.OnTimeSetListener) getActivity(), hour, min, DateFormat.is24HourFormat(getActivity()));
+        return new TimePickerDialog(
+                getActivity(),
+                (TimePickerDialog.OnTimeSetListener) getActivity(),
+                hour, min, DateFormat.is24HourFormat(getActivity()));
     }
 }

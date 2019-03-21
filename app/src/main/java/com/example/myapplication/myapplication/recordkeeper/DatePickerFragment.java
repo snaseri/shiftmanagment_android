@@ -22,7 +22,6 @@ public class DatePickerFragment extends DialogFragment {
 
         return new DatePickerDialog(
                 getActivity(),
-                android.R.style.Theme_Black,
                 (DatePickerDialog.OnDateSetListener) getActivity(),
                 year,month,day);
     }
