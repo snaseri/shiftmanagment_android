@@ -1,38 +1,27 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.support.v4.app.DialogFragment;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.DatePicker;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.util.Calendar;
-
-public class MainActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+interface DateTime extends TimePickerFragment.TimePickedListener,
+                            DatePickerFragment.DatePickedListener{}
+public class MainActivity extends AppCompatActivity
+        implements DateTime {
 
     private static final String TAG = "MainActivity";
-
-    private CheckBox vehcileUse;
+    private TimePickerApp startTimePicker;
+    private TimePickerApp endTimePicker;
+    private DatePickerApp startDatePicker;
+    private DatePickerApp endDatePicker;
+    private CheckBox vehicleUse;
     private CheckBox nightout;
-    private TextView mDisplayStartDate;
-    private TextView mDisplayEndDate;
-    private DatePickerDialog.OnDateSetListener mDateSetListener;
-    private DatePickerDialog.OnDateSetListener mEndDateSetListener;
 
 
     @Override
@@ -40,9 +29,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mDisplayStartDate = (TextView) findViewById(R.id.btnStartDatePicker);
-        mDisplayEndDate = (TextView) findViewById(R.id.btnEndDatePicker);
-        vehcileUse = ((CheckBox)findViewById(R.id.vehicleUse));
+        vehicleUse = ((CheckBox)findViewById(R.id.vehicleUse));
         nightout = ((CheckBox)findViewById(R.id.nightout));
         AppCompatButton saveButton = findViewById(R.id.Save_Button);
 
@@ -50,83 +37,21 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
 
 
         //Time picker
-        Button startTimePicker = (Button) findViewById(R.id.btnStartTimePicker);
-        Button endTimePicker = (Button) findViewById(R.id.btnEndTimePicker);
+        startTimePicker = new TimePickerApp(getSupportFragmentManager(),
+                                            (Button) findViewById(R.id.btnStartTimePicker), 0);
+        endTimePicker = new TimePickerApp(getSupportFragmentManager(),
+                                            (Button) findViewById(R.id.btnEndTimePicker), 1);
 
-        startTimePicker.setOnClickListener(new View.OnClickListener() {
-           @Override
-            public void onClick(View v) {
-               DialogFragment timePicker = new TimePickerFragment();
-               timePicker.show(getSupportFragmentManager(), "Select Start Time");
+        //Date picker
+        startDatePicker = new DatePickerApp(getSupportFragmentManager(),
+                                            (Button) findViewById(R.id.btnStartDatePicker), 0);
+        endDatePicker = new DatePickerApp(getSupportFragmentManager(),
+                                            (Button) findViewById(R.id.btnEndDatePicker), 1);
 
-           }
-        });
-
-        endTimePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment timePicker = new TimePickerFragment();
-                timePicker.show(getSupportFragmentManager(), "Select End Time");
-
-            }
-        });
-
-        //Date Listener
-
-        mDisplayStartDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dialog = new DatePickerDialog(
-                        MainActivity.this,
-                        android.R.style.Theme_Black,
-                        mDateSetListener,
-                        year,month,day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable((Color.TRANSPARENT)));
-                dialog.show();
-            }
-
-        });
-
-        mDisplayEndDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dialog = new DatePickerDialog(
-                        MainActivity.this,
-                        android.R.style.Theme_Black,
-                        mDateSetListener,
-                        year,month,day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable((Color.TRANSPARENT)));
-                dialog.show();
-
-            }
-
-        });
-
-        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                Log.d(TAG, "onDateSet: dd/mm/yyyy: " + dayOfMonth + "/" + month + "/" + year);
-                Toast.makeText(  //toast pop up message creation
-                        getApplicationContext(),  // came as this good if this cant b used
-                        String.format("Selected Date: " + dayOfMonth + "/" + month + "/" + year),
-                        Toast.LENGTH_SHORT
-                ).show();
-            }
-        };
 
 
         //Checkbox click listeners
-        vehcileUse.setOnClickListener(new View.OnClickListener() {
+        vehicleUse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (((CheckBox)v).isChecked()) {
@@ -152,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
             @Override  //setting what happens when clicked below
             public void onClick(View v) {
                 StringBuffer result = new StringBuffer();
-                result.append("Vehicle Use: ").append(vehcileUse.isChecked());
+                result.append("Vehicle Use: ").append(vehicleUse.isChecked());
                 result.append("Staying out at nights: ").append(nightout.isChecked());
 
                 Toast.makeText(  //toast pop up message creation
@@ -167,13 +92,36 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
     }
 
     @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        Toast.makeText(  //toast pop up message creation
-                getApplicationContext(),  // came as this good if this cant b used
-                String.format("Selected Time: " + hourOfDay + ":" + minute),
-                Toast.LENGTH_SHORT
-        ).show();
+    public void onTimePicked(int hourOfDay, int minute, int id) {
+        switch (id){
+            case 0: startTimePicker.getTimeButton().setText(hourOfDay + ":" + minute);
+                    startTimePicker.setHour(hourOfDay);
+                    startTimePicker.setMinute(minute);
+                    break;
+            case 1: endTimePicker.getTimeButton().setText(hourOfDay + ":" + minute);
+                    endTimePicker.setHour(hourOfDay);
+                    endTimePicker.setMinute(minute);
+                    break;
+        }
     }
+
+    @Override
+    public void onDatePicked(int year, int month, int dayOfMonth, int id) {
+        System.out.println(id);
+        switch (id){
+            case 0: startDatePicker.getDateButton().setText(dayOfMonth + "/" + month + "/" + year);
+                    startDatePicker.setYear(year);
+                    startDatePicker.setMonth(month);
+                    startDatePicker.setDay(dayOfMonth);
+                    break;
+            case 1: endDatePicker.getDateButton().setText(dayOfMonth + "/" + month + "/" + year);
+                    endDatePicker.setYear(year);
+                    endDatePicker.setMonth(month);
+                    endDatePicker.setDay(dayOfMonth);
+                    break;
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -181,4 +129,5 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         getMenuInflater().inflate(R.menu.navigation, menu);
         return true;
     }
+
 }

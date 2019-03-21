@@ -1,26 +1,25 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.text.format.DateFormat;
-import android.widget.TimePicker;
+import android.widget.DatePicker;
 
 
 import java.util.Calendar;
 
-public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
-    TimePickedListener listener;
+public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+    DatePickedListener listener;
     Integer id;
 
-    static TimePickerFragment newInstance(Integer id) {
+    static DatePickerFragment newInstance(Integer id) {
         Bundle args = new Bundle();
         args.putInt("picker_id", id);
-        TimePickerFragment fragment = new TimePickerFragment();
+        DatePickerFragment fragment = new DatePickerFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -29,16 +28,17 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Calendar cal = Calendar.getInstance();
-        int hour = cal.get(Calendar.HOUR_OF_DAY);
-        int min = cal.get(Calendar.MINUTE);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
 
         id = getArguments().getInt("picker_id");
 
-        TimePickerDialog timeSetter = new TimePickerDialog(
+        DatePickerDialog dateSetter = new DatePickerDialog(
                 getActivity(),
                 this,
-                hour, min, DateFormat.is24HourFormat(getActivity()));
-        return timeSetter;
+                year, month, day);
+        return dateSetter;
     }
     @Override
     public void onAttach(Activity activity) {
@@ -46,27 +46,28 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         // cast the activity to the callback interface type
         super.onAttach(activity);
         try {
-            listener = (TimePickedListener) activity;
+            listener = (DatePickedListener) activity;
         } catch(ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement " + TimePickedListener.class.getName());
+                    + " must implement " + DatePickedListener.class.getName());
         }
     }
 
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+    public void onDateSet(DatePicker view, int year, int month, int day) {
         // when the time is selected, send it to the activity via its callback
         // interface method
 
         if(listener != null)
-            listener.onTimePicked(hourOfDay, minute, id);
+            listener.onDatePicked(year, month, day, id);
     }
 
-    public static interface TimePickerDialogListener {
-        public void onTimeSet(int id, TimePicker view, int hourOfDay, int minute);
+    public static interface DatePickerDialogListener {
+        public void onDateSet(DatePicker view, int year, int month, int day);
     }
 
-    public static interface TimePickedListener {
-        public void onTimePicked(int hourOfDay, int minute, int id);
+    public static interface DatePickedListener {
+        public void onDatePicked(int year, int month, int day, int id);
     }
 
 }
+
