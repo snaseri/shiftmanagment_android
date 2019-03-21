@@ -23,16 +23,16 @@ public class Shiftlog {
     private String agency ;
 
     @ColumnInfo(name = "shiftlog_startdate")
-    private Date startDate;
+    private String startDate;
 
     @ColumnInfo(name = "shiftlog_starttime")
-    private Date startTime;
+    private String startTime;
 
     @ColumnInfo(name = "shiftlog_enddate")
-    private Date endDate;
+    private String endDate;
 
     @ColumnInfo(name = "shiftlog_endtime")
-    private Date endTime;
+    private String endTime;
 
     @ColumnInfo(name = "shiftlog_endtime")
     private Boolean vehicleUse;
@@ -41,8 +41,8 @@ public class Shiftlog {
     private Boolean nightOut;
 
 
-    public Shiftlog(String aName, String aCompany, String aAgency, Date aStartDate, Date aStartTime, Date aEndDate, Date aEndTime,
-                    Boolean vehicleUse, Boolean aNightout) {
+    public Shiftlog(String aName, String aCompany, String aAgency, String aStartDate, String aStartTime, String aEndDate, String aEndTime,
+                    Boolean aVehicleUse, Boolean aNightout) {
         this.name = aName;
         this.company = aCompany;
         this.agency = aAgency;
@@ -50,6 +50,8 @@ public class Shiftlog {
         this.startTime = aStartTime;
         this.endDate = aEndDate;
         this.endTime = aEndTime;
+        this.vehicleUse = aVehicleUse;
+        this.nightOut = aNightout;
 
     }
 
@@ -77,35 +79,35 @@ public class Shiftlog {
         this.agency = agency;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
