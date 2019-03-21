@@ -23,7 +23,10 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+interface Dialog extends TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener{}
+
+public class MainActivity extends AppCompatActivity
+        implements Dialog {
 
     private static final String TAG = "MainActivity";
 
@@ -54,24 +57,9 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         Button endTimePicker = (Button) findViewById(R.id.btnEndTimePicker);
 
         TimePickerApp startTime = new TimePickerApp(getSupportFragmentManager(), startTimePicker);
+        TimePickerApp endTime = new TimePickerApp(getSupportFragmentManager(), endTimePicker);
 
-        startTimePicker.setOnClickListener(new View.OnClickListener() {
-           @Override
-            public void onClick(View v) {
-               DialogFragment timePicker = new TimePickerFragment();
-               timePicker.show(getSupportFragmentManager(), "Select Start Time");
 
-           }
-        });
-
-        endTimePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment timePicker = new TimePickerFragment();
-                timePicker.show(getSupportFragmentManager(), "Select End Time");
-
-            }
-        });
 
         //Date Listener
 
@@ -178,9 +166,20 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
     }
 
     @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Toast.makeText(  //toast pop up message creation
+                getApplicationContext(),  // came as this good if this cant b used
+                String.format("Selected Date: " + dayOfMonth + "/" + month + "/" + year),
+                Toast.LENGTH_SHORT
+        ).show();
+    }
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation, menu);
         return true;
     }
+
 }
