@@ -21,6 +21,7 @@ public interface ShiftlogDAO {
     @Query("DELETE FROM Shiftlog WHERE shiftlog_name=:nameToDelete")
     void deleteShiftlogs(String nameToDelete);
 
-
+    @Query("SELECT * FROM Shiftlog WHERE id=:id")
+    Shiftlog getShiftLogById(int id);
 }
 

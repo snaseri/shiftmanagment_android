@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity
     private String endDate;
     private String endTime;
 
+    private static ShiftlogDAO db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +57,8 @@ public class MainActivity extends AppCompatActivity
         nightout = ((CheckBox)findViewById(R.id.nightout));
         AppCompatButton saveButton = findViewById(R.id.Save_Button);
 
-
+        db = Room.databaseBuilder(this, ShiftlogDatabase.class,
+                "ShiftlogDatabase").build().shiftlogDAO();
 
 
         //Time picker
@@ -96,10 +99,7 @@ public class MainActivity extends AppCompatActivity
             @Override  //setting what happens when clicked below
             public void onClick(View v) {
 
-                final ShiftlogDatabase db = Room.databaseBuilder(getApplicationContext(),
-                        ShiftlogDatabase.class,
-                        "ShiftlogDatabase"
-                ).build();
+
 
                 AsyncTask.execute(new Runnable() {
 
@@ -107,13 +107,13 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void run() {
 
-                        db.shiftlogDAO().insertShiftlog(
+                        db.insertShiftlog(
                                 new Shiftlog(name.getText().toString(), company.getText().toString(), agency.getText().toString(),
                                         startDate,startTime,endDate,endTime,
                                         vehicleUse.isChecked(),nightout.isChecked())
                         );
 
-                        final List<Shiftlog> shiftlogs = db.shiftlogDAO().getAllShiftlogs();
+                        final List<Shiftlog> shiftlogs = db.getAllShiftlogs();
                         Log.d("STORED_SHIFTLOGS", String.format("Number of ShiftLogs: %d", shiftlogs.size()));
 
                         runOnUiThread(new Runnable() {
@@ -209,7 +209,23 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(ShiftlogListItemView item) {
-        Toast.makeText(this, item.getName(), Toast.LENGTH_SHORT).show();
+    public void onListFragmentInteraction(final ShiftlogListItemView item) {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                final Shiftlog clickedShiftLog = db.getShiftLogById(item.getId());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
+                        transaction.replace(R.id.main_layout, ShiftlogDetailFragment.newInstance(clickedShiftLog));
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    }
+                });
+            }
+        });
+
     }
 }
