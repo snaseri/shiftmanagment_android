@@ -8,11 +8,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.myapplication.myapplication.recordkeeper.database.Shiftlog;
+import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDAO;
 import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDatabase;
 import com.example.myapplication.myapplication.recordkeeper.views.ShiftlogListItemView;
 
@@ -31,6 +33,7 @@ public class PastShiftLogsFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    public List<Shiftlog> allShiftlogs;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -41,11 +44,13 @@ public class PastShiftLogsFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static PastShiftLogsFragment newInstance(int columnCount) {
+    public static PastShiftLogsFragment newInstance(List<Shiftlog> shiftlogs) {
         PastShiftLogsFragment fragment = new PastShiftLogsFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
-        fragment.setArguments(args);
+
+        //fragment.setArguments(args);
+        fragment.allShiftlogs = shiftlogs;
+
         return fragment;
     }
 
@@ -61,32 +66,21 @@ public class PastShiftLogsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_pastshiftlogs_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_pastshiftlogs_list, container, false);
 
-        final ShiftlogDatabase db = Room.databaseBuilder(getContext(),
-                ShiftlogDatabase.class,
-                "ShiftlogDatabase"
-        ).build();
 
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
+        if (view instanceof RecyclerView) {
+            final Context context = view.getContext();
+            final RecyclerView recyclerView = (RecyclerView) view;
 
-                List<Shiftlog> allShiftlogs = db.shiftlogDAO().getAllShiftlogs();
-
-                // Set the adapter
-                if (view instanceof RecyclerView) {
-                    Context context = view.getContext();
-                    RecyclerView recyclerView = (RecyclerView) view;
-                    if (mColumnCount <= 1) {
-                        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                    } else {
-                        recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-                    }
-                    recyclerView.setAdapter(new MyPastShiftLogsRecyclerViewAdapter(allShiftlogs, mListener));
-                }
+            if (mColumnCount <= 1) {
+                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            } else {
+                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-        });
+            recyclerView.setAdapter(new MyPastShiftLogsRecyclerViewAdapter(allShiftlogs, mListener));
+
+        }
 
 
 

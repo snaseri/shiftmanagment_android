@@ -3,10 +3,13 @@ package com.example.myapplication.myapplication.recordkeeper;
 
 import android.arch.persistence.room.Room;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.support.v7.widget.AppCompatButton;
@@ -15,6 +18,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.myapplication.myapplication.recordkeeper.database.*;
+import com.example.myapplication.myapplication.recordkeeper.views.ShiftlogListItemView;
 
 import java.util.List;
 
@@ -22,7 +26,7 @@ interface DateTime extends TimePickerFragment.TimePickedListener,
         DatePickerFragment.DatePickedListener{}
 
 public class MainActivity extends AppCompatActivity
-        implements DateTime {
+        implements DateTime, PastShiftLogsFragment.OnListFragmentInteractionListener {
 
     private AppCompatEditText name;
     private AppCompatEditText company;
@@ -168,7 +172,44 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation, menu);
+
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        final ShiftlogDAO db = Room.databaseBuilder(this,
+                ShiftlogDatabase.class, "ShiftlogDatabase").build().shiftlogDAO();
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                final List<Shiftlog> allshiftlogs = db.getAllShiftlogs();
+                switch (item.getItemId()) {
+                    case R.id.past_logs:
+                        // fragment animation: https://stackoverflow.com/questions/4932462/animate-the-transition-between-fragments
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                                transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
+                                transaction.replace(R.id.main_layout, PastShiftLogsFragment.newInstance(allshiftlogs));
+                                transaction.addToBackStack(null);
+                                transaction.commit();
+                            }
+                        });
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    @Override
+    public void onListFragmentInteraction(ShiftlogListItemView item) {
+        Toast.makeText(this, item.getName(), Toast.LENGTH_SHORT).show();
+    }
 }
