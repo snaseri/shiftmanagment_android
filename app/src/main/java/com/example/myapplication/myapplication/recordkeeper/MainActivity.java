@@ -1,8 +1,12 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
 
+import android.arch.persistence.room.Room;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatEditText;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.support.v7.widget.AppCompatButton;
@@ -10,12 +14,19 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.myapplication.myapplication.recordkeeper.database.*;
+
+import java.util.List;
+
 interface DateTime extends TimePickerFragment.TimePickedListener,
-                            DatePickerFragment.DatePickedListener{}
+        DatePickerFragment.DatePickedListener{}
+
 public class MainActivity extends AppCompatActivity
         implements DateTime {
 
-    private static final String TAG = "MainActivity";
+    private AppCompatEditText name;
+    private AppCompatEditText company;
+    private AppCompatEditText agency;
     private TimePickerApp startTimePicker;
     private TimePickerApp endTimePicker;
     private DatePickerApp startDatePicker;
@@ -23,12 +34,19 @@ public class MainActivity extends AppCompatActivity
     private CheckBox vehicleUse;
     private CheckBox nightout;
 
+    private String startDate;
+    private String startTime;
+    private String endDate;
+    private String endTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        name = ((AppCompatEditText)findViewById(R.id.nameInput));
+        company = ((AppCompatEditText)findViewById(R.id.companyInput));
+        agency = ((AppCompatEditText)findViewById(R.id.AgencyInput));
         vehicleUse = ((CheckBox)findViewById(R.id.vehicleUse));
         nightout = ((CheckBox)findViewById(R.id.nightout));
         AppCompatButton saveButton = findViewById(R.id.Save_Button);
@@ -38,15 +56,15 @@ public class MainActivity extends AppCompatActivity
 
         //Time picker
         startTimePicker = new TimePickerApp(getSupportFragmentManager(),
-                                            (Button) findViewById(R.id.btnStartTimePicker), 0);
+                (Button) findViewById(R.id.btnStartTimePicker), 0);
         endTimePicker = new TimePickerApp(getSupportFragmentManager(),
-                                            (Button) findViewById(R.id.btnEndTimePicker), 1);
+                (Button) findViewById(R.id.btnEndTimePicker), 1);
 
         //Date picker
         startDatePicker = new DatePickerApp(getSupportFragmentManager(),
-                                            (Button) findViewById(R.id.btnStartDatePicker), 0);
+                (Button) findViewById(R.id.btnStartDatePicker), 0);
         endDatePicker = new DatePickerApp(getSupportFragmentManager(),
-                                            (Button) findViewById(R.id.btnEndDatePicker), 1);
+                (Button) findViewById(R.id.btnEndDatePicker), 1);
 
 
 
@@ -64,10 +82,7 @@ public class MainActivity extends AppCompatActivity
         nightout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((CheckBox)v).isChecked()) {
-                    Toast.makeText(MainActivity.this,
-                            "Nights out availability selected",Toast.LENGTH_SHORT).show();
-                }
+
             }
         });
 
@@ -76,15 +91,38 @@ public class MainActivity extends AppCompatActivity
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override  //setting what happens when clicked below
             public void onClick(View v) {
-                StringBuffer result = new StringBuffer();
-                result.append("Vehicle Use: ").append(vehicleUse.isChecked());
-                result.append("Staying out at nights: ").append(nightout.isChecked());
 
-                Toast.makeText(  //toast pop up message creation
-                        getApplicationContext(),  // came as this good if this cant b used
-                        result.toString(),
-                        Toast.LENGTH_SHORT
-                ).show();
+
+                final ShiftlogDatabase db = Room.databaseBuilder(getApplicationContext(),
+                        ShiftlogDatabase.class,
+                        "ShiftlogDatabase"
+                ).build();
+
+                AsyncTask.execute(new Runnable() {
+
+
+                    @Override
+                    public void run() {
+
+                        db.shiftlogDAO().insertShiftlog(
+                                new Shiftlog(name.getText().toString(), company.getText().toString(), agency.getText().toString(),
+                                        startDate,startTime,endDate,endTime,
+                                        vehicleUse.isChecked(),nightout.isChecked())
+                        );
+
+                        final List<Shiftlog> shiftlogs = db.shiftlogDAO().getAllShiftlogs();
+                        Log.d("STORED_SHIFTLOGS", String.format("Number of ShiftLogs: %d", shiftlogs.size()));
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "Saved",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+
+                
             }
 
         });
@@ -95,13 +133,15 @@ public class MainActivity extends AppCompatActivity
     public void onTimePicked(int hourOfDay, int minute, int id) {
         switch (id){
             case 0: startTimePicker.getTimeButton().setText(hourOfDay + ":" + minute);
-                    startTimePicker.setHour(hourOfDay);
-                    startTimePicker.setMinute(minute);
-                    break;
+                startTimePicker.setHour(hourOfDay);
+                startTimePicker.setMinute(minute);
+                startTime = String.format(hourOfDay + ":" + minute);
+                break;
             case 1: endTimePicker.getTimeButton().setText(hourOfDay + ":" + minute);
-                    endTimePicker.setHour(hourOfDay);
-                    endTimePicker.setMinute(minute);
-                    break;
+                endTimePicker.setHour(hourOfDay);
+                endTimePicker.setMinute(minute);
+                endTime = String.format(hourOfDay + ":" + minute);
+                break;
         }
     }
 
@@ -110,15 +150,17 @@ public class MainActivity extends AppCompatActivity
         System.out.println(id);
         switch (id){
             case 0: startDatePicker.getDateButton().setText(dayOfMonth + "/" + month + "/" + year);
-                    startDatePicker.setYear(year);
-                    startDatePicker.setMonth(month);
-                    startDatePicker.setDay(dayOfMonth);
-                    break;
+                startDatePicker.setYear(year);
+                startDatePicker.setMonth(month);
+                startDatePicker.setDay(dayOfMonth);
+                startDate = String.format(dayOfMonth + "/" + month + "/" + year);
+                break;
             case 1: endDatePicker.getDateButton().setText(dayOfMonth + "/" + month + "/" + year);
-                    endDatePicker.setYear(year);
-                    endDatePicker.setMonth(month);
-                    endDatePicker.setDay(dayOfMonth);
-                    break;
+                endDatePicker.setYear(year);
+                endDatePicker.setMonth(month);
+                endDatePicker.setDay(dayOfMonth);
+                endDate = String.format(dayOfMonth + "/" + month + "/" + year);
+                break;
         }
     }
 
