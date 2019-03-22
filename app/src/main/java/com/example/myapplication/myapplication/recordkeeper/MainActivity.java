@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity
             @Override  //setting what happens when clicked below
             public void onClick(View v) {
 
-
                 final ShiftlogDatabase db = Room.databaseBuilder(getApplicationContext(),
                         ShiftlogDatabase.class,
                         "ShiftlogDatabase"
