@@ -1,6 +1,8 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,8 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.myapplication.myapplication.recordkeeper.dummy.DummyContent;
-import com.example.myapplication.myapplication.recordkeeper.dummy.DummyContent.DummyItem;
+import com.example.myapplication.myapplication.recordkeeper.database.Shiftlog;
+import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDatabase;
+import com.example.myapplication.myapplication.recordkeeper.views.ShiftlogListItemView;
 
 import java.util.List;
 
@@ -58,19 +61,35 @@ public class PastShiftLogsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_pastshiftlogs_list, container, false);
+        final View view = inflater.inflate(R.layout.fragment_pastshiftlogs_list, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+        final ShiftlogDatabase db = Room.databaseBuilder(getContext(),
+                ShiftlogDatabase.class,
+                "ShiftlogDatabase"
+        ).build();
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+
+                List<Shiftlog> allShiftlogs = db.shiftlogDAO().getAllShiftlogs();
+
+                // Set the adapter
+                if (view instanceof RecyclerView) {
+                    Context context = view.getContext();
+                    RecyclerView recyclerView = (RecyclerView) view;
+                    if (mColumnCount <= 1) {
+                        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                    } else {
+                        recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                    }
+                    recyclerView.setAdapter(new MyPastShiftLogsRecyclerViewAdapter(allShiftlogs, mListener));
+                }
             }
-            recyclerView.setAdapter(new MyPastShiftLogsRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-        }
+        });
+
+
+
         return view;
     }
 
@@ -104,6 +123,6 @@ public class PastShiftLogsFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(ShiftlogListItemView item);
     }
 }
