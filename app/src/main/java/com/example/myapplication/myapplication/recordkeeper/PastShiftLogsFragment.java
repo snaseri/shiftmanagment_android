@@ -6,9 +6,11 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.myapplication.myapplication.recordkeeper.dummy.DummyContent;
 import com.example.myapplication.myapplication.recordkeeper.dummy.DummyContent.DummyItem;
@@ -72,7 +74,14 @@ public class PastShiftLogsFragment extends Fragment {
             recyclerView.setAdapter(new MyPastShiftLogsRecyclerViewAdapter(DummyContent.ITEMS, mListener));
         }
         return view;
-    }
+      //  runOnUiThread(new Runnable() {
+       //     @Override
+      //      public void run() {
+
+            }
+     //   });
+
+   // }
 
 
     @Override
