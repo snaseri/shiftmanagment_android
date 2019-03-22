@@ -5,7 +5,6 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-import java.util.Date;
 
 @Entity
 public class Shiftlog {
@@ -34,24 +33,24 @@ public class Shiftlog {
     @ColumnInfo(name = "shiftlog_endtime")
     private String endTime;
 
-    @ColumnInfo(name = "shiftlog_endtime")
+    @ColumnInfo(name = "shiftlog_vehicleuse")
     private Boolean vehicleUse;
 
-    @ColumnInfo(name = "shiftlog_endtime")
+    @ColumnInfo(name = "shiftlog_nightout")
     private Boolean nightOut;
 
 
-    public Shiftlog(String aName, String aCompany, String aAgency, String aStartDate, String aStartTime, String aEndDate, String aEndTime,
-                    Boolean aVehicleUse, Boolean aNightout) {
-        this.name = aName;
-        this.company = aCompany;
-        this.agency = aAgency;
-        this.startDate= aStartDate;
-        this.startTime = aStartTime;
-        this.endDate = aEndDate;
-        this.endTime = aEndTime;
-        this.vehicleUse = aVehicleUse;
-        this.nightOut = aNightout;
+    public Shiftlog(String name, String company, String agency, String startDate, String startTime, String endDate, String endTime,
+                    Boolean vehicleUse, Boolean nightOut) {
+        this.name = name;
+        this.company = company;
+        this.agency = agency;
+        this.startDate= startDate;
+        this.startTime = startTime;
+        this.endDate = endDate;
+        this.endTime = endTime;
+        this.vehicleUse = vehicleUse;
+        this.nightOut = nightOut;
 
     }
 
@@ -61,6 +60,14 @@ public class Shiftlog {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getCompany() {
