@@ -5,11 +5,12 @@
     android:fillViewport="true">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/main_layout"
+        tools:context=".MainActivity">
 
         <TextView
             android:id="@+id/shiftLogLabel"
@@ -38,7 +39,7 @@
             android:layout_marginBottom="14dp"
             android:layout_marginTop="14dp"
             android:layout_below="@id/nightout"
-            android:background="@color/colorPrimaryDark"
+            android:background="@drawable/selector_button"
             android:text="@string/save"
             android:textColor="@color/colorTextTwo"
             app:layout_constraintRight_toRightOf="parent" />
@@ -66,41 +67,59 @@
         <Button
             android:id="@+id/btnStartDatePicker"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_below="@id/AgencyInput"
-            android:background="@color/colorPrimary"
-            android:layout_width="match_parent"
+            android:layout_width="165dp"
             android:layout_height="wrap_content"
+            android:layout_below="@id/AgencyInput"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/selector_button"
             android:text="Pick a Start Date" />
 
         <Button
             android:id="@+id/btnStartTimePicker"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="match_parent"
+            android:layout_width="165dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btnStartDatePicker"
+            android:layout_below="@id/AgencyInput"
+            android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
-            android:background="@color/colorPrimary"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/selector_button"
             android:text="Pick a Start Time" />
 
         <Button
             android:id="@+id/btnEndDatePicker"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="match_parent"
+            android:layout_width="165dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/btnStartTimePicker"
-            android:layout_marginTop="8dp"
-            android:background="@color/colorPrimary"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/selector_button"
             android:text="Pick an End Date" />
 
         <Button
             android:id="@+id/btnEndTimePicker"
             style="@style/Widget.AppCompat.Button.Colored"
-            android:layout_width="match_parent"
+            android:layout_width="165dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btnEndDatePicker"
+            android:layout_below="@id/btnStartTimePicker"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
             android:layout_marginTop="10dp"
-            android:background="@color/colorPrimary"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/selector_button"
             android:text="Pick an End Time" />
 
         <TextView
