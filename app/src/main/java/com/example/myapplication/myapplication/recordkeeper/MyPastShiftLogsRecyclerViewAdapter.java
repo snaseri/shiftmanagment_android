@@ -1,9 +1,11 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
+import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.myapplication.myapplication.recordkeeper.PastShiftLogsFragment.OnListFragmentInteractionListener;
@@ -22,6 +24,15 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 
     private final List<ShiftlogListItemView> mValues = new ArrayList<>();
     private final OnListFragmentInteractionListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+
+
+    }
 
     public MyPastShiftLogsRecyclerViewAdapter(List<Shiftlog> items, OnListFragmentInteractionListener listener) {
         for (Shiftlog shiftlog : items) {
@@ -63,11 +74,13 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
         public final View mView;
         public final TextView mShitLogNameView;
         public ShiftlogListItemView mItem;
+        public ImageView mShareButton;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mShitLogNameView = (TextView) view.findViewById(R.id.shiftlog_name);
+            mShareButton = (ImageView) view.findViewById(R.id.image_share);
         }
     }
 }
