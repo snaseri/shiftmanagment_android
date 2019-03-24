@@ -2,6 +2,7 @@ package com.example.myapplication.myapplication.recordkeeper;
 
 
 import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -180,12 +181,13 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(final MenuItem item) {
         final ShiftlogDAO db = Room.databaseBuilder(this,
                 ShiftlogDatabase.class, "ShiftlogDatabase").build().shiftlogDAO();
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                final List<Shiftlog> allshiftlogs = db.getAllShiftlogs();
-                switch (item.getItemId()) {
-                    case R.id.past_logs:
+
+        switch (item.getItemId()) {
+            case R.id.past_logs:
+                AsyncTask.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        final List<Shiftlog> allshiftlogs = db.getAllShiftlogs();
                         // fragment animation: https://stackoverflow.com/questions/4932462/animate-the-transition-between-fragments
                         runOnUiThread(new Runnable() {
                             @Override
@@ -197,13 +199,17 @@ public class MainActivity extends AppCompatActivity
                                 transaction.commit();
                             }
                         });
+                    }
+                });
+                break;
+            case R.id.ShiftLogs:
+                //start Activity: https://stackoverflow.com/questions/24610527/how-do-i-get-a-button-to-open-another-activity-in-android-studio
+                startActivity(new Intent(MainActivity.this, MainActivity.class));
 
+                   break;
+                   default:
                         break;
-                    default:
-                        break;
-                }
-            }
-        });
+        }
         return super.onOptionsItemSelected(item);
 
     }
