@@ -29,28 +29,24 @@ interface DateTime extends TimePickerFragment.TimePickedListener,
 public class MainActivity extends AppCompatActivity
         implements DateTime, PastShiftLogsFragment.OnListFragmentInteractionListener {
 
-    private AppCompatEditText name = (findViewById(R.id.nameInput));
-    private AppCompatEditText company = (findViewById(R.id.companyInput));
-    private AppCompatEditText agency = (findViewById(R.id.AgencyInput));
-    private AppCompatButton saveButton = findViewById(R.id.Save_Button);
+    private AppCompatEditText name;
+    private AppCompatEditText company;
+    private AppCompatEditText agency;
+    private AppCompatButton saveButton;
 
     //Time pickers
-    private TimePickerApp startTimePicker = new TimePickerApp(getSupportFragmentManager(),
-            (Button) findViewById(R.id.btnStartTimePicker), 0);
-    private TimePickerApp endTimePicker = new TimePickerApp(getSupportFragmentManager(),
-            (Button) findViewById(R.id.btnEndTimePicker), 1);
+    private TimePickerApp startTimePicker;
+    private TimePickerApp endTimePicker;
 
     //Date pickers
-    private DatePickerApp startDatePicker = new DatePickerApp(getSupportFragmentManager(),
-            (Button) findViewById(R.id.btnStartDatePicker), 0);
-    private DatePickerApp endDatePicker = new DatePickerApp(getSupportFragmentManager(),
-            (Button) findViewById(R.id.btnEndDatePicker), 1);
+    private DatePickerApp startDatePicker;
+    private DatePickerApp endDatePicker;
 
     //Detail checkboxes
-    private CheckBox vehicleUse = (findViewById(R.id.vehicleUse));
-    private CheckBox nightOut = (findViewById(R.id.nightOut));
+    private CheckBox vehicleUse;
+    private CheckBox nightOut;
 
-    //Strings of the selected datetimes
+    //Strings of the selected DateTimes
     private String startDate; private String startTime;
     private String endDate; private String endTime;
 
@@ -60,6 +56,28 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        name = (findViewById(R.id.nameInput));
+        company = (findViewById(R.id.companyInput));
+        agency = (findViewById(R.id.AgencyInput));
+        saveButton = findViewById(R.id.Save_Button);
+
+        //Time pickers
+        startTimePicker = new TimePickerApp(getSupportFragmentManager(),
+                (Button) findViewById(R.id.btnStartTimePicker), 0);
+        endTimePicker = new TimePickerApp(getSupportFragmentManager(),
+                (Button) findViewById(R.id.btnEndTimePicker), 1);
+
+        //Date pickers
+        startDatePicker = new DatePickerApp(getSupportFragmentManager(),
+                (Button) findViewById(R.id.btnStartDatePicker), 0);
+        endDatePicker = new DatePickerApp(getSupportFragmentManager(),
+                (Button) findViewById(R.id.btnEndDatePicker), 1);
+
+        //Detail checkboxes
+        vehicleUse = (findViewById(R.id.vehicleUse));
+        nightOut = (findViewById(R.id.nightOut));
 
 
         db = Room.databaseBuilder(this, ShiftlogDatabase.class,
