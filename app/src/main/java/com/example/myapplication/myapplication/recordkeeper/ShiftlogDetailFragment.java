@@ -20,9 +20,21 @@ public class ShiftlogDetailFragment extends Fragment {
 
     private static final String SHIFTLOG_NAME_ARG = "shiftlog_name";
     private static final String SHIFTLOG_COMPANY_ARG = "shiftlog_company";
+    private static final String SHIFTLOG_AGENCY_ARG = "shiftlog_agency";
+    private static final String SHIFTLOG_START_TIME_ARG = "shiftlog_start_time";
+    private static final String SHIFTLOG_END_TIME_ARG = "shiftlog_end_time";
+    private static final String SHIFTLOG_START_DATE_ARG = "shiftlog_start_date";
+    private static final String SHIFTLOG_END_DATE_ARG = "shiftlog_end_date";
+
+
 
     private String shiftlog_name;
     private String shiftlog_company;
+    private String shiftlog_agency;
+    private String shiftlog_start_time;
+    private String shiftlog_end_time;
+    private String shiftlog_start_date;
+    private String shiftlog_end_date;
 
     public ShiftlogDetailFragment() {
         // Required empty public constructor
@@ -41,6 +53,11 @@ public class ShiftlogDetailFragment extends Fragment {
 
         args.putString(SHIFTLOG_NAME_ARG,details.getName());
         args.putString(SHIFTLOG_COMPANY_ARG, details.getCompany());
+        args.putString(SHIFTLOG_AGENCY_ARG, details.getAgency());
+        args.putString(SHIFTLOG_START_TIME_ARG, details.getStartTime());
+        args.putString(SHIFTLOG_END_TIME_ARG, details.getEndTime());
+        args.putString(SHIFTLOG_START_DATE_ARG, details.getStartDate());
+        args.putString(SHIFTLOG_END_DATE_ARG, details.getEndDate());
 
         fragment.setArguments(args);
         return fragment;
@@ -52,6 +69,11 @@ public class ShiftlogDetailFragment extends Fragment {
         if (getArguments() != null) {
             this.shiftlog_name = getArguments().getString(SHIFTLOG_NAME_ARG);
             this.shiftlog_company = getArguments().getString(SHIFTLOG_COMPANY_ARG);
+            this.shiftlog_agency = getArguments().getString(SHIFTLOG_AGENCY_ARG);
+            this.shiftlog_start_time = getArguments().getString(SHIFTLOG_START_TIME_ARG);
+            this.shiftlog_end_time = getArguments().getString(SHIFTLOG_END_TIME_ARG);
+            this.shiftlog_start_date = getArguments().getString(SHIFTLOG_START_DATE_ARG);
+            this.shiftlog_end_date = getArguments().getString(SHIFTLOG_END_DATE_ARG);
 
             // TODO: Rest
         }
@@ -65,6 +87,11 @@ public class ShiftlogDetailFragment extends Fragment {
 
         ((AppCompatTextView) v.findViewById(R.id.name)).setText(shiftlog_name);
         ((AppCompatTextView) v.findViewById(R.id.company)).setText(shiftlog_company);
+        ((AppCompatTextView) v.findViewById(R.id.agency)).setText(shiftlog_agency);
+        ((AppCompatTextView) v.findViewById(R.id.start_time)).setText(shiftlog_start_time);
+        ((AppCompatTextView) v.findViewById(R.id.end_time)).setText(shiftlog_end_time);
+        ((AppCompatTextView) v.findViewById(R.id.start_date)).setText(shiftlog_start_time);
+        ((AppCompatTextView) v.findViewById(R.id.end_date)).setText(shiftlog_end_date);
 
 
         return v;
