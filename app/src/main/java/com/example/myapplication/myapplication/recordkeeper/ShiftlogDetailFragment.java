@@ -1,6 +1,7 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatTextView;
@@ -75,7 +76,7 @@ public class ShiftlogDetailFragment extends Fragment {
             this.shiftlog_start_date = getArguments().getString(SHIFTLOG_START_DATE_ARG);
             this.shiftlog_end_date = getArguments().getString(SHIFTLOG_END_DATE_ARG);
 
-            // TODO: Rest
+            
         }
     }
 
