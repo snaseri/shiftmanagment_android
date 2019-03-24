@@ -14,40 +14,131 @@
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorTextThree"
+        android:textSize="25sp"
+        android:paddingTop="10dp"
+        android:layout_gravity="center_horizontal"
     />
-
+    <TextView
+        android:id="@+id/companyLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/company_name"
+        android:textColor="@color/colorTextThree"
+        android:textSize="20sp"
+        android:layout_marginLeft="20dp"
+        android:paddingTop="15dp"
+        />
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/company"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorTextThree"
+        android:textSize="20sp"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="20dp"
     />
 
+    <TextView
+        android:id="@+id/AgencyLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/agency_name"
+        android:textColor="@color/colorTextThree"
+        android:textSize="20sp"
+        android:layout_marginLeft="20dp"
+        android:paddingTop="20dp"
+        />
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/agency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorTextThree"
+        android:textSize="20sp"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="20dp" />
+    <TextView
+        android:id="@+id/startLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start_time"
+        android:textColor="@color/colorTextThree"
+        android:textSize="20sp"
+        android:layout_marginLeft="20dp"
+        android:paddingTop="20dp"
         />
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/start_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorTextThree"
+        android:textSize="20sp"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="20dp"
+       />
+
+    <TextView
+        android:id="@+id/end_timeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/end_time"
+        android:textColor="@color/colorTextThree"
+        android:textSize="20sp"
+        android:layout_marginLeft="20dp"
+        android:paddingTop="20dp"
         />
+
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/end_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorTextThree"
+        android:textSize="20sp"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="20dp"
+       />
+
+    <TextView
+        android:id="@+id/start_date_Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start_date"
+        android:textColor="@color/colorTextThree"
+        android:textSize="20sp"
+        android:layout_marginLeft="20dp"
+        android:paddingTop="20dp"
         />
+
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/start_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/colorTextThree"
+        android:textSize="20sp"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="20dp"
+       />
+
+    <TextView
+        android:id="@+id/End_date_Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/end_date"
+        android:textColor="@color/colorTextThree"
+        android:textSize="20sp"
+        android:layout_marginLeft="20dp"
+        android:paddingTop="20dp"
         />
+
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/end_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
-
+        android:textColor="@color/colorTextThree"
+        android:textSize="20sp"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="20dp"
+      />
 
 
 
