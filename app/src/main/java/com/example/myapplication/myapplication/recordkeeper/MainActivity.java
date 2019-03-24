@@ -132,6 +132,32 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    public boolean validate(){
+        if (startTime.isEmpty() || endTime.isEmpty() || startDate.isEmpty() || endDate.isEmpty()){
+            return false;
+        }
+        else if (startDatePicker.getYear() < endDatePicker.getYear()){
+            return true;
+        }
+        else if(startDatePicker.getYear() == endDatePicker.getYear() &&
+                startDatePicker.getMonth() < endDatePicker.getMonth()){
+            return true;
+        }
+        else if(startDatePicker.getMonth() == endDatePicker.getMonth() &&
+                startDatePicker.getDay() < endDatePicker.getDay()){
+            return true;
+        }
+        else if(startDatePicker.getDay() == endDatePicker.getDay() &&
+                startTimePicker.getHour() < endTimePicker.getHour()){
+            return true;
+        }
+        else if(startTimePicker.getHour() == endTimePicker.getHour() &&
+                startTimePicker.getMinute() < endTimePicker.getMinute()){
+            return true;
+        }
+        else return false;
+    }
+
     @Override
     public void onTimePicked(int hourOfDay, int minute, int id) {
         switch (id){
@@ -150,7 +176,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDatePicked(int year, int month, int dayOfMonth, int id) {
-        System.out.println(id);
         switch (id){
             case 0: startDatePicker.getDateButton().setText(dayOfMonth + "/" + month + "/" + year);
                 startDatePicker.setYear(year);
