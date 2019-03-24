@@ -34,11 +34,9 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
         id = getArguments().getInt("picker_id");
 
-        TimePickerDialog timeSetter = new TimePickerDialog(
+        return new TimePickerDialog(
                 getActivity(), this,
                 hour, min, DateFormat.is24HourFormat(getActivity()));
-
-        return timeSetter;
     }
     @Override
     public void onAttach(Activity activity) {
