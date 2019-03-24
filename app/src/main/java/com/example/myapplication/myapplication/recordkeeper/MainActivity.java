@@ -169,34 +169,46 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onTimePicked(int hourOfDay, int minute, int id) {
+        String min = String.valueOf(minute);
+        if (minute < 10) min = "0" + min;
+        String hour = String.valueOf(hourOfDay);
+        if (hourOfDay < 10) hour = "0" + hour;
+
         switch (id){ //id determines start (0) or end (1)
-            case 0: startTimePicker.getTimeButton().setText(hourOfDay + ":" + minute);
+            case 0: startTimePicker.getTimeButton().setText("Start time - " + hour + ":" + min);
                 startTimePicker.setHour(hourOfDay);
                 startTimePicker.setMinute(minute);
-                startTime = String.format(hourOfDay + ":" + minute);
+                startTime = String.format(hour + ":" + min);
                 break;
-            case 1: endTimePicker.getTimeButton().setText(hourOfDay + ":" + minute);
+            case 1: endTimePicker.getTimeButton().setText("End time - " + hour + ":" + minute);
                 endTimePicker.setHour(hourOfDay);
                 endTimePicker.setMinute(minute);
-                endTime = String.format(hourOfDay + ":" + minute);
+                endTime = String.format(hour + ":" + min);
                 break;
         }
     }
 
     @Override
     public void onDatePicked(int year, int month, int dayOfMonth, int id) {
+        String mon = String.valueOf(month);
+        if (month < 10) mon = "0" + mon;
+        String day = String.valueOf(dayOfMonth);
+        if (dayOfMonth < 10) day = "0" + day;
+
         switch (id){ //id determines start (0) or end (1)
-            case 0: startDatePicker.getDateButton().setText(dayOfMonth + "/" + month + "/" + year);
+            case 0: startDatePicker.getDateButton().setText(
+                    "Start date - " + day + "/" + mon + "/" + year);
                 startDatePicker.setYear(year);
                 startDatePicker.setMonth(month);
                 startDatePicker.setDay(dayOfMonth);
-                startDate = String.format(dayOfMonth + "/" + month + "/" + year);
+                startDate = String.format(day + "/" + mon + "/" + year);
                 break;
-            case 1: endDatePicker.getDateButton().setText(dayOfMonth + "/" + month + "/" + year);
+            case 1: endDatePicker.getDateButton().setText(
+                    "End date - " + day + "/" + mon + "/" + year);
                 endDatePicker.setYear(year);
                 endDatePicker.setMonth(month);
                 endDatePicker.setDay(dayOfMonth);
-                endDate = String.format(dayOfMonth + "/" + month + "/" + year);
+                endDate = String.format(day + "/" + mon + "/" + year);
                 break;
         }
     }
