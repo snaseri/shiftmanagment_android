@@ -22,26 +22,37 @@ import com.example.myapplication.myapplication.recordkeeper.views.ShiftlogListIt
 
 import java.util.List;
 
+// DateTime interface includes both custom Listeners for TimePicker and DatePicker
 interface DateTime extends TimePickerFragment.TimePickedListener,
         DatePickerFragment.DatePickedListener{}
 
 public class MainActivity extends AppCompatActivity
         implements DateTime, PastShiftLogsFragment.OnListFragmentInteractionListener {
 
-    private AppCompatEditText name;
-    private AppCompatEditText company;
-    private AppCompatEditText agency;
-    private TimePickerApp startTimePicker;
-    private TimePickerApp endTimePicker;
-    private DatePickerApp startDatePicker;
-    private DatePickerApp endDatePicker;
-    private CheckBox vehicleUse;
-    private CheckBox nightout;
+    private AppCompatEditText name = (findViewById(R.id.nameInput));
+    private AppCompatEditText company = (findViewById(R.id.companyInput));
+    private AppCompatEditText agency = (findViewById(R.id.AgencyInput));
+    private AppCompatButton saveButton = findViewById(R.id.Save_Button);
 
-    private String startDate;
-    private String startTime;
-    private String endDate;
-    private String endTime;
+    //Time pickers
+    private TimePickerApp startTimePicker = new TimePickerApp(getSupportFragmentManager(),
+            (Button) findViewById(R.id.btnStartTimePicker), 0);
+    private TimePickerApp endTimePicker = new TimePickerApp(getSupportFragmentManager(),
+            (Button) findViewById(R.id.btnEndTimePicker), 1);
+
+    //Date pickers
+    private DatePickerApp startDatePicker = new DatePickerApp(getSupportFragmentManager(),
+            (Button) findViewById(R.id.btnStartDatePicker), 0);
+    private DatePickerApp endDatePicker = new DatePickerApp(getSupportFragmentManager(),
+            (Button) findViewById(R.id.btnEndDatePicker), 1);
+
+    //Detail checkboxes
+    private CheckBox vehicleUse = (findViewById(R.id.vehicleUse));
+    private CheckBox nightOut = (findViewById(R.id.nightOut));
+
+    //Strings of the selected datetimes
+    private String startDate; private String startTime;
+    private String endDate; private String endTime;
 
     private static ShiftlogDAO db;
 
@@ -50,29 +61,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        name = ((AppCompatEditText)findViewById(R.id.nameInput));
-        company = ((AppCompatEditText)findViewById(R.id.companyInput));
-        agency = ((AppCompatEditText)findViewById(R.id.AgencyInput));
-        vehicleUse = ((CheckBox)findViewById(R.id.vehicleUse));
-        nightout = ((CheckBox)findViewById(R.id.nightout));
-        AppCompatButton saveButton = findViewById(R.id.Save_Button);
 
         db = Room.databaseBuilder(this, ShiftlogDatabase.class,
                 "ShiftlogDatabase").build().shiftlogDAO();
-
-
-        //Time picker
-        startTimePicker = new TimePickerApp(getSupportFragmentManager(),
-                (Button) findViewById(R.id.btnStartTimePicker), 0);
-        endTimePicker = new TimePickerApp(getSupportFragmentManager(),
-                (Button) findViewById(R.id.btnEndTimePicker), 1);
-
-        //Date picker
-        startDatePicker = new DatePickerApp(getSupportFragmentManager(),
-                (Button) findViewById(R.id.btnStartDatePicker), 0);
-        endDatePicker = new DatePickerApp(getSupportFragmentManager(),
-                (Button) findViewById(R.id.btnEndDatePicker), 1);
-
 
 
         //Checkbox click listeners
@@ -86,7 +77,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        nightout.setOnClickListener(new View.OnClickListener() {
+        nightOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -101,29 +92,29 @@ public class MainActivity extends AppCompatActivity
 
 
 
-                AsyncTask.execute(new Runnable() {
+            AsyncTask.execute(new Runnable() {
 
 
+                @Override
+                public void run() {
+
+                db.insertShiftlog(
+                        new Shiftlog(name.getText().toString(), company.getText().toString(), agency.getText().toString(),
+                                startDate,startTime,endDate,endTime,
+                                vehicleUse.isChecked(),nightOut.isChecked())
+                );
+
+                final List<Shiftlog> shiftlogs = db.getAllShiftlogs();
+                Log.d("STORED_SHIFTLOGS", String.format("Number of ShiftLogs: %d", shiftlogs.size()));
+
+                runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
-                        db.insertShiftlog(
-                                new Shiftlog(name.getText().toString(), company.getText().toString(), agency.getText().toString(),
-                                        startDate,startTime,endDate,endTime,
-                                        vehicleUse.isChecked(),nightout.isChecked())
-                        );
-
-                        final List<Shiftlog> shiftlogs = db.getAllShiftlogs();
-                        Log.d("STORED_SHIFTLOGS", String.format("Number of ShiftLogs: %d", shiftlogs.size()));
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), "Saved",Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        Toast.makeText(getApplicationContext(), "Saved",Toast.LENGTH_SHORT).show();
                     }
                 });
+                }
+            });
 
                 
             }
@@ -132,7 +123,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public boolean validate(){
+    public boolean validate(){ //returns true if times and dates are valid.
         if (startTime.isEmpty() || endTime.isEmpty() || startDate.isEmpty() || endDate.isEmpty()){
             return false;
         }
@@ -160,7 +151,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onTimePicked(int hourOfDay, int minute, int id) {
-        switch (id){
+        switch (id){ //id determines start (0) or end (1)
             case 0: startTimePicker.getTimeButton().setText(hourOfDay + ":" + minute);
                 startTimePicker.setHour(hourOfDay);
                 startTimePicker.setMinute(minute);
@@ -176,7 +167,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onDatePicked(int year, int month, int dayOfMonth, int id) {
-        switch (id){
+        switch (id){ //id determines start (0) or end (1)
             case 0: startDatePicker.getDateButton().setText(dayOfMonth + "/" + month + "/" + year);
                 startDatePicker.setYear(year);
                 startDatePicker.setMonth(month);

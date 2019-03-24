@@ -35,38 +35,31 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         id = getArguments().getInt("picker_id");
 
         DatePickerDialog dateSetter = new DatePickerDialog(
-                getActivity(),
-                this,
+                getActivity(), this,
                 year, month, day);
+
         return dateSetter;
     }
     @Override
     public void onAttach(Activity activity) {
-        // when the fragment is initially shown (i.e. attached to the activity),
-        // cast the activity to the callback interface type
         super.onAttach(activity);
+        // Records the listener of the onDatePicked method
         try {
             listener = (DatePickedListener) activity;
         } catch(ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement " + DatePickedListener.class.getName());
+            throw new ClassCastException(activity.toString() + " must utilise "
+                                        + DatePickedListener.class.getName());
         }
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        // when the time is selected, send it to the activity via its callback
-        // interface method
-
-        if(listener != null)
+        //Handles the date being set and triggers the callback to the listener
+        if(listener != null) //If the listener exists
             listener.onDatePicked(year, month, day, id);
     }
 
-    public static interface DatePickerDialogListener {
-        public void onDateSet(DatePicker view, int year, int month, int day);
-    }
-
-    public static interface DatePickedListener {
-        public void onDatePicked(int year, int month, int day, int id);
+    public interface DatePickedListener {
+        void onDatePicked(int year, int month, int day, int id);
     }
 
 }

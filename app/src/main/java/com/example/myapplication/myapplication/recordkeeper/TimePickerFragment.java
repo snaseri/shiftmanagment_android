@@ -35,38 +35,31 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         id = getArguments().getInt("picker_id");
 
         TimePickerDialog timeSetter = new TimePickerDialog(
-                getActivity(),
-                this,
+                getActivity(), this,
                 hour, min, DateFormat.is24HourFormat(getActivity()));
+
         return timeSetter;
     }
     @Override
     public void onAttach(Activity activity) {
-        // when the fragment is initially shown (i.e. attached to the activity),
-        // cast the activity to the callback interface type
         super.onAttach(activity);
+        // Records the listener of the onTimePicked method
         try {
             listener = (TimePickedListener) activity;
         } catch(ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement " + TimePickedListener.class.getName());
+            throw new ClassCastException(activity.toString() + " must utilise "
+                                        + TimePickedListener.class.getName());
         }
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        // when the time is selected, send it to the activity via its callback
-        // interface method
-
-        if(listener != null)
+        //Handles the date being set and triggers the callback to the listener
+        if(listener != null) //If the listener exists
             listener.onTimePicked(hourOfDay, minute, id);
     }
 
-    public static interface TimePickerDialogListener {
-        public void onTimeSet(int id, TimePicker view, int hourOfDay, int minute);
-    }
-
-    public static interface TimePickedListener {
-        public void onTimePicked(int hourOfDay, int minute, int id);
+    public interface TimePickedListener {
+        void onTimePicked(int hourOfDay, int minute, int id);
     }
 
 }
