@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public boolean validateTimes(){ //returns true if times and dates are valid.
-        if (startTime.isEmpty() || endTime.isEmpty() || startDate.isEmpty() || endDate.isEmpty()){
+        if (startTime == null || endTime == null || startDate == null || endDate == null){
             return false;
         }
         else if (startDatePicker.getYear() < endDatePicker.getYear()){
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity
 
     public void invalidDateTime(){
         String message = "There appears to be an issue with your log:";
-        if (startTime.isEmpty() || endTime.isEmpty() || startDate.isEmpty() || endDate.isEmpty()){
+        if (startTime == null || endTime == null || startDate == null || endDate == null){
             message += "\nFill out both the start and end date and time.";
         }
         else {
