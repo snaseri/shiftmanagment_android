@@ -1,6 +1,7 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -35,7 +36,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         id = getArguments().getInt("picker_id");
 
         return new TimePickerDialog(
-                getActivity(), this,
+                getActivity(), AlertDialog.THEME_HOLO_LIGHT, this,
                 hour, min, DateFormat.is24HourFormat(getActivity()));
     }
     @Override
