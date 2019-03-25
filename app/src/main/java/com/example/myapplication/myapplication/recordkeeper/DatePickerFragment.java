@@ -34,11 +34,9 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
         id = getArguments().getInt("picker_id");
 
-        DatePickerDialog dateSetter = new DatePickerDialog(
+        return new DatePickerDialog(
                 getActivity(), this,
                 year, month, day);
-
-        return dateSetter;
     }
     @Override
     public void onAttach(Activity activity) {

@@ -104,12 +104,12 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-        //Save button Listner
+        //Save button Listener
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override  //setting what happens when clicked below
             public void onClick(View v) {
 
-
+            if (validateTimes()) {
 
             AsyncTask.execute(new Runnable() {
 
@@ -117,24 +117,24 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void run() {
 
-                db.insertShiftlog(
-                        new Shiftlog(name.getText().toString(), company.getText().toString(), agency.getText().toString(),
-                                startDate,startTime,endDate,endTime,
-                                vehicleUse.isChecked(),nightOut.isChecked())
-                );
+                    db.insertShiftlog(
+                            new Shiftlog(name.getText().toString(), company.getText().toString(), agency.getText().toString(),
+                                    startDate, startTime, endDate, endTime,
+                                    vehicleUse.isChecked(), nightOut.isChecked())
+                    );
 
-                final List<Shiftlog> shiftlogs = db.getAllShiftlogs();
-                Log.d("STORED_SHIFTLOGS", String.format("Number of ShiftLogs: %d", shiftlogs.size()));
+                    final List<Shiftlog> shiftlogs = db.getAllShiftlogs();
+                    Log.d("STORED_SHIFTLOGS", String.format("Number of ShiftLogs: %d", shiftlogs.size()));
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "Saved",Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
-
+            } else invalidDateTime();
                 
             }
 
@@ -142,62 +142,100 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public boolean validate(){ //returns true if times and dates are valid.
+    public boolean validateTimes(){ //returns true if times and dates are valid.
         if (startTime.isEmpty() || endTime.isEmpty() || startDate.isEmpty() || endDate.isEmpty()){
             return false;
         }
         else if (startDatePicker.getYear() < endDatePicker.getYear()){
             return true;
         }
-        else if(startDatePicker.getYear() == endDatePicker.getYear() &&
+        else if(startDatePicker.getYear().equals(endDatePicker.getYear()) &&
                 startDatePicker.getMonth() < endDatePicker.getMonth()){
             return true;
         }
-        else if(startDatePicker.getMonth() == endDatePicker.getMonth() &&
+        else if(startDatePicker.getMonth().equals(endDatePicker.getMonth()) &&
                 startDatePicker.getDay() < endDatePicker.getDay()){
             return true;
         }
-        else if(startDatePicker.getDay() == endDatePicker.getDay() &&
+        else if(startDatePicker.getDay().equals(endDatePicker.getDay()) &&
                 startTimePicker.getHour() < endTimePicker.getHour()){
             return true;
         }
-        else if(startTimePicker.getHour() == endTimePicker.getHour() &&
-                startTimePicker.getMinute() < endTimePicker.getMinute()){
-            return true;
+        else return startTimePicker.getHour().equals(endTimePicker.getHour()) &&
+                    startTimePicker.getMinute() < endTimePicker.getMinute();
+    }
+
+    public void invalidDateTime(){
+        String message = "There appears to be an issue with your log:";
+        if (startTime.isEmpty() || endTime.isEmpty() || startDate.isEmpty() || endDate.isEmpty()){
+            message += "\nFill out both the start and end date and time.";
         }
-        else return false;
+        else {
+            if (startDatePicker.getYear() > endDatePicker.getYear()) {
+                message += "\nThe start year is set to after the end year";
+            }
+            else if (startDatePicker.getYear().equals(endDatePicker.getYear()) &&
+                    startDatePicker.getMonth() > endDatePicker.getMonth()) {
+                message += "\nThe start month is set to after the end month";
+            }
+            else if (startDatePicker.getMonth().equals(endDatePicker.getMonth()) &&
+                    startDatePicker.getDay() > endDatePicker.getDay()) {
+                message += "\nThe start day is set to after the end day";
+            }
+            else if (startDatePicker.getDay().equals(endDatePicker.getDay()) &&
+                    startTimePicker.getHour() > endTimePicker.getHour()) {
+                message += "\nThe start hour is set to after the end hour";
+            }
+            else if (startTimePicker.getHour().equals(endTimePicker.getHour()) &&
+                    startTimePicker.getMinute() > endTimePicker.getMinute()) {
+                message += "\nThe start minute is set to after the end minute";
+            }
+        }
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onTimePicked(int hourOfDay, int minute, int id) {
+        String min = String.valueOf(minute);
+        if (minute < 10) min = "0" + min;
+        String hour = String.valueOf(hourOfDay);
+        if (hourOfDay < 10) hour = "0" + hour;
+
         switch (id){ //id determines start (0) or end (1)
-            case 0: startTimePicker.getTimeButton().setText(hourOfDay + ":" + minute);
+            case 0: startTimePicker.getTimeButton().setText("Start time - " + hour + ":" + min);
                 startTimePicker.setHour(hourOfDay);
                 startTimePicker.setMinute(minute);
-                startTime = String.format(hourOfDay + ":" + minute);
+                startTime = String.format(hour + ":" + min);
                 break;
-            case 1: endTimePicker.getTimeButton().setText(hourOfDay + ":" + minute);
+            case 1: endTimePicker.getTimeButton().setText("End time - " + hour + ":" + minute);
                 endTimePicker.setHour(hourOfDay);
                 endTimePicker.setMinute(minute);
-                endTime = String.format(hourOfDay + ":" + minute);
+                endTime = String.format(hour + ":" + min);
                 break;
         }
     }
 
     @Override
     public void onDatePicked(int year, int month, int dayOfMonth, int id) {
+        String mon = String.valueOf(month);
+        if (month < 10) mon = "0" + mon;
+        String day = String.valueOf(dayOfMonth);
+        if (dayOfMonth < 10) day = "0" + day;
+
         switch (id){ //id determines start (0) or end (1)
-            case 0: startDatePicker.getDateButton().setText(dayOfMonth + "/" + month + "/" + year);
+            case 0: startDatePicker.getDateButton().setText(
+                    "Start date - " + day + "/" + mon + "/" + year);
                 startDatePicker.setYear(year);
                 startDatePicker.setMonth(month);
                 startDatePicker.setDay(dayOfMonth);
-                startDate = String.format(dayOfMonth + "/" + month + "/" + year);
+                startDate = day + "/" + mon + "/" + year;
                 break;
-            case 1: endDatePicker.getDateButton().setText(dayOfMonth + "/" + month + "/" + year);
+            case 1: endDatePicker.getDateButton().setText(
+                    "End date - " + day + "/" + mon + "/" + year);
                 endDatePicker.setYear(year);
                 endDatePicker.setMonth(month);
                 endDatePicker.setDay(dayOfMonth);
-                endDate = String.format(dayOfMonth + "/" + month + "/" + year);
+                endDate = day + "/" + mon + "/" + year;
                 break;
         }
     }
