@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,17 +23,13 @@ import java.util.List;
  */
 public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyPastShiftLogsRecyclerViewAdapter.ViewHolder> {
 
+    private Button mShareButton;
     private final List<ShiftlogListItemView> mValues = new ArrayList<>();
+    private final List<Button> mButtons = new ArrayList<>();
     private final OnListFragmentInteractionListener mListener;
 
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
 
 
-    }
 
     public MyPastShiftLogsRecyclerViewAdapter(List<Shiftlog> items, OnListFragmentInteractionListener listener) {
         for (Shiftlog shiftlog : items) {
@@ -45,7 +42,8 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_pastshiftlogs2, parent, false);
-        return new ViewHolder(view);
+        ViewHolder vh = new ViewHolder(view);
+        return vh;
     }
 
     @Override
@@ -74,13 +72,18 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
         public final View mView;
         public final TextView mShitLogNameView;
         public ShiftlogListItemView mItem;
-        public ImageView mShareButton;
+        public Button mShareButton;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mShitLogNameView = (TextView) view.findViewById(R.id.shiftlog_name);
-            mShareButton = (ImageView) view.findViewById(R.id.image_share);
+            mShareButton = (Button) view.findViewById(R.id.share_button);
+
         }
+    }
+
+    public interface OnNoteListener {
+        void onNoteClick(int position);
     }
 }
