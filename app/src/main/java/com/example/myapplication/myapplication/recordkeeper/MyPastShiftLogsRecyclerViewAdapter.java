@@ -1,13 +1,15 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
+import android.app.Application;
 import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.myapplication.recordkeeper.PastShiftLogsFragment.OnListFragmentInteractionListener;
 import com.example.myapplication.myapplication.recordkeeper.database.Shiftlog;
@@ -27,6 +29,8 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     private final List<ShiftlogListItemView> mValues = new ArrayList<>();
     private final List<Button> mButtons = new ArrayList<>();
     private final OnListFragmentInteractionListener mListener;
+    private static  OnListFragmentInteractionListener mButtonListener;
+
 
 
 
@@ -47,9 +51,19 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
         holder.mShitLogNameView.setText(mValues.get(position).getName());
+        holder.mShareButton.setTag(position);
+
+        holder.mShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != mListener) {
+                    Toast.makeText(v.getContext(), String.format("Shared Log: " + holder.mItem.getName()), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,9 +95,5 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
             mShareButton = (Button) view.findViewById(R.id.share_button);
 
         }
-    }
-
-    public interface OnNoteListener {
-        void onNoteClick(int position);
     }
 }
