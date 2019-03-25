@@ -1,6 +1,7 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -35,7 +36,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         id = getArguments().getInt("picker_id");
 
         return new DatePickerDialog(
-                getActivity(), this,
+                getActivity(), AlertDialog.THEME_HOLO_LIGHT, this,
                 year, month, day);
     }
     @Override
