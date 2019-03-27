@@ -122,26 +122,6 @@
             android:background="@drawable/selector_button"
             android:text="Pick an End Time" />
 
-        <TextView
-            android:id="@+id/NameLog"
-            android:layout_marginTop="50dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Name"
-            android:textSize="18sp"
-            android:textColor="@color/colorTextThree"
-            android:layout_marginLeft="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/nameInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/NameLog"
-            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/CompanyName"
@@ -150,18 +130,19 @@
             android:text="@string/company"
             android:textSize="18sp"
             android:textColor="@color/colorTextThree"
-            android:layout_below="@id/nameInput"
-            app:layout_constraintBottom_toBottomOf="@id/nameInput"
+            app:layout_constraintBottom_toBottomOf="@id/shiftLogLabel"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop= "50dp"/>
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/companyInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/CompanyName"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            />
 
 
         <TextView
