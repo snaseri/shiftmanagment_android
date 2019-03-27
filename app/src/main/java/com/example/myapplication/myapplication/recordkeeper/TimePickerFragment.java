@@ -37,7 +37,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
         return new TimePickerDialog(
                 getActivity(), AlertDialog.THEME_HOLO_LIGHT, this,
-                hour, min, DateFormat.is24HourFormat(getActivity()));
+                hour, min,true);
     }
     @Override
     public void onAttach(Activity activity) {

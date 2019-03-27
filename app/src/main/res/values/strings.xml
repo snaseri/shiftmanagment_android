@@ -29,4 +29,5 @@
     <string name="pick_an_end_time">Pick an End Time</string>
     <string name="pick_a_start_date">Pick a Start Date</string>
     <string name="total_break_time">Total Break Time:</string>
+    <string name="registration_number">Registration Number:</string>
 </resources>

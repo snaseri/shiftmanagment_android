@@ -49,8 +49,8 @@
             android:id="@+id/vehicleUse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/Breaks"
-            android:layout_marginTop="69dp"
+            android:layout_below="@id/btnBreaks"
+            android:layout_marginTop="9dp"
             android:text="@string/will_you_be_operating_a_vehicle"
             android:textColorLink="@color/buttonColour" />
 
@@ -58,8 +58,8 @@
             android:id="@+id/nightOut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/vehicleUse"
-            android:layout_marginTop="14dp"
+            android:layout_below="@id/btnpoa"
+            android:layout_marginTop="4dp"
             android:text="@string/night_shift"
             android:textColorLink="@color/buttonColour" />
 
@@ -121,9 +121,6 @@
             android:background="@drawable/selector_button"
             android:text="@string/pick_an_end_time" />
 
-
-
-
         <TextView
             android:id="@+id/CompanyName"
             android:layout_width="wrap_content"
@@ -166,26 +163,61 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/AgencyName"
             android:layout_marginTop="8dp" />
+
+        <Button
+            android:id="@+id/btnBreaks"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnEndTimePicker"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/selector_button"
+            android:text="@string/total_break_time" />
+
+        <Button
+            android:id="@+id/btnpoa"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/RegInput"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/selector_button"
+            android:text="Total POA" />
+
         <TextView
-            android:id="@+id/Breaks"
+            android:id="@+id/Registration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/total_break_time"
-            android:textSize="18sp"
+            android:text="@string/registration_number"
+            android:textSize="14sp"
             android:textColor="@color/colorTextThree"
-            android:layout_below="@id/btnEndTimePicker"
-            app:layout_constraintBottom_toBottomOf="@id/btnEndTimePicker"
+            android:layout_below="@id/vehicleUse"
+
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginLeft="10dp"/>
 
         <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/BreakInput"
+            android:id="@+id/RegInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/Breaks"
-            android:layout_marginTop="8dp" />
+            android:layout_below="@id/Registration"
+            android:layout_marginTop="1dp"
+           />
+
 
     </RelativeLayout>
 </ScrollView>

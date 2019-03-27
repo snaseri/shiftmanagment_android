@@ -33,11 +33,12 @@ public class MainActivity extends AppCompatActivity
     private AppCompatEditText company;
     private AppCompatEditText agency;
     private AppCompatButton saveButton;
-    private AppCompatEditText breaks;
+
     //Time pickers
     private TimePickerApp startTimePicker;
     private TimePickerApp endTimePicker;
-
+    private TimePickerApp breakTimePicker;
+    private TimePickerApp poaPicker;
 
     //Date pickers
     private DatePickerApp startDatePicker;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity
 
     //Strings of the selected DateTimes
     private String startDate; private String startTime;
-    private String endDate; private String endTime; private String breakTime;
+    private String endDate; private String endTime; private String breakTime; private String poa;
 
     private static ShiftlogDAO db;
 
@@ -61,13 +62,17 @@ public class MainActivity extends AppCompatActivity
         company = (findViewById(R.id.companyInput));
         agency = (findViewById(R.id.AgencyInput));
         saveButton = findViewById(R.id.Save_Button);
-        breaks = findViewById(R.id.BreakInput);
+
 
         //Time pickers
         startTimePicker = new TimePickerApp(getSupportFragmentManager(),
                 (Button) findViewById(R.id.btnStartTimePicker), 0);
         endTimePicker = new TimePickerApp(getSupportFragmentManager(),
                 (Button) findViewById(R.id.btnEndTimePicker), 1);
+        breakTimePicker = new TimePickerApp(getSupportFragmentManager(),
+                (Button) findViewById(R.id.btnBreaks), 2);
+        poaPicker= new TimePickerApp(getSupportFragmentManager(),
+                (Button) findViewById(R.id.btnpoa), 3);
 
 
         //Date pickers
@@ -119,7 +124,7 @@ public class MainActivity extends AppCompatActivity
 
                     db.insertShiftlog(
                             new Shiftlog(name.getText().toString(), company.getText().toString(), agency.getText().toString(),
-                                    startDate, startTime, endDate, endTime,
+                                    startDate, startTime,endDate, endTime,
                                     vehicleUse.isChecked(), nightOut.isChecked())
                     );
 
@@ -160,6 +165,8 @@ public class MainActivity extends AppCompatActivity
                 startTimePicker.getMinute() < endTimePicker.getMinute();
 
     }
+
+
 
     public void invalidDateTime(){
         String message = "There appears to be an issue with your log:";
@@ -208,6 +215,18 @@ public class MainActivity extends AppCompatActivity
                 endTimePicker.setMinute(minute);
                 endTime = String.format(hour + ":" + min);
                 break;
+            case 2: breakTimePicker.getTimeButton().setText("Break time - " + hour + ":" + minute);
+                breakTimePicker.setHour(hourOfDay);
+               breakTimePicker.setMinute(minute);
+                breakTime = String.format(hour + ":" + min);
+                break;
+            case 3: poaPicker.getTimeButton().setText("POA - " + hour + ":" + minute);
+                poaPicker.setHour(hourOfDay);
+                poaPicker.setMinute(minute);
+                poa = String.format(hour + ":" + min);
+                break;
+
+
         }
     }
 
