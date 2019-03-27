@@ -33,10 +33,11 @@ public class MainActivity extends AppCompatActivity
     private AppCompatEditText company;
     private AppCompatEditText agency;
     private AppCompatButton saveButton;
-
+    private AppCompatEditText breaks;
     //Time pickers
     private TimePickerApp startTimePicker;
     private TimePickerApp endTimePicker;
+
 
     //Date pickers
     private DatePickerApp startDatePicker;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity
 
     //Strings of the selected DateTimes
     private String startDate; private String startTime;
-    private String endDate; private String endTime;
+    private String endDate; private String endTime; private String breakTime;
 
     private static ShiftlogDAO db;
 
@@ -60,14 +61,14 @@ public class MainActivity extends AppCompatActivity
         company = (findViewById(R.id.companyInput));
         agency = (findViewById(R.id.AgencyInput));
         saveButton = findViewById(R.id.Save_Button);
+        breaks = findViewById(R.id.BreakInput);
 
         //Time pickers
         startTimePicker = new TimePickerApp(getSupportFragmentManager(),
                 (Button) findViewById(R.id.btnStartTimePicker), 0);
         endTimePicker = new TimePickerApp(getSupportFragmentManager(),
                 (Button) findViewById(R.id.btnEndTimePicker), 1);
-        breakTimePicker = new TimePickerApp(getSupportFragmentManager(),
-                (Button) findViewById(R.id.btnBreaks), 1);
+
 
         //Date pickers
         startDatePicker = new DatePickerApp(getSupportFragmentManager(),
@@ -206,11 +207,6 @@ public class MainActivity extends AppCompatActivity
                 endTimePicker.setHour(hourOfDay);
                 endTimePicker.setMinute(minute);
                 endTime = String.format(hour + ":" + min);
-                break;
-            case 2: breakTimePicker.getTimeButton().setText("End time - " + hour + ":" + minute);
-                breakTimePicker.setHour(hourOfDay);
-                breakTimePicker.setMinute(minute);
-                breakTime = String.format(hour + ":" + min);
                 break;
         }
     }
