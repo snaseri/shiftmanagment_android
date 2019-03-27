@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity
                 (Button) findViewById(R.id.btnStartTimePicker), 0);
         endTimePicker = new TimePickerApp(getSupportFragmentManager(),
                 (Button) findViewById(R.id.btnEndTimePicker), 1);
+        breakTimePicker = new TimePickerApp(getSupportFragmentManager(),
+                (Button) findViewById(R.id.btnBreaks), 1);
 
         //Date pickers
         startDatePicker = new DatePickerApp(getSupportFragmentManager(),
@@ -139,27 +141,23 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public boolean validateTimes(){ //returns true if times and dates are valid.
-        if (startTime == null || endTime == null || startDate == null || endDate == null){
+    public boolean validateTimes() { //returns true if times and dates are valid.
+        if (startTime == null || endTime == null || startDate == null || endDate == null) {
             return false;
-        }
-        else if (startDatePicker.getYear() < endDatePicker.getYear()){
+        } else if (startDatePicker.getYear() < endDatePicker.getYear()) {
             return true;
-        }
-        else if(startDatePicker.getYear().equals(endDatePicker.getYear()) &&
-                startDatePicker.getMonth() < endDatePicker.getMonth()){
+        } else if (startDatePicker.getYear().equals(endDatePicker.getYear()) &&
+                startDatePicker.getMonth() < endDatePicker.getMonth()) {
             return true;
-        }
-        else if(startDatePicker.getMonth().equals(endDatePicker.getMonth()) &&
-                startDatePicker.getDay() < endDatePicker.getDay()){
+        } else if (startDatePicker.getMonth().equals(endDatePicker.getMonth()) &&
+                startDatePicker.getDay() < endDatePicker.getDay()) {
             return true;
-        }
-        else if(startDatePicker.getDay().equals(endDatePicker.getDay()) &&
-                startTimePicker.getHour() < endTimePicker.getHour()){
+        } else if (startDatePicker.getDay().equals(endDatePicker.getDay()) &&
+                startTimePicker.getHour() < endTimePicker.getHour()) {
             return true;
-        }
-        else return startTimePicker.getHour().equals(endTimePicker.getHour()) &&
-                    startTimePicker.getMinute() < endTimePicker.getMinute();
+        } else return startTimePicker.getHour().equals(endTimePicker.getHour()) &&
+                startTimePicker.getMinute() < endTimePicker.getMinute();
+
     }
 
     public void invalidDateTime(){
@@ -208,6 +206,11 @@ public class MainActivity extends AppCompatActivity
                 endTimePicker.setHour(hourOfDay);
                 endTimePicker.setMinute(minute);
                 endTime = String.format(hour + ":" + min);
+                break;
+            case 2: breakTimePicker.getTimeButton().setText("End time - " + hour + ":" + minute);
+                breakTimePicker.setHour(hourOfDay);
+                breakTimePicker.setMinute(minute);
+                breakTime = String.format(hour + ":" + min);
                 break;
         }
     }

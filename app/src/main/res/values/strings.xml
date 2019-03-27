@@ -23,4 +23,7 @@
     <string name="end_date">End Date:</string>
     <string name="will_you_be_operating_a_vehicle">Will you be operating a vehicle?</string>
     <string name="night_shift">Night shift</string>
+    <string name="share">SHARE</string>
+    <string name="pick_a_start_time">Pick a Start Time</string>
+    <string name="pick_an_end_date">Pick an End Date</string>
 </resources>

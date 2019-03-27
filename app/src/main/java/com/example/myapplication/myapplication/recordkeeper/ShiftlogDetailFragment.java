@@ -37,6 +37,7 @@ public class ShiftlogDetailFragment extends Fragment {
     private String shiftlog_start_date;
     private String shiftlog_end_date;
 
+
     public ShiftlogDetailFragment() {
         // Required empty public constructor
     }

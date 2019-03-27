@@ -50,7 +50,7 @@
             android:id="@+id/vehicleUse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btnEndTimePicker"
+            android:layout_below="@id/btnBreaks"
             android:layout_marginTop="14dp"
             android:text="@string/will_you_be_operating_a_vehicle"
             android:textColorLink="@color/buttonColour" />
@@ -89,7 +89,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="25dp"
             android:background="@drawable/selector_button"
-            android:text="Pick a Start Time" />
+            android:text="@string/pick_a_start_time" />
 
         <Button
             android:id="@+id/btnEndDatePicker"
@@ -104,7 +104,7 @@
             android:layout_marginRight="25dp"
             android:layout_marginBottom="25dp"
             android:background="@drawable/selector_button"
-            android:text="Pick an End Date" />
+            android:text="@string/pick_an_end_date" />
 
         <Button
             android:id="@+id/btnEndTimePicker"
@@ -121,6 +121,23 @@
             android:layout_marginBottom="25dp"
             android:background="@drawable/selector_button"
             android:text="Pick an End Time" />
+
+        <Button
+            android:id="@+id/btnBreaks"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnEndDatePicker"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="25dp"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/selector_button"
+            android:text="Total break Times" />
 
 
         <TextView

@@ -53,14 +53,14 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
-        holder.mShitLogNameView.setText(mValues.get(position).getName());
+        holder.mShitLogNameView.setText(mValues.get(position).getCompany());
         holder.mShareButton.setTag(position);
 
         holder.mShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    Toast.makeText(v.getContext(), String.format("Shared Log: " + holder.mItem.getName()), Toast.LENGTH_LONG).show();
+                    Toast.makeText(v.getContext(), String.format("Shared Log: " + holder.mItem.getCompany(), holder.mItem.getStartDate(), holder.mItem.getEndDate()), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -91,7 +91,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mShitLogNameView = (TextView) view.findViewById(R.id.shiftlog_name);
+            mShitLogNameView = (TextView) view.findViewById(R.id.CompanyName);
             mShareButton = (Button) view.findViewById(R.id.share_button);
 
         }
