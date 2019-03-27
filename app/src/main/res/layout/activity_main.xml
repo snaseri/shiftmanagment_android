@@ -51,6 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/btnBreaks"
             android:layout_marginTop="9dp"
+            android:textSize="16dp"
             android:text="@string/will_you_be_operating_a_vehicle"
             android:textColorLink="@color/buttonColour" />
 
@@ -61,6 +62,7 @@
             android:layout_below="@id/btnpoa"
             android:layout_marginTop="4dp"
             android:text="@string/night_shift"
+            android:textSize="16dp"
             android:textColorLink="@color/buttonColour" />
 
         <Button
@@ -192,6 +194,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="25dp"
             android:layout_marginRight="25dp"
+            android:visibility="invisible"
             android:layout_marginBottom="25dp"
             android:background="@drawable/selector_button"
             android:text="Total POA" />
@@ -204,7 +207,7 @@
             android:textSize="14sp"
             android:textColor="@color/colorTextThree"
             android:layout_below="@id/vehicleUse"
-
+            android:visibility="invisible"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -214,6 +217,7 @@
             android:id="@+id/RegInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
             android:layout_below="@id/Registration"
             android:layout_marginTop="1dp"
            />

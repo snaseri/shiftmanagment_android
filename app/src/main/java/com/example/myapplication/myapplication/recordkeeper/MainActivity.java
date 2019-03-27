@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.support.v7.widget.AppCompatButton;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.myapplication.recordkeeper.database.*;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity
     private AppCompatEditText company;
     private AppCompatEditText agency;
     private AppCompatButton saveButton;
+    private AppCompatEditText registration;
 
     //Time pickers
     private TimePickerApp startTimePicker;
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity
         company = (findViewById(R.id.companyInput));
         agency = (findViewById(R.id.AgencyInput));
         saveButton = findViewById(R.id.Save_Button);
+        registration =findViewById(R.id.RegInput);
 
 
         //Time pickers
@@ -94,10 +97,19 @@ public class MainActivity extends AppCompatActivity
         vehicleUse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((CheckBox)v).isChecked()) {
+                if (((CheckBox) v).isChecked()) {
+                    TextView registration = findViewById(R.id.Registration);
+                    AppCompatEditText registrationInput = findViewById(R.id.RegInput);
+                    Button poa = findViewById((R.id.btnpoa));
+
+                    registration.setVisibility(View.VISIBLE);
+                    registrationInput.setVisibility(View.VISIBLE);
+                    poa.setVisibility(View.VISIBLE);
+
                     Toast.makeText(MainActivity.this,
-                            "Vehicle operating selected",Toast.LENGTH_SHORT).show();
+                            "Vehicle operating selected", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
@@ -109,7 +121,7 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-        //Save button Listener
+    //Save button Listener
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override  //setting what happens when clicked below
             public void onClick(View v) {
