@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/btnEndTimePicker"
             android:layout_marginTop="14dp"
-            android:text="Do you own and can drive a vehicle?"
+            android:text="@string/will_you_be_operating_a_vehicle"
             android:textColorLink="@color/buttonColour" />
 
         <CheckBox
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/vehicleUse"
             android:layout_marginTop="14dp"
-            android:text="Are you willing to spend nights out"
+            android:text="@string/night_shift"
             android:textColorLink="@color/buttonColour" />
 
         <Button

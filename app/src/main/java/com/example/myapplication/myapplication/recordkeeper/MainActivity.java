@@ -57,8 +57,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        name = (findViewById(R.id.nameInput));
         company = (findViewById(R.id.companyInput));
         agency = (findViewById(R.id.AgencyInput));
         saveButton = findViewById(R.id.Save_Button);
