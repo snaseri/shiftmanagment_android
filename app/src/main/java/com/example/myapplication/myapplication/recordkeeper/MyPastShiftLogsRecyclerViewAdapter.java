@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +28,6 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 
     private Button mShareButton;
     private final List<ShiftlogListItemView> mValues = new ArrayList<>();
-    private final List<Button> mButtons = new ArrayList<>();
     private final OnListFragmentInteractionListener mListener;
     private static  OnListFragmentInteractionListener mButtonListener;
 
@@ -54,13 +54,13 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
         holder.mShitLogNameView.setText(mValues.get(position).getName());
-        holder.mShareButton.setTag(position);
+        holder.mSelectedLogs.setTag(position);
 
-        holder.mShareButton.setOnClickListener(new View.OnClickListener() {
+        holder.mSelectedLogs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    Toast.makeText(v.getContext(), String.format("Shared Log: " + holder.mItem.getName()), Toast.LENGTH_LONG).show();
+                    Toast.makeText(v.getContext(), String.format("Selected: " + holder.mItem.getName()), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -86,13 +86,13 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
         public final View mView;
         public final TextView mShitLogNameView;
         public ShiftlogListItemView mItem;
-        public Button mShareButton;
+        public CheckBox mSelectedLogs;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mShitLogNameView = (TextView) view.findViewById(R.id.shiftlog_name);
-            mShareButton = (Button) view.findViewById(R.id.share_button);
+            mSelectedLogs = (CheckBox) view.findViewById(R.id.shiftSelect);
 
         }
     }
