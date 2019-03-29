@@ -97,10 +97,12 @@ public class MainActivity extends AppCompatActivity
         vehicleUse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                TextView registration = findViewById(R.id.Registration);
+                AppCompatEditText registrationInput = findViewById(R.id.RegInput);
+                Button poa = findViewById((R.id.btnpoa));
+
                 if (((CheckBox) v).isChecked()) {
-                    TextView registration = findViewById(R.id.Registration);
-                    AppCompatEditText registrationInput = findViewById(R.id.RegInput);
-                    Button poa = findViewById((R.id.btnpoa));
 
                     registration.setVisibility(View.VISIBLE);
                     registrationInput.setVisibility(View.VISIBLE);
@@ -108,6 +110,11 @@ public class MainActivity extends AppCompatActivity
 
                     Toast.makeText(MainActivity.this,
                             "Vehicle operating selected", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    registration.setVisibility(View.INVISIBLE);
+                    registrationInput.setVisibility(View.INVISIBLE);
+                    poa.setVisibility(View.INVISIBLE);
                 }
 
             }
