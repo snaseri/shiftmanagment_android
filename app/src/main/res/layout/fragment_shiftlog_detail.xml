@@ -135,7 +135,7 @@
         android:id="@+id/regLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Registration (If Applicable):"
+        android:text="@string/registration_if_applicable"
         android:textColor="@color/colorTextThree"
         android:textSize="18sp"
         android:layout_marginLeft="20dp"
@@ -151,6 +151,49 @@
         android:paddingTop="5dp"
         android:layout_marginLeft="20dp"
         />
+
+    <TextView
+    android:id="@+id/poaLabel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/poa_if_applicable"
+    android:textColor="@color/colorTextThree"
+    android:textSize="18sp"
+    android:layout_marginLeft="20dp"
+    android:paddingTop="20dp"
+    />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/poas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextThree"
+        android:textSize="16sp"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="20dp"
+        />
+
+    <TextView
+        android:id="@+id/nightLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/night_shift_if_applicable"
+        android:textColor="@color/colorTextThree"
+        android:textSize="18sp"
+        android:layout_marginLeft="20dp"
+        android:paddingTop="20dp"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/night"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextThree"
+        android:textSize="16sp"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="20dp"
+        />
+
 
 
 

@@ -97,7 +97,8 @@ public class ShiftlogDetailFragment extends Fragment {
         ((AppCompatTextView) v.findViewById(R.id.end_time)).setText(shiftlog_end_time);
         ((AppCompatTextView) v.findViewById(R.id.start_date)).setText(shiftlog_start_date);
         ((AppCompatTextView) v.findViewById(R.id.end_date)).setText(shiftlog_end_date);
-        ((AppCompatTextView) v.findViewById(R.id.Registration)).setText(shiftlog_registration);
+        ((AppCompatTextView) v.findViewById(R.id.reg)).setText(shiftlog_registration);
+
 
 
         return v;
