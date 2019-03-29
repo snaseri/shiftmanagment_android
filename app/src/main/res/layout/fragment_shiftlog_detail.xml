@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+
 <android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +14,6 @@
     android:background="@android:color/white"
     android:elevation="100dp"
     >
-
 
     <TextView
         android:id="@+id/companyLabel"
@@ -177,7 +182,7 @@
         android:id="@+id/nightLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/night_shift_if_applicable"
+        android:text="@string/night_shift_if_applicable2"
         android:textColor="@color/colorTextThree"
         android:textSize="18sp"
         android:layout_marginLeft="20dp"
@@ -191,10 +196,10 @@
         android:textColor="@color/colorTextThree"
         android:textSize="16sp"
         android:paddingTop="5dp"
+        android:paddingBottom="15dp"
         android:layout_marginLeft="20dp"
         />
 
 
-
-
 </android.support.v7.widget.LinearLayoutCompat>
+</ScrollView>
