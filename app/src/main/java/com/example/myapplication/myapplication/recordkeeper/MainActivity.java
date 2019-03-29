@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity
 
 
         db = Room.databaseBuilder(this, ShiftlogDatabase.class,
-                "ShiftlogDatabase").build().shiftlogDAO();
+                "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
 
 
         //Checkbox click listeners
@@ -113,12 +113,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        nightOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
 
     //Save button Listener
@@ -292,7 +286,7 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void run() {
                                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                                //transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
+                                transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
                                 transaction.replace(R.id.main_layout, PastShiftLogsFragment.newInstance(allshiftlogs));
                                 transaction.addToBackStack(null);
                                 transaction.commit();

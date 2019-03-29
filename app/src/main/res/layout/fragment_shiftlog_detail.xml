@@ -10,31 +10,22 @@
     >
 
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorTextThree"
-        android:textSize="25sp"
-        android:paddingTop="10dp"
-        android:layout_gravity="center_horizontal"
-    />
     <TextView
         android:id="@+id/companyLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/company_name"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_marginLeft="20dp"
-        android:paddingTop="15dp"
+        android:paddingTop="20dp"
         />
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/company"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:paddingTop="5dp"
         android:layout_marginLeft="20dp"
     />
@@ -45,7 +36,7 @@
         android:layout_height="wrap_content"
         android:text="@string/agency_name"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_marginLeft="20dp"
         android:paddingTop="20dp"
         />
@@ -54,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:paddingTop="5dp"
         android:layout_marginLeft="20dp" />
     <TextView
@@ -63,7 +54,7 @@
         android:layout_height="wrap_content"
         android:text="@string/start_time"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_marginLeft="20dp"
         android:paddingTop="20dp"
         />
@@ -72,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:paddingTop="5dp"
         android:layout_marginLeft="20dp"
        />
@@ -83,7 +74,7 @@
         android:layout_height="wrap_content"
         android:text="@string/end_time"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_marginLeft="20dp"
         android:paddingTop="20dp"
         />
@@ -93,7 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:paddingTop="5dp"
         android:layout_marginLeft="20dp"
        />
@@ -104,7 +95,7 @@
         android:layout_height="wrap_content"
         android:text="@string/start_date"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_marginLeft="20dp"
         android:paddingTop="20dp"
         />
@@ -114,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:paddingTop="5dp"
         android:layout_marginLeft="20dp"
        />
@@ -125,7 +116,7 @@
         android:layout_height="wrap_content"
         android:text="@string/end_date"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_marginLeft="20dp"
         android:paddingTop="20dp"
         />
@@ -135,10 +126,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:paddingTop="5dp"
         android:layout_marginLeft="20dp"
       />
+
+    <TextView
+        android:id="@+id/regLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registration (If Applicable):"
+        android:textColor="@color/colorTextThree"
+        android:textSize="18sp"
+        android:layout_marginLeft="20dp"
+        android:paddingTop="20dp"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/reg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextThree"
+        android:textSize="16sp"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="20dp"
+        />
 
 
 

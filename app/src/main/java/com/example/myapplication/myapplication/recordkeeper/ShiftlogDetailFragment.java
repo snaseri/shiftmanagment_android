@@ -26,6 +26,7 @@ public class ShiftlogDetailFragment extends Fragment {
     private static final String SHIFTLOG_END_TIME_ARG = "shiftlog_end_time";
     private static final String SHIFTLOG_START_DATE_ARG = "shiftlog_start_date";
     private static final String SHIFTLOG_END_DATE_ARG = "shiftlog_end_date";
+    private static final String SHIFTLOG_REGISTRATION_ARG ="Shitlog_registration";
 
 
 
@@ -36,6 +37,7 @@ public class ShiftlogDetailFragment extends Fragment {
     private String shiftlog_end_time;
     private String shiftlog_start_date;
     private String shiftlog_end_date;
+    private String shiftlog_registration;
 
 
     public ShiftlogDetailFragment() {
@@ -60,6 +62,7 @@ public class ShiftlogDetailFragment extends Fragment {
         args.putString(SHIFTLOG_END_TIME_ARG, details.getEndTime());
         args.putString(SHIFTLOG_START_DATE_ARG, details.getStartDate());
         args.putString(SHIFTLOG_END_DATE_ARG, details.getEndDate());
+        args.putString(SHIFTLOG_REGISTRATION_ARG, details.getRegistration());
 
         fragment.setArguments(args);
         return fragment;
@@ -76,6 +79,7 @@ public class ShiftlogDetailFragment extends Fragment {
             this.shiftlog_end_time = getArguments().getString(SHIFTLOG_END_TIME_ARG);
             this.shiftlog_start_date = getArguments().getString(SHIFTLOG_START_DATE_ARG);
             this.shiftlog_end_date = getArguments().getString(SHIFTLOG_END_DATE_ARG);
+            this.shiftlog_registration = getArguments().getString(SHIFTLOG_END_DATE_ARG);
 
             
         }
@@ -93,6 +97,7 @@ public class ShiftlogDetailFragment extends Fragment {
         ((AppCompatTextView) v.findViewById(R.id.end_time)).setText(shiftlog_end_time);
         ((AppCompatTextView) v.findViewById(R.id.start_date)).setText(shiftlog_start_date);
         ((AppCompatTextView) v.findViewById(R.id.end_date)).setText(shiftlog_end_date);
+        ((AppCompatTextView) v.findViewById(R.id.Registration)).setText(shiftlog_registration);
 
 
         return v;
