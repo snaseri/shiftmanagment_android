@@ -27,6 +27,8 @@ public class ShiftlogDetailFragment extends Fragment {
     private static final String SHIFTLOG_START_DATE_ARG = "shiftlog_start_date";
     private static final String SHIFTLOG_END_DATE_ARG = "shiftlog_end_date";
     private static final String SHIFTLOG_REGISTRATION_ARG ="Shitlog_registration";
+    private static final String SHIFTLOG_POA_ARG ="Shitlog_poa";
+    private static final String SHIFTLOG_NIGHT_SHIFT_ARG ="Shitlog_night_shift";
 
 
 
@@ -38,6 +40,8 @@ public class ShiftlogDetailFragment extends Fragment {
     private String shiftlog_start_date;
     private String shiftlog_end_date;
     private String shiftlog_registration;
+    private String shiftlog_poa;
+    private Boolean shiftlog_night_shift;
 
 
     public ShiftlogDetailFragment() {
@@ -63,6 +67,8 @@ public class ShiftlogDetailFragment extends Fragment {
         args.putString(SHIFTLOG_START_DATE_ARG, details.getStartDate());
         args.putString(SHIFTLOG_END_DATE_ARG, details.getEndDate());
         args.putString(SHIFTLOG_REGISTRATION_ARG, details.getRegistration());
+        args.putString(SHIFTLOG_POA_ARG, details.getPoa());
+        args.putBoolean(SHIFTLOG_NIGHT_SHIFT_ARG, details.getNightOut());
 
         fragment.setArguments(args);
         return fragment;
@@ -80,6 +86,8 @@ public class ShiftlogDetailFragment extends Fragment {
             this.shiftlog_start_date = getArguments().getString(SHIFTLOG_START_DATE_ARG);
             this.shiftlog_end_date = getArguments().getString(SHIFTLOG_END_DATE_ARG);
             this.shiftlog_registration = getArguments().getString(SHIFTLOG_END_DATE_ARG);
+            this.shiftlog_poa = getArguments().getString(SHIFTLOG_POA_ARG);
+            this.shiftlog_night_shift = getArguments().getBoolean(SHIFTLOG_NIGHT_SHIFT_ARG);
 
             
         }
@@ -98,6 +106,11 @@ public class ShiftlogDetailFragment extends Fragment {
         ((AppCompatTextView) v.findViewById(R.id.start_date)).setText(shiftlog_start_date);
         ((AppCompatTextView) v.findViewById(R.id.end_date)).setText(shiftlog_end_date);
         ((AppCompatTextView) v.findViewById(R.id.reg)).setText(shiftlog_registration);
+        ((AppCompatTextView) v.findViewById(R.id.poas)).setText(shiftlog_poa);
+        ((AppCompatTextView) v.findViewById(R.id.night)).setText(String.valueOf(shiftlog_night_shift));
+
+
+
 
 
 
