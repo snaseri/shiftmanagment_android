@@ -135,9 +135,9 @@ public class MainActivity extends AppCompatActivity
                 public void run() {
 
                     db.insertShiftlog(
-                            new Shiftlog(name.getText().toString(), company.getText().toString(), agency.getText().toString(),
+                            new Shiftlog(company.getText().toString(), agency.getText().toString(),
                                     startDate, startTime,endDate, endTime,
-                                    vehicleUse.isChecked(), nightOut.isChecked())
+                                    vehicleUse.isChecked(),registration.toString(), poa, nightOut.isChecked())
                     );
 
                     final List<Shiftlog> shiftlogs = db.getAllShiftlogs();

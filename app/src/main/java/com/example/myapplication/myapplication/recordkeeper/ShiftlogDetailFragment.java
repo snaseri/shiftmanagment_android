@@ -19,7 +19,7 @@ import com.example.myapplication.myapplication.recordkeeper.database.Shiftlog;
  */
 public class ShiftlogDetailFragment extends Fragment {
 
-    private static final String SHIFTLOG_NAME_ARG = "shiftlog_name";
+
     private static final String SHIFTLOG_COMPANY_ARG = "shiftlog_company";
     private static final String SHIFTLOG_AGENCY_ARG = "shiftlog_agency";
     private static final String SHIFTLOG_START_TIME_ARG = "shiftlog_start_time";
@@ -29,7 +29,7 @@ public class ShiftlogDetailFragment extends Fragment {
 
 
 
-    private String shiftlog_name;
+
     private String shiftlog_company;
     private String shiftlog_agency;
     private String shiftlog_start_time;
@@ -53,7 +53,7 @@ public class ShiftlogDetailFragment extends Fragment {
         ShiftlogDetailFragment fragment = new ShiftlogDetailFragment();
         Bundle args = new Bundle();
 
-        args.putString(SHIFTLOG_NAME_ARG,details.getName());
+
         args.putString(SHIFTLOG_COMPANY_ARG, details.getCompany());
         args.putString(SHIFTLOG_AGENCY_ARG, details.getAgency());
         args.putString(SHIFTLOG_START_TIME_ARG, details.getStartTime());
@@ -69,7 +69,7 @@ public class ShiftlogDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            this.shiftlog_name = getArguments().getString(SHIFTLOG_NAME_ARG);
+
             this.shiftlog_company = getArguments().getString(SHIFTLOG_COMPANY_ARG);
             this.shiftlog_agency = getArguments().getString(SHIFTLOG_AGENCY_ARG);
             this.shiftlog_start_time = getArguments().getString(SHIFTLOG_START_TIME_ARG);
@@ -87,7 +87,6 @@ public class ShiftlogDetailFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_shiftlog_detail, container, false);
 
-        ((AppCompatTextView) v.findViewById(R.id.name)).setText(shiftlog_name);
         ((AppCompatTextView) v.findViewById(R.id.company)).setText(shiftlog_company);
         ((AppCompatTextView) v.findViewById(R.id.agency)).setText(shiftlog_agency);
         ((AppCompatTextView) v.findViewById(R.id.start_time)).setText(shiftlog_start_time);
