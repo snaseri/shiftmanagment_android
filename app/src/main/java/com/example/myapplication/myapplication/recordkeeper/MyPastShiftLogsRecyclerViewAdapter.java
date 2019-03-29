@@ -54,6 +54,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
         holder.mShitLogNameView.setText(mValues.get(position).getCompany());
+        holder.mStartTextView.setText(mValues.get(position).getStartDate());
         holder.mShareButton.setTag(position);
 
         holder.mShareButton.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +86,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mShitLogNameView;
+        public final TextView mStartTextView;
         public ShiftlogListItemView mItem;
         public Button mShareButton;
 
@@ -92,6 +94,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
             super(view);
             mView = view;
             mShitLogNameView = (TextView) view.findViewById(R.id.CompanyName);
+            mStartTextView =(TextView) view.findViewById(R.id.start_date);
             mShareButton = (Button) view.findViewById(R.id.share_button);
 
         }
