@@ -90,17 +90,19 @@ public class MainActivity extends AppCompatActivity
 
 
         db = Room.databaseBuilder(this, ShiftlogDatabase.class,
-                "ShiftlogDatabase").build().shiftlogDAO();
+                "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
 
 
         //Checkbox click listeners
         vehicleUse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                TextView registration = findViewById(R.id.Registration);
+                AppCompatEditText registrationInput = findViewById(R.id.RegInput);
+                Button poa = findViewById((R.id.btnpoa));
+
                 if (((CheckBox) v).isChecked()) {
-                    TextView registration = findViewById(R.id.Registration);
-                    AppCompatEditText registrationInput = findViewById(R.id.RegInput);
-                    Button poa = findViewById((R.id.btnpoa));
 
                     registration.setVisibility(View.VISIBLE);
                     registrationInput.setVisibility(View.VISIBLE);
@@ -109,16 +111,15 @@ public class MainActivity extends AppCompatActivity
                     Toast.makeText(MainActivity.this,
                             "Vehicle operating selected", Toast.LENGTH_SHORT).show();
                 }
+                else{
+                    registration.setVisibility(View.INVISIBLE);
+                    registrationInput.setVisibility(View.INVISIBLE);
+                    poa.setVisibility(View.INVISIBLE);
+                }
 
             }
         });
 
-        nightOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
 
     //Save button Listener
@@ -135,9 +136,9 @@ public class MainActivity extends AppCompatActivity
                 public void run() {
 
                     db.insertShiftlog(
-                            new Shiftlog(name.getText().toString(), company.getText().toString(), agency.getText().toString(),
+                            new Shiftlog(company.getText().toString(), agency.getText().toString(),
                                     startDate, startTime,endDate, endTime,
-                                    vehicleUse.isChecked(), nightOut.isChecked())
+                                    vehicleUse.isChecked(),registration.toString(), poa, nightOut.isChecked())
                     );
 
                     final List<Shiftlog> shiftlogs = db.getAllShiftlogs();
@@ -292,7 +293,7 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void run() {
                                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                                //transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
+                                transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
                                 transaction.replace(R.id.main_layout, PastShiftLogsFragment.newInstance(allshiftlogs));
                                 transaction.addToBackStack(null);
                                 transaction.commit();

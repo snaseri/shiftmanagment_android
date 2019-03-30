@@ -68,7 +68,7 @@
             android:textSize="16dp"
             android:textColorLink="@color/buttonColour" />
 
-        <Button
+            <Button
             android:id="@+id/btnStartDatePicker"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="150dp"

@@ -12,9 +12,6 @@ public class Shiftlog {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @ColumnInfo(name = "shiftlog_name")
-    private String name;
-
     @ColumnInfo(name = "shiftlog_company")
     private String company;
 
@@ -36,13 +33,20 @@ public class Shiftlog {
     @ColumnInfo(name = "shiftlog_vehicleuse")
     private Boolean vehicleUse;
 
+    @ColumnInfo(name = "shiftlog_registration")
+    private String registration;
+
+
+    @ColumnInfo(name = "shiftlog_poa")
+    private String poa;
+
+
     @ColumnInfo(name = "shiftlog_nightout")
     private Boolean nightOut;
 
 
-    public Shiftlog(String name, String company, String agency, String startDate, String startTime, String endDate, String endTime,
-                    Boolean vehicleUse, Boolean nightOut) {
-        this.name = name;
+    public Shiftlog(String company, String agency, String startDate, String startTime, String endDate, String endTime,
+                    Boolean vehicleUse, String registration,String poa,  Boolean nightOut) {
         this.company = company;
         this.agency = agency;
         this.startDate= startDate;
@@ -50,6 +54,8 @@ public class Shiftlog {
         this.endDate = endDate;
         this.endTime = endTime;
         this.vehicleUse = vehicleUse;
+        this.registration = registration;
+        this.poa =poa;
         this.nightOut = nightOut;
 
     }
@@ -60,14 +66,6 @@ public class Shiftlog {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getCompany() {
@@ -124,6 +122,22 @@ public class Shiftlog {
 
     public void setVehicleUse(Boolean vehicleUse) {
         this.vehicleUse = vehicleUse;
+    }
+
+    public String getRegistration() {
+        return registration;
+    }
+
+    public void setRegistration(String registration) {
+        this.registration = registration;
+    }
+
+    public String getPoa() {
+        return poa;
+    }
+
+    public void setPoa(String poa) {
+        this.poa = poa;
     }
 
     public Boolean getNightOut() {
