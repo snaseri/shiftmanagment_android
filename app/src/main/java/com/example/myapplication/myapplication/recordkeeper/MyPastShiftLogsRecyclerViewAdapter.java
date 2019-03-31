@@ -124,6 +124,10 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
             switch (menuItem.getItemId()) {
                 case R.id.option_1:
                 case R.id.option_2:
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("smsto" + "phnenumber"));
+                    intent.putExtra("sms_body", "message");
+                    ApplicationContextProvider.getsContext().startActivity(intent);
                 default:
                     return false;
             }
