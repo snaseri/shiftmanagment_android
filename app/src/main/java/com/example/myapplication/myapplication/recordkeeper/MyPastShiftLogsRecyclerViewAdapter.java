@@ -72,10 +72,9 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                     if (holder.mSelectedLogs.isChecked()) {
                         mCheckBoxSelected.add(holder.mSelectedLogs);
                         Log.d("PAST_LOGS: ",String.format(holder.mItem.getName() + "Added to Selected list"));
-                        Toast.makeText(v.getContext(), String.format(mCheckBoxSelected.toString()), Toast.LENGTH_SHORT).show();
                     } else if (!holder.mSelectedLogs.isChecked()) {
                         mCheckBoxSelected.remove(holder.mSelectedLogs);
-                        Toast.makeText(v.getContext(), String.format(mCheckBoxSelected.toString()), Toast.LENGTH_SHORT).show();
+                        Log.d("PAST_LOGS: ",String.format(holder.mItem.getName() + "Removed from Selected list"));
                     }
 
                     mActionMode = ((AppCompatActivity)v.getContext()).startSupportActionMode(mActionModeCallback);
