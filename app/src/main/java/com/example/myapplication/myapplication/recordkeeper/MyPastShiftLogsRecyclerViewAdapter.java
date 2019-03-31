@@ -74,11 +74,11 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
             public void onClick(View v) {
                 if (null != mListener) {
                     if (holder.mSelectedLogs.isChecked()) {
-                        mCheckBoxSelected.add(holder.mSelectedLogs);
-                        Log.d("PAST_LOGS: ",String.format(holder.mItem.getCompany() + "Added to Selected list"));
+                        mCheckBoxSelected.add(holder.mItem);
+                        Log.d("PAST_LOGS: ",String.format(holder.mItem.getId() + "Added to Selected list"));
                     } else if (!holder.mSelectedLogs.isChecked()) {
-                        mCheckBoxSelected.remove(holder.mSelectedLogs);
-                        Log.d("PAST_LOGS: ",String.format(holder.mItem.getCompany() + "Removed from Selected list"));
+                        mCheckBoxSelected.remove(holder.mItem);
+                        Log.d("PAST_LOGS: ",String.format(holder.mItem.getId() + "Removed from Selected list"));
                     }
 
                     mActionMode = ((AppCompatActivity)v.getContext()).startSupportActionMode(mActionModeCallback);
@@ -124,10 +124,10 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
             switch (menuItem.getItemId()) {
                 case R.id.option_1:
                 case R.id.option_2:
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("smsto" + "phnenumber"));
-                    intent.putExtra("sms_body", "message");
-                    ApplicationContextProvider.getsContext().startActivity(intent);
+//                    Intent intent = new Intent(Intent.ACTION_VIEW);
+//                    intent.setData(Uri.parse("smsto" + "phnenumber"));
+//                    intent.putExtra("sms_body", "message");
+//                    ApplicationContextProvider.getsContext().startActivity(intent);
                 default:
                     return false;
             }
