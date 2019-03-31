@@ -3,18 +3,23 @@ package com.example.myapplication.myapplication.recordkeeper;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.support.v7.widget.AppCompatButton;
 import android.view.Menu;
 import android.view.View;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,8 +36,8 @@ public class MainActivity extends AppCompatActivity
         implements DateTime, PastShiftLogsFragment.OnListFragmentInteractionListener {
 
     private AppCompatEditText name;
-    private AppCompatEditText company;
-    private AppCompatEditText agency;
+    private AppCompatSpinner company;
+    private AppCompatSpinner agency;
     private AppCompatButton saveButton;
     private AppCompatEditText registration;
 
@@ -62,6 +67,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         company = (findViewById(R.id.companyInput));
+
         agency = (findViewById(R.id.AgencyInput));
         saveButton = findViewById(R.id.Save_Button);
         registration =findViewById(R.id.RegInput);
@@ -136,7 +142,8 @@ public class MainActivity extends AppCompatActivity
                 public void run() {
 
                     db.insertShiftlog(
-                            new Shiftlog(company.getText().toString(), agency.getText().toString(),
+                            new Shiftlog(Integer.valueOf(company.getSelectedItemPosition()),
+                                    Integer.valueOf(agency.getSelectedItemPosition()),
                                     startDate, startTime,endDate, endTime,
                                     vehicleUse.isChecked(),registration.toString(), poa, nightOut.isChecked())
                     );
@@ -158,6 +165,16 @@ public class MainActivity extends AppCompatActivity
 
         });
 
+    }
+
+    public void setCompanyOptions(){
+        db.insertCompany(new Company("Company 1", "0010219012"));
+        final List<Company> companies = db.getAllCompanies();
+        ArrayAdapter<Company> adapter = new ArrayAdapter<Company>(getApplicationContext(),
+                android.R.layout.simple_spinner_dropdown_item, companies);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        company.setAdapter(adapter);
     }
 
     public boolean validateTimes() { //returns true if times and dates are valid.

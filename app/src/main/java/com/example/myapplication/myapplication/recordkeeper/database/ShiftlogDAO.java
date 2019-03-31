@@ -23,5 +23,20 @@ public interface ShiftlogDAO {
 
     @Query("SELECT * FROM Shiftlog WHERE id=:id")
     Shiftlog getShiftLogById(int id);
+
+    @Query("SELECT * FROM Company")
+    List<Company> getAllCompanies();
+
+    @Insert
+    void insertCompany(Company... book);
+
+    @Query("SELECT * FROM Company WHERE id=:id")
+    Company getCompanyByID(int id);
+
+    @Query("SELECT * FROM Agency WHERE id=:id")
+    Agency getAgencyByID(int id);
+
+    @Query("SELECT Shiftlog.* FROM Agency, Shiftlog WHERE Agency.id=:id AND Shiftlog.shiftlog_agency = Agency.id")
+    Shiftlog getShiftLogByAgency(int id);
 }
 

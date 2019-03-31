@@ -139,7 +139,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginLeft="10dp"
             android:layout_marginTop= "50dp"/>
-        <android.support.v7.widget.AppCompatEditText
+        <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/companyInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -162,7 +162,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginLeft="10dp"/>
 
-        <android.support.v7.widget.AppCompatEditText
+        <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/AgencyInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
