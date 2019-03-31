@@ -30,8 +30,20 @@ public interface ShiftlogDAO {
     @Insert
     void insertCompany(Company... book);
 
+    @Query("DELETE FROM Company")
+    void clearCompanies();
+
     @Query("SELECT * FROM Company WHERE id=:id")
     Company getCompanyByID(int id);
+
+    @Query("SELECT * FROM Agency")
+    List<Agency> getAllAgencies();
+
+    @Insert
+    void insertAgency(Agency... book);
+
+    @Query("DELETE FROM Agency")
+    void clearAgencies();
 
     @Query("SELECT * FROM Agency WHERE id=:id")
     Agency getAgencyByID(int id);
