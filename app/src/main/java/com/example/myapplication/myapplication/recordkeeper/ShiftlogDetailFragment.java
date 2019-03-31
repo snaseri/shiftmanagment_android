@@ -19,6 +19,7 @@ import com.example.myapplication.myapplication.recordkeeper.database.Shiftlog;
  */
 public class ShiftlogDetailFragment extends Fragment {
 
+
     private static final String SHIFTLOG_NAME_ARG = "shiftlog_name";
     private static final String SHIFTLOG_COMPANY_ARG = "shiftlog_company";
     private static final String SHIFTLOG_AGENCY_ARG = "shiftlog_agency";
@@ -76,7 +77,7 @@ public class ShiftlogDetailFragment extends Fragment {
             this.shiftlog_start_date = getArguments().getString(SHIFTLOG_START_DATE_ARG);
             this.shiftlog_end_date = getArguments().getString(SHIFTLOG_END_DATE_ARG);
 
-            
+
         }
     }
 
