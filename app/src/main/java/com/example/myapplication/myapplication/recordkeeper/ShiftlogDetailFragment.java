@@ -89,7 +89,7 @@ public class ShiftlogDetailFragment extends Fragment {
             this.shiftlog_poa = getArguments().getString(SHIFTLOG_POA_ARG);
             this.shiftlog_night_shift = getArguments().getBoolean(SHIFTLOG_NIGHT_SHIFT_ARG);
 
-            
+
         }
     }
 

@@ -7,7 +7,9 @@ import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity
     //Detail checkboxes
     private CheckBox vehicleUse;
     private CheckBox nightOut;
+    private ActionMode mActionMode;
+
 
     //Strings of the selected DateTimes
     private String startDate; private String startTime;
@@ -120,9 +124,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //Save button Listener
 
-
-    //Save button Listener
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override  //setting what happens when clicked below
             public void onClick(View v) {
@@ -134,7 +137,6 @@ public class MainActivity extends AppCompatActivity
 
                 @Override
                 public void run() {
-
                     db.insertShiftlog(
                             new Shiftlog(company.getText().toString(), agency.getText().toString(),
                                     startDate, startTime,endDate, endTime,
@@ -160,8 +162,10 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public boolean validateTimes() { //returns true if times and dates are valid.
-        if (startTime == null || endTime == null || startDate == null || endDate == null) {
+
+
+    public boolean validateTimes(){ //returns true if times and dates are valid.
+        if (startTime == null || endTime == null || startDate == null || endDate == null){
             return false;
         } else if (startDatePicker.getYear() < endDatePicker.getYear()) {
             return true;

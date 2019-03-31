@@ -20,7 +20,6 @@
         android:textColor="@android:color/black"
         android:layout_marginLeft="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
-
     <TextView
         android:id="@+id/start_date"
         android:layout_width="wrap_content"
@@ -32,12 +31,16 @@
         android:textAppearance="?attr/textAppearanceListItem" />
 
 </LinearLayout>
-    <Button
-        android:id="@+id/share_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
 
-        android:text="@string/share" />
+    <CheckBox
+        android:id="@+id/shiftSelect"
+        android:layout_width="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="5dp"
+        android:layout_weight="0.04"
+        android:textColorLink="@color/buttonColour" />
+
+
 
 </LinearLayout>
