@@ -2,6 +2,8 @@ package com.example.myapplication.myapplication.recordkeeper;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.menu.MenuView;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.myapplication.recordkeeper.PastShiftLogsFragment.OnListFragmentInteractionListener;
 import com.example.myapplication.myapplication.recordkeeper.database.Shiftlog;
+import com.example.myapplication.myapplication.recordkeeper.views.ApplicationContextProvider;
 import com.example.myapplication.myapplication.recordkeeper.views.ShiftlogListItemView;
 
 import java.util.ArrayList;
