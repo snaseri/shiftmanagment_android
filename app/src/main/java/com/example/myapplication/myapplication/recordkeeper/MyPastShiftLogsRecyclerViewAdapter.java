@@ -78,13 +78,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                         Toast.makeText(v.getContext(), String.format(mCheckBoxSelected.toString()), Toast.LENGTH_SHORT).show();
                     }
 
-                    if (!mCheckBoxSelected.isEmpty()) {
-                        if (mActionMode != null) {
-
-                        }
-                        mActionMode = ((AppCompatActivity)v.getContext()).startSupportActionMode(mActionModeCallback);
-
-                    }
+                    mActionMode = ((AppCompatActivity)v.getContext()).startSupportActionMode(mActionModeCallback);
 
 //                    Toast.makeText(v.getContext(), String.format("Selected: " + holder.mItem.getName()), Toast.LENGTH_SHORT).show();
                 }
@@ -107,9 +101,14 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-            actionMode.getMenuInflater().inflate(R.menu.pastlog_share_menu, menu);
-            actionMode.setTitle("Choose your option: ");
-            return true;
+            if (!mCheckBoxSelected.isEmpty()) {
+                actionMode.getMenuInflater().inflate(R.menu.pastlog_share_menu, menu);
+                actionMode.setTitle("Choose your option: ");
+                return true;
+            } else {
+                mActionMode = null;
+                return false;
+            }
         }
 
         @Override
