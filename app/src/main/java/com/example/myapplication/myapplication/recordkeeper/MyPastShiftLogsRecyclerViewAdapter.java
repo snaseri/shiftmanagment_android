@@ -154,7 +154,13 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                             "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
                             "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
                             "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
-                            "End Time: " + s.getEndTime() + System.getProperty("line.separator"));
+                            "End Time: " + s.getEndTime() + System.getProperty("line.separator") +
+                            "Break Time: " + s.getBreaks() + System.getProperty("line.separator") +
+                            "Nights out: " + s.getNightOut() + System.getProperty("line.separator") +
+                            "Registered Vehicle: " + s.getVehicleUse() + System.getProperty("line.separator") +
+                            "Vehicle Registration: " + s.getRegistration() + System.getProperty("line.separator") +
+                            "POA: " +  s.getPoa() + System.getProperty("line.separator"));
+
                     } else {
                         textMessage = String.format(
                             "Company: " + s.getCompany() + System.getProperty("line.separator") +
@@ -162,7 +168,9 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                             "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
                             "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
                             "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
-                            "End Time: " + s.getEndTime() + System.getProperty("line.separator"));
+                            "End Time: " + s.getEndTime() + System.getProperty("line.separator") +
+                            "Break Time: " + s.getBreaks() + System.getProperty("line.separator") +
+                            "Nights out: " + s.getNightOut() + System.getProperty("line.separator"));
 
                     }
 
