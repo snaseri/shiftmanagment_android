@@ -30,6 +30,9 @@ public class Shiftlog {
     @ColumnInfo(name = "shiftlog_endtime")
     private String endTime;
 
+    @ColumnInfo(name ="shiftlog break")
+    private String breaks;
+
     @ColumnInfo(name = "shiftlog_vehicleuse")
     private Boolean vehicleUse;
 
@@ -45,7 +48,7 @@ public class Shiftlog {
     private Boolean nightOut;
 
 
-    public Shiftlog(String company, String agency, String startDate, String startTime, String endDate, String endTime,
+    public Shiftlog(String company, String agency, String startDate, String startTime, String endDate, String endTime,String breaks,
                     Boolean vehicleUse, String registration,String poa,  Boolean nightOut) {
         this.company = company;
         this.agency = agency;
@@ -53,6 +56,7 @@ public class Shiftlog {
         this.startTime = startTime;
         this.endDate = endDate;
         this.endTime = endTime;
+        this.breaks =breaks;
         this.vehicleUse = vehicleUse;
         this.registration = registration;
         this.poa =poa;
@@ -106,6 +110,14 @@ public class Shiftlog {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public String getBreaks() {
+        return breaks;
+    }
+
+    public void setBreaks(String breaks) {
+        this.breaks = breaks;
     }
 
     public String getEndTime() {

@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity
                 public void run() {
                     db.insertShiftlog(
                             new Shiftlog(company.getText().toString(), agency.getText().toString(),
-                                    startDate, startTime,endDate, endTime,
+                                    startDate, startTime,endDate, endTime,breakTime,
                                     vehicleUse.isChecked(),registration.toString(), poa, nightOut.isChecked())
                     );
 
@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         final ShiftlogDAO db = Room.databaseBuilder(this,
-                ShiftlogDatabase.class, "ShiftlogDatabase").build().shiftlogDAO();
+                ShiftlogDatabase.class, "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
 
         switch (item.getItemId()) {
             case R.id.past_logs:
