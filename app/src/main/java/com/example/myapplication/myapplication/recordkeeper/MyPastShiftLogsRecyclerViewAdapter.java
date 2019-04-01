@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.menu.MenuView;
@@ -36,9 +37,11 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 
     private Button mShareButton;
     private final List<ShiftlogListItemView> mValues = new ArrayList<>();
+    private List<Shiftlog> mLogValues = new ArrayList<>();
     private final OnListFragmentInteractionListener mListener;
     private ActionMode mActionMode;
-    private List mCheckBoxSelected = new ArrayList();
+    private List<Shiftlog> mCheckBoxSelected = new ArrayList<>();
+    private List readyToShareLogs = new ArrayList();
     private static  OnListFragmentInteractionListener mButtonListener;
 
 
@@ -47,6 +50,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     public MyPastShiftLogsRecyclerViewAdapter(List<Shiftlog> items, OnListFragmentInteractionListener listener) {
         for (Shiftlog shiftlog : items) {
             mValues.add(new ShiftlogListItemView(shiftlog));
+            mLogValues.add(shiftlog);
         }
         mListener = listener;
     }
@@ -65,6 +69,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
         holder.mShitLogNameView.setText(mValues.get(position).getCompany());
         holder.mStartTextView.setText(mValues.get(position).getStartDate());
         holder.mSelectedLogs.setTag(position);
+        final Shiftlog mShiftlog = mLogValues.get(position);
 
 
 
@@ -74,10 +79,10 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
             public void onClick(View v) {
                 if (null != mListener) {
                     if (holder.mSelectedLogs.isChecked()) {
-                        mCheckBoxSelected.add(holder.mItem);
+                        mCheckBoxSelected.add(mShiftlog);
                         Log.d("PAST_LOGS: ",String.format(holder.mItem.getId() + "Added to Selected list"));
                     } else if (!holder.mSelectedLogs.isChecked()) {
-                        mCheckBoxSelected.remove(holder.mItem);
+                        mCheckBoxSelected.remove(mShiftlog);
                         Log.d("PAST_LOGS: ",String.format(holder.mItem.getId() + "Removed from Selected list"));
                     }
 
@@ -124,10 +129,14 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
             switch (menuItem.getItemId()) {
                 case R.id.option_1:
                 case R.id.option_2:
+                    for (Shiftlog s : mCheckBoxSelected) {
 //                    Intent intent = new Intent(Intent.ACTION_VIEW);
-//                    intent.setData(Uri.parse("smsto" + "phnenumber"));
+//                    intent.setData(Uri.parse("smsto:" + "phnenumber"));
 //                    intent.putExtra("sms_body", "message");
 //                    ApplicationContextProvider.getsContext().startActivity(intent);
+                    }
+                    mCheckBoxSelected.clear();
+                    mActionMode = null;
                 default:
                     return false;
             }
