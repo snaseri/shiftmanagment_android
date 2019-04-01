@@ -78,7 +78,7 @@ public class PastShiftLogsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyPastShiftLogsRecyclerViewAdapter(allShiftlogs, mListener));
+            recyclerView.setAdapter(new MyPastShiftLogsRecyclerViewAdapter(getActivity(), allShiftlogs, mListener));
 
         }
 

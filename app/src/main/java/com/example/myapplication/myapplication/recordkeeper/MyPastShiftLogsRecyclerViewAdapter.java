@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.menu.MenuView;
@@ -36,18 +37,24 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 
     private Button mShareButton;
     private final List<ShiftlogListItemView> mValues = new ArrayList<>();
+    private List<Shiftlog> mLogValues = new ArrayList<>();
     private final OnListFragmentInteractionListener mListener;
     private ActionMode mActionMode;
-    private List mCheckBoxSelected = new ArrayList();
+    private List<Shiftlog> mCheckBoxSelected = new ArrayList<>();
+    private List readyToShareLogs = new ArrayList();
     private static  OnListFragmentInteractionListener mButtonListener;
+    private boolean pageSwitched;
+    private Context context;
 
 
 //save the context recievied via constructor in a local variable
 
-    public MyPastShiftLogsRecyclerViewAdapter(List<Shiftlog> items, OnListFragmentInteractionListener listener) {
+    public MyPastShiftLogsRecyclerViewAdapter(Context c, List<Shiftlog> items, OnListFragmentInteractionListener listener) {
         for (Shiftlog shiftlog : items) {
             mValues.add(new ShiftlogListItemView(shiftlog));
+            mLogValues.add(shiftlog);
         }
+        this.context = c;
         mListener = listener;
     }
 
@@ -65,6 +72,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
         holder.mShitLogNameView.setText(mValues.get(position).getCompany());
         holder.mStartTextView.setText(mValues.get(position).getStartDate());
         holder.mSelectedLogs.setTag(position);
+        final Shiftlog mShiftlog = mLogValues.get(position);
 
 
 
@@ -74,11 +82,11 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
             public void onClick(View v) {
                 if (null != mListener) {
                     if (holder.mSelectedLogs.isChecked()) {
-                        mCheckBoxSelected.add(holder.mSelectedLogs);
-                        Log.d("PAST_LOGS: ",String.format(holder.mItem.getCompany() + "Added to Selected list"));
+                        mCheckBoxSelected.add(mShiftlog);
+                        Log.d("PAST_LOGS: ",String.format(holder.mItem.getId() + "Added to Selected list. Current list:" + mCheckBoxSelected.toString()));
                     } else if (!holder.mSelectedLogs.isChecked()) {
-                        mCheckBoxSelected.remove(holder.mSelectedLogs);
-                        Log.d("PAST_LOGS: ",String.format(holder.mItem.getCompany() + "Removed from Selected list"));
+                        mCheckBoxSelected.remove(mShiftlog);
+                        Log.d("PAST_LOGS: ",String.format(holder.mItem.getId() + "Removed from Selected list. Current list:" + mCheckBoxSelected.toString()));
                     }
 
                     mActionMode = ((AppCompatActivity)v.getContext()).startSupportActionMode(mActionModeCallback);
@@ -95,6 +103,8 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
+                    pageSwitched = true;
+                    mActionMode = ((AppCompatActivity)v.getContext()).startSupportActionMode(mActionModeCallback);
                     mListener.onListFragmentInteraction(holder.mItem);
                 }
             }
@@ -104,6 +114,10 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+            if (pageSwitched) {
+                mActionMode = null;
+                return false;
+            }
             if (!mCheckBoxSelected.isEmpty()) {
                 actionMode.getMenuInflater().inflate(R.menu.pastlog_share_menu, menu);
                 actionMode.setTitle("Choose your option: ");
@@ -124,6 +138,36 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
             switch (menuItem.getItemId()) {
                 case R.id.option_1:
                 case R.id.option_2:
+                    for (Shiftlog s : mCheckBoxSelected) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("smsto:" + "0777"));
+                    String textMessage;
+//                    if (s.getVehicleUse()) {
+                        textMessage = String.format(
+                                "Company: " + s.getCompany() + System.getProperty("line.separator") +
+                                "Agency: " + s.getAgency() + System.getProperty("line.separator") +
+                                "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
+                                "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
+                                "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
+                                "End Time: " + s.getEndTime() + System.getProperty("line.separator"));
+//                    } else {
+//                        textMessage = String.format(
+//                                "Company: " + s.getCompany() + System.getProperty("line.separator") +
+//                                "Agency: " + s.getAgency() + System.getProperty("line.separator") +
+//                                "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
+//                                "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
+//                                "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
+//                                "End Time: " + s.getEndTime() + System.getProperty("line.separator"));
+//
+//                    }
+                    intent.putExtra("sms_body", textMessage);
+
+//                        Log.d("TAG: ", "menuitem is " + menuItem.getActionView().getId());
+
+                    context.startActivity(intent);
+                    }
+                    mCheckBoxSelected.clear();
+                    mActionMode = null;
                 default:
                     return false;
             }
