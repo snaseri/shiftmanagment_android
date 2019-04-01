@@ -30,13 +30,13 @@ public class NavigationInstrumentedTest {
 
         Intents.init();
         Espresso.onView(
-                ViewMatchers.withId(R.id.)
+                ViewMatchers.withId(R.id.past_shiftlog)
         ).perform(
                 ViewActions.click()
         );
 
         Intents.intended(
-                IntentMatchers.hasComponent(SecondActivity.class.getName())
+                IntentMatchers.hasComponent(PastShiftLogFragment.class.getName())
         );
         Intents.release();
 
