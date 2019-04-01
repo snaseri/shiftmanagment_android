@@ -43,6 +43,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     private List<Shiftlog> mCheckBoxSelected = new ArrayList<>();
     private List readyToShareLogs = new ArrayList();
     private static  OnListFragmentInteractionListener mButtonListener;
+    private boolean pageSwitched;
 
 
 //save the context recievied via constructor in a local variable
@@ -80,10 +81,10 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                 if (null != mListener) {
                     if (holder.mSelectedLogs.isChecked()) {
                         mCheckBoxSelected.add(mShiftlog);
-                        Log.d("PAST_LOGS: ",String.format(holder.mItem.getId() + "Added to Selected list"));
+                        Log.d("PAST_LOGS: ",String.format(holder.mItem.getId() + "Added to Selected list. Current list:" + mCheckBoxSelected.toString()));
                     } else if (!holder.mSelectedLogs.isChecked()) {
                         mCheckBoxSelected.remove(mShiftlog);
-                        Log.d("PAST_LOGS: ",String.format(holder.mItem.getId() + "Removed from Selected list"));
+                        Log.d("PAST_LOGS: ",String.format(holder.mItem.getId() + "Removed from Selected list. Current list:" + mCheckBoxSelected.toString()));
                     }
 
                     mActionMode = ((AppCompatActivity)v.getContext()).startSupportActionMode(mActionModeCallback);
@@ -100,6 +101,8 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
+                    pageSwitched = true;
+                    mActionMode = ((AppCompatActivity)v.getContext()).startSupportActionMode(mActionModeCallback);
                     mListener.onListFragmentInteraction(holder.mItem);
                 }
             }
@@ -109,6 +112,10 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+            if (pageSwitched) {
+                mActionMode = null;
+                return false;
+            }
             if (!mCheckBoxSelected.isEmpty()) {
                 actionMode.getMenuInflater().inflate(R.menu.pastlog_share_menu, menu);
                 actionMode.setTitle("Choose your option: ");
