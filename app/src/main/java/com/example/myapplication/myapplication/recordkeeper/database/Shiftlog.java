@@ -13,10 +13,13 @@ public class Shiftlog {
     private int id;
 
     @ColumnInfo(name = "shiftlog_company")
-    private String company;
+    private int company;
 
     @ColumnInfo(name = "shiftlog_agency")
-    private String agency ;
+    private int agency ;
+
+    @ColumnInfo(name = "shiftlog_numbertocall")
+    private int numberToCall;
 
     @ColumnInfo(name = "shiftlog_startdate")
     private String startDate;
@@ -48,7 +51,7 @@ public class Shiftlog {
     private Boolean nightOut;
 
 
-    public Shiftlog(String company, String agency, String startDate, String startTime, String endDate, String endTime,String breaks,
+    public Shiftlog(int company, int agency, String startDate, String startTime, String endDate, String endTime, String breaks,
                     Boolean vehicleUse, String registration,String poa,  Boolean nightOut) {
         this.company = company;
         this.agency = agency;
@@ -72,20 +75,28 @@ public class Shiftlog {
         this.id = id;
     }
 
-    public String getCompany() {
+    public int getCompany() {
         return company;
     }
 
-    public void setCompany(String company) {
+    public void setCompany(int company) {
         this.company = company;
     }
 
-    public String getAgency() {
+    public int getAgency() {
         return agency;
     }
 
-    public void setAgency(String agency) {
+    public void setAgency(int agency) {
         this.agency = agency;
+    }
+
+    public int getNumberToCall() {
+        return numberToCall;
+    }
+
+    public void setNumberToCall(int numberToCall) {
+        this.numberToCall = numberToCall;
     }
 
     public String getStartDate() {

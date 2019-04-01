@@ -10,7 +10,7 @@ public class ShiftlogListItemView {
     private String end;
 
     public ShiftlogListItemView(Shiftlog shiftLog) {
-        company = shiftLog.getCompany();
+        company = String.valueOf(shiftLog.getCompany());
         start = shiftLog.getStartDate();
         end =shiftLog.getEndDate();
         id = shiftLog.getId();
