@@ -174,7 +174,9 @@ public class MainActivity extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (((Company)parent.getItemAtPosition(position)).getId() == -2) {
                     // Add new Company
+                    System.out.println("yep new one");
                     parent.setSelection(0);
+                    company.setSelection(0);
                 }
             }
 
@@ -183,22 +185,25 @@ public class MainActivity extends AppCompatActivity
         });
 
         AsyncTask.execute(new Runnable() {
-              @Override
-              public void run() {
-//                  db.insertCompany(new Company("Company 1", "0010219012"));
+            @Override
+            public void run() {
 
-                  final List<Company> companies = db.getAllCompanies();
-                  companies.add(0, new Company("No Company", "0"));
-                  companies.get(0).setId(-1);
-                  companies.add(new Company("Add Company", "0"));
-                  companies.get(0).setId(-2);
-                  ArrayAdapter<Company> adapter = new ArrayAdapter<Company>(getApplicationContext(),
-                          android.R.layout.simple_spinner_dropdown_item, companies);
-                  adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-                  company.setAdapter(adapter);
-              }
-          }
+                final List<Company> companies = db.getAllCompanies();
+                companies.add(0, new Company("No Company", "0"));
+                companies.get(0).setId(-1);
+                companies.add(new Company("Add Company", "0"));
+                companies.get(companies.size() - 1).setId(-2);
+                final ArrayAdapter<Company> adapter = new ArrayAdapter<Company>(getApplicationContext(),
+                        android.R.layout.simple_spinner_dropdown_item, companies);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+                        company.setAdapter(adapter);
+//                    }
+//                });
+            }
+        }
 
         );
 
@@ -206,9 +211,10 @@ public class MainActivity extends AppCompatActivity
         agency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (((Company)parent.getItemAtPosition(position)).getId() == -2) {
+                if (((Agency)parent.getItemAtPosition(position)).getId() == -2) {
                     // Add new Agency
                     parent.setSelection(0);
+                    agency.setSelection(0);
                 }
             }
 
@@ -216,28 +222,29 @@ public class MainActivity extends AppCompatActivity
             public void onNothingSelected(AdapterView<?> parent) { }
         });
         AsyncTask.execute(new Runnable() {
-              @Override
-              public void run() {
-                  db.insertAgency(new Agency("Agency 1", "0010219012"));
+            @Override
+            public void run() {
 
-                  final List<Agency> agencies = db.getAllAgencies();
-                  agencies.add(0, new Agency("No Agency", "0"));
-                  agencies.get(0).setId(-1);
-                  agencies.add(new Agency("Add Agency", "0"));
-                  agencies.get(0).setId(-2);
-                  ArrayAdapter<Agency> adapter = new ArrayAdapter<Agency>(getApplicationContext(),
-                          android.R.layout.simple_spinner_dropdown_item, agencies);
-                  adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                final List<Agency> agencies = db.getAllAgencies();
+                agencies.add(0, new Agency("No Agency", "0"));
+                agencies.get(0).setId(-1);
+                agencies.add(new Agency("Add Agency", "0"));
+                agencies.get(agencies.size() - 1).setId(-2);
+                ArrayAdapter<Agency> adapter = new ArrayAdapter<Agency>(getApplicationContext(),
+                        android.R.layout.simple_spinner_dropdown_item, agencies);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-                  agency.setAdapter(adapter);
-              }
+                agency.setAdapter(adapter);
+                }
           }
 
         );
     }
 
-    public boolean validateTimes() { //returns true if times and dates are valid.
-        if (startTime == null || endTime == null || startDate == null || endDate == null) {
+    public boolean validateTimes() { //
+        if (((Company) company.getSelectedItem()).getId() < 0
+            &&((Agency) agency.getSelectedItem()).getId() < 0){return false;}
+        else if (startTime == null || endTime == null || startDate == null || endDate == null) {
             return false;
         } else if (startDatePicker.getYear() < endDatePicker.getYear()) {
             return true;
@@ -259,6 +266,10 @@ public class MainActivity extends AppCompatActivity
 
     public void invalidDateTime(){
         String message = "There appears to be an issue with your log:";
+        if (((Company) company.getSelectedItem()).getId() < 0
+                &&((Agency) agency.getSelectedItem()).getId() < 0){
+            message += "\nSet an agency or Company.";
+        }
         if (startTime == null || endTime == null || startDate == null || endDate == null){
             message += "\nFill out both the start and end date and time.";
         }
