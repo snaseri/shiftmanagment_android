@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity
 
         db = Room.databaseBuilder(this, ShiftlogDatabase.class,
                 "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
-
         setCompanyOptions();
         //Checkbox click listeners
         vehicleUse.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +128,6 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-
         //Save button Listener
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -188,7 +186,6 @@ public class MainActivity extends AppCompatActivity
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-
                 final List<Company> companies = db.getAllCompanies();
                 companies.add(0, new Company("No Company", "0"));
                 companies.get(0).setId(-1);
