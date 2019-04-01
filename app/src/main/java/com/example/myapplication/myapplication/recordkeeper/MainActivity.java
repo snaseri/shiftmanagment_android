@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity
 
                     db.insertShiftlog(
                             new Shiftlog(((Company) company.getSelectedItem()).getId(),
-                                    ((Agency) company.getSelectedItem()).getId(),
+                                    ((Agency) agency.getSelectedItem()).getId(),
                                     startDate, startTime,endDate, endTime,
                                     vehicleUse.isChecked(),registration.toString(), poa, nightOut.isChecked())
                     );
