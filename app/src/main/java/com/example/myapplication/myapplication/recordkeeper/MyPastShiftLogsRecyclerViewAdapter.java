@@ -44,15 +44,17 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     private List readyToShareLogs = new ArrayList();
     private static  OnListFragmentInteractionListener mButtonListener;
     private boolean pageSwitched;
+    private Context context;
 
 
 //save the context recievied via constructor in a local variable
 
-    public MyPastShiftLogsRecyclerViewAdapter(List<Shiftlog> items, OnListFragmentInteractionListener listener) {
+    public MyPastShiftLogsRecyclerViewAdapter(Context c, List<Shiftlog> items, OnListFragmentInteractionListener listener) {
         for (Shiftlog shiftlog : items) {
             mValues.add(new ShiftlogListItemView(shiftlog));
             mLogValues.add(shiftlog);
         }
+        this.context = c;
         mListener = listener;
     }
 
@@ -137,10 +139,32 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                 case R.id.option_1:
                 case R.id.option_2:
                     for (Shiftlog s : mCheckBoxSelected) {
-//                    Intent intent = new Intent(Intent.ACTION_VIEW);
-//                    intent.setData(Uri.parse("smsto:" + "phnenumber"));
-//                    intent.putExtra("sms_body", "message");
-//                    ApplicationContextProvider.getsContext().startActivity(intent);
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setData(Uri.parse("smsto:" + "0777"));
+                    String textMessage;
+//                    if (s.getVehicleUse()) {
+                        textMessage = String.format(
+                                "Company: " + s.getCompany() + System.getProperty("line.separator") +
+                                "Agency: " + s.getAgency() + System.getProperty("line.separator") +
+                                "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
+                                "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
+                                "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
+                                "End Time: " + s.getEndTime() + System.getProperty("line.separator"));
+//                    } else {
+//                        textMessage = String.format(
+//                                "Company: " + s.getCompany() + System.getProperty("line.separator") +
+//                                "Agency: " + s.getAgency() + System.getProperty("line.separator") +
+//                                "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
+//                                "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
+//                                "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
+//                                "End Time: " + s.getEndTime() + System.getProperty("line.separator"));
+//
+//                    }
+                    intent.putExtra("sms_body", textMessage);
+
+//                        Log.d("TAG: ", "menuitem is " + menuItem.getActionView().getId());
+
+                    context.startActivity(intent);
                     }
                     mCheckBoxSelected.clear();
                     mActionMode = null;
