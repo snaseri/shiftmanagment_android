@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-
         //Save button Listener
 
         saveButton.setOnClickListener(new View.OnClickListener() {

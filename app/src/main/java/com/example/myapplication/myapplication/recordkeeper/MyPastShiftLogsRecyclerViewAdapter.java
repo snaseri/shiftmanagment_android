@@ -1,14 +1,20 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -134,22 +140,22 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
         }
 
         @Override
-        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-            switch (menuItem.getItemId()) {
-                case R.id.option_1:
-                case R.id.option_2:
-                    for (Shiftlog s : mCheckBoxSelected) {
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setData(Uri.parse("smsto:" + "0777"));
-                    String textMessage;
+                           public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                            switch (menuItem.getItemId()) {
+                                case R.id.option_1:
+                                case R.id.option_2:
+                                    for (Shiftlog s : mCheckBoxSelected) {
+//                    Intent intent = new Intent(Intent.ACTION_SENDTO);
+//                    intent.setData(Uri.parse("smsto:" + "0777"));
+                                        String textMessage;
 //                    if (s.getVehicleUse()) {
-                        textMessage = String.format(
-                                "Company: " + s.getCompany() + System.getProperty("line.separator") +
-                                "Agency: " + s.getAgency() + System.getProperty("line.separator") +
-                                "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
-                                "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
-                                "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
-                                "End Time: " + s.getEndTime() + System.getProperty("line.separator"));
+                                        textMessage = String.format(
+                                                "Company: " + s.getCompany() + System.getProperty("line.separator") +
+                                                        "Agency: " + s.getAgency() + System.getProperty("line.separator") +
+                                                        "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
+                                                        "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
+                                                        "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
+                                                        "End Time: " + s.getEndTime() + System.getProperty("line.separator"));
 //                    } else {
 //                        textMessage = String.format(
 //                                "Company: " + s.getCompany() + System.getProperty("line.separator") +
@@ -160,11 +166,18 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 //                                "End Time: " + s.getEndTime() + System.getProperty("line.separator"));
 //
 //                    }
-                    intent.putExtra("sms_body", textMessage);
 
-//                        Log.d("TAG: ", "menuitem is " + menuItem.getActionView().getId());
 
-                    context.startActivity(intent);
+                                        //SMS MESSANGER
+
+                                        //Checking for sms permission
+                                        if (ContextCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                                            Toast.makeText(context,"This app doesn't have permission to send text", Toast.LENGTH_SHORT).show();
+                                            ActivityCompat.requestPermissions((MainActivity)context, new String[]{Manifest.permission.SEND_SMS}, 1);
+                                        } else {
+                                            SmsManager.getDefault().sendTextMessage("04322", null, textMessage, null, null);
+                                            Toast.makeText(context, "Sent!", Toast.LENGTH_SHORT).show();
+                                        }
                     }
                     mCheckBoxSelected.clear();
                     mActionMode = null;
