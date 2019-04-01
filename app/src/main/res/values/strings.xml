@@ -21,4 +21,17 @@
     <string name="end_time">End time:</string>
     <string name="start_date">Start Date:</string>
     <string name="end_date">End Date:</string>
+    <string name="will_you_be_operating_a_vehicle">Will you be operating a vehicle?</string>
+    <string name="night_shift">Night shift</string>
+    <string name="share">SHARE</string>
+    <string name="pick_a_start_time">Pick a Start Time</string>
+    <string name="pick_an_end_date">Pick an End Date</string>
+    <string name="pick_an_end_time">Pick an End Time</string>
+    <string name="pick_a_start_date">Pick a Start Date</string>
+    <string name="total_break_time">Total Break Time:</string>
+    <string name="registration_number">Registration Number:</string>
+    <string name="poa_if_applicable">POA (If Applicable):</string>
+    <string name="registration_if_applicable">Registration (If Applicable):</string>
+    <string name="night_shift_if_applicable">Night Shift (if_applicable):</string>
+    <string name="night_shift_if_applicable2">Night Shift_If_Applicable</string>
 </resources>
