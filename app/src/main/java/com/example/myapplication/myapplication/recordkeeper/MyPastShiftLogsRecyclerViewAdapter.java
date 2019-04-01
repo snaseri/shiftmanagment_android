@@ -1,18 +1,28 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.view.menu.MenuView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.myapplication.recordkeeper.PastShiftLogsFragment.OnListFragmentInteractionListener;
 import com.example.myapplication.myapplication.recordkeeper.database.Shiftlog;
+import com.example.myapplication.myapplication.recordkeeper.views.ApplicationContextProvider;
 import com.example.myapplication.myapplication.recordkeeper.views.ShiftlogListItemView;
 
 import java.util.ArrayList;
@@ -27,18 +37,24 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 
     private Button mShareButton;
     private final List<ShiftlogListItemView> mValues = new ArrayList<>();
-    private final List<Button> mButtons = new ArrayList<>();
+    private List<Shiftlog> mLogValues = new ArrayList<>();
     private final OnListFragmentInteractionListener mListener;
+    private ActionMode mActionMode;
+    private List<Shiftlog> mCheckBoxSelected = new ArrayList<>();
+    private List readyToShareLogs = new ArrayList();
     private static  OnListFragmentInteractionListener mButtonListener;
+    private boolean pageSwitched;
+    private Context context;
 
 
+//save the context recievied via constructor in a local variable
 
-
-
-    public MyPastShiftLogsRecyclerViewAdapter(List<Shiftlog> items, OnListFragmentInteractionListener listener) {
+    public MyPastShiftLogsRecyclerViewAdapter(Context c, List<Shiftlog> items, OnListFragmentInteractionListener listener) {
         for (Shiftlog shiftlog : items) {
             mValues.add(new ShiftlogListItemView(shiftlog));
+            mLogValues.add(shiftlog);
         }
+        this.context = c;
         mListener = listener;
     }
 
@@ -55,16 +71,31 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
         holder.mItem = mValues.get(position);
         holder.mShitLogNameView.setText(mValues.get(position).getCompany());
         holder.mStartTextView.setText(mValues.get(position).getStartDate());
-        holder.mShareButton.setTag(position);
+        holder.mSelectedLogs.setTag(position);
+        final Shiftlog mShiftlog = mLogValues.get(position);
 
-        holder.mShareButton.setOnClickListener(new View.OnClickListener() {
+
+
+        holder.mSelectedLogs.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    Toast.makeText(v.getContext(), String.format("Shared Log: " + holder.mItem.getCompany(), holder.mItem.getStartDate(), holder.mItem.getEndDate()), Toast.LENGTH_LONG).show();
+                    if (holder.mSelectedLogs.isChecked()) {
+                        mCheckBoxSelected.add(mShiftlog);
+                        Log.d("PAST_LOGS: ",String.format(holder.mItem.getId() + "Added to Selected list. Current list:" + mCheckBoxSelected.toString()));
+                    } else if (!holder.mSelectedLogs.isChecked()) {
+                        mCheckBoxSelected.remove(mShiftlog);
+                        Log.d("PAST_LOGS: ",String.format(holder.mItem.getId() + "Removed from Selected list. Current list:" + mCheckBoxSelected.toString()));
+                    }
+
+                    mActionMode = ((AppCompatActivity)v.getContext()).startSupportActionMode(mActionModeCallback);
+
+//                    Toast.makeText(v.getContext(), String.format("Selected: " + holder.mItem.getName()), Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,11 +103,83 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
+                    pageSwitched = true;
+                    mActionMode = ((AppCompatActivity)v.getContext()).startSupportActionMode(mActionModeCallback);
                     mListener.onListFragmentInteraction(holder.mItem);
                 }
             }
         });
     }
+
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+            if (pageSwitched) {
+                mActionMode = null;
+                return false;
+            }
+            if (!mCheckBoxSelected.isEmpty()) {
+                actionMode.getMenuInflater().inflate(R.menu.pastlog_share_menu, menu);
+                actionMode.setTitle("Choose your option: ");
+                return true;
+            } else {
+                mActionMode = null;
+                return false;
+            }
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+            switch (menuItem.getItemId()) {
+                case R.id.option_1:
+                case R.id.option_2:
+                    for (Shiftlog s : mCheckBoxSelected) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("smsto:" + "0777"));
+                    String textMessage;
+//                    if (s.getVehicleUse()) {
+                        textMessage = String.format(
+                                "Company: " + s.getCompany() + System.getProperty("line.separator") +
+                                "Agency: " + s.getAgency() + System.getProperty("line.separator") +
+                                "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
+                                "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
+                                "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
+                                "End Time: " + s.getEndTime() + System.getProperty("line.separator"));
+//                    } else {
+//                        textMessage = String.format(
+//                                "Company: " + s.getCompany() + System.getProperty("line.separator") +
+//                                "Agency: " + s.getAgency() + System.getProperty("line.separator") +
+//                                "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
+//                                "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
+//                                "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
+//                                "End Time: " + s.getEndTime() + System.getProperty("line.separator"));
+//
+//                    }
+                    intent.putExtra("sms_body", textMessage);
+
+//                        Log.d("TAG: ", "menuitem is " + menuItem.getActionView().getId());
+
+                    context.startActivity(intent);
+                    }
+                    mCheckBoxSelected.clear();
+                    mActionMode = null;
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode actionMode) {
+            mActionMode = null;
+
+        }
+    };
+
 
     @Override
     public int getItemCount() {
@@ -88,14 +191,15 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
         public final TextView mShitLogNameView;
         public final TextView mStartTextView;
         public ShiftlogListItemView mItem;
-        public Button mShareButton;
+        public CheckBox mSelectedLogs;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
+
             mShitLogNameView = (TextView) view.findViewById(R.id.CompanyName);
             mStartTextView =(TextView) view.findViewById(R.id.start_date);
-            mShareButton = (Button) view.findViewById(R.id.share_button);
+            mSelectedLogs = (CheckBox) view.findViewById(R.id.shiftSelect);
 
         }
     }

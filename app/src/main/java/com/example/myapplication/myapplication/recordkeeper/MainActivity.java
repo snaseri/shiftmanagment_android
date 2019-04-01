@@ -8,8 +8,10 @@ import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -55,6 +57,8 @@ public class MainActivity extends AppCompatActivity
     //Detail checkboxes
     private CheckBox vehicleUse;
     private CheckBox nightOut;
+    private ActionMode mActionMode;
+
 
     //Strings of the selected DateTimes
     private String startDate; private String startTime;
@@ -98,7 +102,6 @@ public class MainActivity extends AppCompatActivity
         db = Room.databaseBuilder(this, ShiftlogDatabase.class,
                 "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
 
-
         setCompanyOptions();
         //Checkbox click listeners
         vehicleUse.setOnClickListener(new View.OnClickListener() {
@@ -127,9 +130,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //Save button Listener
 
-
-    //Save button Listener
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override  //setting what happens when clicked below
             public void onClick(View v) {
@@ -141,11 +143,10 @@ public class MainActivity extends AppCompatActivity
 
                 @Override
                 public void run() {
-
                     db.insertShiftlog(
                             new Shiftlog(((Company) company.getSelectedItem()).getId(),
                                     ((Agency) agency.getSelectedItem()).getId(),
-                                    startDate, startTime,endDate, endTime,
+                                    startDate, startTime,endDate, endTime,breakTime,
                                     vehicleUse.isChecked(),registration.toString(), poa, nightOut.isChecked())
                     );
 
@@ -367,7 +368,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         final ShiftlogDAO db = Room.databaseBuilder(this,
-                ShiftlogDatabase.class, "ShiftlogDatabase").build().shiftlogDAO();
+                ShiftlogDatabase.class, "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
 
         switch (item.getItemId()) {
             case R.id.past_logs:
