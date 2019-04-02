@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                //db.insertCompany(new Company("Company","3284245"));
+                db.insertCompany(new Company("Company","3284245"));
                 final List<Company> companies = db.getAllCompanies();
                 companies.add(0, new Company("No Company", "0"));
                 companies.get(0).setId(-1);
