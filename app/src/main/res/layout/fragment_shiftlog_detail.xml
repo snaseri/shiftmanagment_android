@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+
 <android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,32 +15,22 @@
     android:elevation="100dp"
     >
 
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorTextThree"
-        android:textSize="25sp"
-        android:paddingTop="10dp"
-        android:layout_gravity="center_horizontal"
-    />
     <TextView
         android:id="@+id/companyLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/company_name"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_marginLeft="20dp"
-        android:paddingTop="15dp"
+        android:paddingTop="20dp"
         />
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/company"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:paddingTop="5dp"
         android:layout_marginLeft="20dp"
     />
@@ -45,7 +41,7 @@
         android:layout_height="wrap_content"
         android:text="@string/agency_name"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_marginLeft="20dp"
         android:paddingTop="20dp"
         />
@@ -54,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:paddingTop="5dp"
         android:layout_marginLeft="20dp" />
     <TextView
@@ -63,7 +59,7 @@
         android:layout_height="wrap_content"
         android:text="@string/start_time"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_marginLeft="20dp"
         android:paddingTop="20dp"
         />
@@ -72,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:paddingTop="5dp"
         android:layout_marginLeft="20dp"
        />
@@ -83,7 +79,7 @@
         android:layout_height="wrap_content"
         android:text="@string/end_time"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_marginLeft="20dp"
         android:paddingTop="20dp"
         />
@@ -93,7 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:paddingTop="5dp"
         android:layout_marginLeft="20dp"
        />
@@ -104,7 +100,7 @@
         android:layout_height="wrap_content"
         android:text="@string/start_date"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_marginLeft="20dp"
         android:paddingTop="20dp"
         />
@@ -114,7 +110,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:paddingTop="5dp"
         android:layout_marginLeft="20dp"
        />
@@ -125,7 +121,7 @@
         android:layout_height="wrap_content"
         android:text="@string/end_date"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:layout_marginLeft="20dp"
         android:paddingTop="20dp"
         />
@@ -135,11 +131,96 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/colorTextThree"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:paddingTop="5dp"
         android:layout_marginLeft="20dp"
       />
 
+    <TextView
+        android:id="@+id/breaksLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Breaks:"
+        android:textColor="@color/colorTextThree"
+        android:textSize="18sp"
+        android:layout_marginLeft="20dp"
+        android:paddingTop="20dp"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/Breaks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextThree"
+        android:textSize="16sp"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="20dp"
+        />
+
+    <TextView
+        android:id="@+id/regLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/registration_if_applicable"
+        android:textColor="@color/colorTextThree"
+        android:textSize="18sp"
+        android:layout_marginLeft="20dp"
+        android:paddingTop="20dp"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/reg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextThree"
+        android:textSize="16sp"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="20dp"
+        />
+
+    <TextView
+    android:id="@+id/poaLabel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/poa_if_applicable"
+    android:textColor="@color/colorTextThree"
+    android:textSize="18sp"
+    android:layout_marginLeft="20dp"
+    android:paddingTop="20dp"
+    />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/poas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextThree"
+        android:textSize="16sp"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="20dp"
+        />
+
+    <TextView
+        android:id="@+id/nightLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/night_shift_if_applicable2"
+        android:textColor="@color/colorTextThree"
+        android:textSize="18sp"
+        android:layout_marginLeft="20dp"
+        android:paddingTop="20dp"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/night"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextThree"
+        android:textSize="16sp"
+        android:paddingTop="5dp"
+        android:paddingBottom="15dp"
+        android:layout_marginLeft="20dp"
+        />
 
 
 </android.support.v7.widget.LinearLayoutCompat>
+</ScrollView>

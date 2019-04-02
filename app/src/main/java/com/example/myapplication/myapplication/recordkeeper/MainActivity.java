@@ -3,18 +3,27 @@ package com.example.myapplication.myapplication.recordkeeper;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.support.v7.widget.AppCompatButton;
 import android.view.Menu;
 import android.view.View;
+import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.myapplication.recordkeeper.database.*;
@@ -29,14 +38,17 @@ interface DateTime extends TimePickerFragment.TimePickedListener,
 public class MainActivity extends AppCompatActivity
         implements DateTime, PastShiftLogsFragment.OnListFragmentInteractionListener {
 
-    private AppCompatEditText name;
-    private AppCompatEditText company;
-    private AppCompatEditText agency;
+
+    private AppCompatSpinner company;
+    private AppCompatSpinner agency;
     private AppCompatButton saveButton;
+    private AppCompatEditText registration;
 
     //Time pickers
     private TimePickerApp startTimePicker;
     private TimePickerApp endTimePicker;
+    private TimePickerApp breakTimePicker;
+    private TimePickerApp poaPicker;
 
     //Date pickers
     private DatePickerApp startDatePicker;
@@ -45,10 +57,12 @@ public class MainActivity extends AppCompatActivity
     //Detail checkboxes
     private CheckBox vehicleUse;
     private CheckBox nightOut;
+    private ActionMode mActionMode;
+
 
     //Strings of the selected DateTimes
     private String startDate; private String startTime;
-    private String endDate; private String endTime;
+    private String endDate; private String endTime; private String breakTime; private String poa;
 
     private static ShiftlogDAO db;
 
@@ -57,17 +71,22 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        name = (findViewById(R.id.nameInput));
         company = (findViewById(R.id.companyInput));
         agency = (findViewById(R.id.AgencyInput));
         saveButton = findViewById(R.id.Save_Button);
+        registration =findViewById(R.id.RegInput);
+
 
         //Time pickers
         startTimePicker = new TimePickerApp(getSupportFragmentManager(),
                 (Button) findViewById(R.id.btnStartTimePicker), 0);
         endTimePicker = new TimePickerApp(getSupportFragmentManager(),
                 (Button) findViewById(R.id.btnEndTimePicker), 1);
+        breakTimePicker = new TimePickerApp(getSupportFragmentManager(),
+                (Button) findViewById(R.id.btnBreaks), 2);
+        poaPicker= new TimePickerApp(getSupportFragmentManager(),
+                (Button) findViewById(R.id.btnpoa), 3);
+
 
         //Date pickers
         startDatePicker = new DatePickerApp(getSupportFragmentManager(),
@@ -81,29 +100,36 @@ public class MainActivity extends AppCompatActivity
 
 
         db = Room.databaseBuilder(this, ShiftlogDatabase.class,
-                "ShiftlogDatabase").build().shiftlogDAO();
-
-
+                "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
+        setCompanyOptions();
         //Checkbox click listeners
         vehicleUse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (((CheckBox)v).isChecked()) {
+
+                TextView registration = findViewById(R.id.Registration);
+                AppCompatEditText registrationInput = findViewById(R.id.RegInput);
+                Button poa = findViewById((R.id.btnpoa));
+
+                if (((CheckBox) v).isChecked()) {
+
+                    registration.setVisibility(View.VISIBLE);
+                    registrationInput.setVisibility(View.VISIBLE);
+                    poa.setVisibility(View.VISIBLE);
+
                     Toast.makeText(MainActivity.this,
-                            "Vehicle operating selected",Toast.LENGTH_SHORT).show();
+                            "Vehicle operating selected", Toast.LENGTH_SHORT).show();
                 }
+                else{
+                    registration.setVisibility(View.INVISIBLE);
+                    registrationInput.setVisibility(View.INVISIBLE);
+                    poa.setVisibility(View.INVISIBLE);
+                }
+
             }
         });
-
-        nightOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-
         //Save button Listener
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override  //setting what happens when clicked below
             public void onClick(View v) {
@@ -117,9 +143,10 @@ public class MainActivity extends AppCompatActivity
                 public void run() {
 
                     db.insertShiftlog(
-                            new Shiftlog(name.getText().toString(), company.getText().toString(), agency.getText().toString(),
-                                    startDate, startTime, endDate, endTime,
-                                    vehicleUse.isChecked(), nightOut.isChecked())
+                            new Shiftlog(((Company) company.getSelectedItem()).getId(),
+                                    ((Agency) agency.getSelectedItem()).getId(),
+                                    startDate, startTime,endDate, endTime,breakTime,
+                                    vehicleUse.isChecked(),registration.toString(), poa, nightOut.isChecked())
                     );
 
                     final List<Shiftlog> shiftlogs = db.getAllShiftlogs();
@@ -141,31 +168,108 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public boolean validateTimes(){ //returns true if times and dates are valid.
-        if (startTime == null || endTime == null || startDate == null || endDate == null){
-            return false;
+    public void setCompanyOptions(){
+        company.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (((Company)parent.getItemAtPosition(position)).getId() == -2) {
+                    // Add new Company
+                    System.out.println("yep new one");
+                    parent.setSelection(0);
+                    company.setSelection(0);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                //db.insertCompany(new Company("Company","3284245"));
+                final List<Company> companies = db.getAllCompanies();
+                companies.add(0, new Company("No Company", "0"));
+                companies.get(0).setId(-1);
+                companies.add(new Company("Add Company", "0"));
+                companies.get(companies.size() - 1).setId(-2);
+                final ArrayAdapter<Company> adapter = new ArrayAdapter<Company>(getApplicationContext(),
+                        android.R.layout.simple_spinner_dropdown_item, companies);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+                        company.setAdapter(adapter);
+//                    }
+//                });
+            }
         }
-        else if (startDatePicker.getYear() < endDatePicker.getYear()){
-            return true;
-        }
-        else if(startDatePicker.getYear().equals(endDatePicker.getYear()) &&
-                startDatePicker.getMonth() < endDatePicker.getMonth()){
-            return true;
-        }
-        else if(startDatePicker.getMonth().equals(endDatePicker.getMonth()) &&
-                startDatePicker.getDay() < endDatePicker.getDay()){
-            return true;
-        }
-        else if(startDatePicker.getDay().equals(endDatePicker.getDay()) &&
-                startTimePicker.getHour() < endTimePicker.getHour()){
-            return true;
-        }
-        else return startTimePicker.getHour().equals(endTimePicker.getHour()) &&
-                    startTimePicker.getMinute() < endTimePicker.getMinute();
+
+        );
+
+
+        agency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (((Agency)parent.getItemAtPosition(position)).getId() == -2) {
+                    // Add new Agency
+                    parent.setSelection(0);
+                    agency.setSelection(0);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+
+                final List<Agency> agencies = db.getAllAgencies();
+                agencies.add(0, new Agency("No Agency", "0"));
+                agencies.get(0).setId(-1);
+                agencies.add(new Agency("Add Agency", "0"));
+                agencies.get(agencies.size() - 1).setId(-2);
+                ArrayAdapter<Agency> adapter = new ArrayAdapter<Agency>(getApplicationContext(),
+                        android.R.layout.simple_spinner_dropdown_item, agencies);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                agency.setAdapter(adapter);
+                }
+          }
+
+        );
     }
+
+    public boolean validateTimes() { //
+        if (((Company) company.getSelectedItem()).getId() < 0
+            &&((Agency) agency.getSelectedItem()).getId() < 0){return false;}
+        else if (startTime == null || endTime == null || startDate == null || endDate == null) {
+            return false;
+        } else if (startDatePicker.getYear() < endDatePicker.getYear()) {
+            return true;
+        } else if (startDatePicker.getYear().equals(endDatePicker.getYear()) &&
+                startDatePicker.getMonth() < endDatePicker.getMonth()) {
+            return true;
+        } else if (startDatePicker.getMonth().equals(endDatePicker.getMonth()) &&
+                startDatePicker.getDay() < endDatePicker.getDay()) {
+            return true;
+        } else if (startDatePicker.getDay().equals(endDatePicker.getDay()) &&
+                startTimePicker.getHour() < endTimePicker.getHour()) {
+            return true;
+        } else return startTimePicker.getHour().equals(endTimePicker.getHour()) &&
+                startTimePicker.getMinute() < endTimePicker.getMinute();
+
+    }
+
+
 
     public void invalidDateTime(){
         String message = "There appears to be an issue with your log:";
+        if (((Company) company.getSelectedItem()).getId() < 0
+                &&((Agency) agency.getSelectedItem()).getId() < 0){
+            message += "\nSet an agency or Company.";
+        }
         if (startTime == null || endTime == null || startDate == null || endDate == null){
             message += "\nFill out both the start and end date and time.";
         }
@@ -211,6 +315,18 @@ public class MainActivity extends AppCompatActivity
                 endTimePicker.setMinute(minute);
                 endTime = String.format(hour + ":" + min);
                 break;
+            case 2: breakTimePicker.getTimeButton().setText("Break time - " + hour + ":" + minute);
+                breakTimePicker.setHour(hourOfDay);
+               breakTimePicker.setMinute(minute);
+                breakTime = String.format(hour + ":" + min);
+                break;
+            case 3: poaPicker.getTimeButton().setText("POA - " + hour + ":" + minute);
+                poaPicker.setHour(hourOfDay);
+                poaPicker.setMinute(minute);
+                poa = String.format(hour + ":" + min);
+                break;
+
+
         }
     }
 
@@ -251,7 +367,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         final ShiftlogDAO db = Room.databaseBuilder(this,
-                ShiftlogDatabase.class, "ShiftlogDatabase").build().shiftlogDAO();
+                ShiftlogDatabase.class, "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
 
         switch (item.getItemId()) {
             case R.id.past_logs:

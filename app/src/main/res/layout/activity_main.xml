@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/main_layout"
         tools:context=".MainActivity">
 
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <TextView
             android:id="@+id/shiftLogLabel"
             android:layout_width="wrap_content"
@@ -45,26 +48,27 @@
             app:layout_constraintRight_toRightOf="parent" />
 
 
-
         <CheckBox
             android:id="@+id/vehicleUse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btnEndTimePicker"
-            android:layout_marginTop="14dp"
-            android:text="Do you own and can drive a vehicle?"
+            android:layout_below="@id/btnBreaks"
+            android:layout_marginTop="9dp"
+            android:textSize="16dp"
+            android:text="@string/will_you_be_operating_a_vehicle"
             android:textColorLink="@color/buttonColour" />
 
         <CheckBox
             android:id="@+id/nightOut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/vehicleUse"
-            android:layout_marginTop="14dp"
-            android:text="Are you willing to spend nights out"
+            android:layout_below="@id/btnpoa"
+            android:layout_marginTop="4dp"
+            android:text="@string/night_shift"
+            android:textSize="16dp"
             android:textColorLink="@color/buttonColour" />
 
-        <Button
+            <Button
             android:id="@+id/btnStartDatePicker"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="150dp"
@@ -77,7 +81,7 @@
             android:layout_marginRight="25dp"
             android:layout_marginBottom="25dp"
             android:background="@drawable/selector_button"
-            android:text="Pick a Start Date" />
+            android:text="@string/pick_a_start_date" />
 
         <Button
             android:id="@+id/btnStartTimePicker"
@@ -89,7 +93,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="25dp"
             android:background="@drawable/selector_button"
-            android:text="Pick a Start Time" />
+            android:text="@string/pick_a_start_time" />
 
         <Button
             android:id="@+id/btnEndDatePicker"
@@ -104,7 +108,7 @@
             android:layout_marginRight="25dp"
             android:layout_marginBottom="25dp"
             android:background="@drawable/selector_button"
-            android:text="Pick an End Date" />
+            android:text="@string/pick_an_end_date" />
 
         <Button
             android:id="@+id/btnEndTimePicker"
@@ -120,28 +124,7 @@
             android:layout_marginRight="25dp"
             android:layout_marginBottom="25dp"
             android:background="@drawable/selector_button"
-            android:text="Pick an End Time" />
-
-        <TextView
-            android:id="@+id/NameLog"
-            android:layout_marginTop="50dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Name"
-            android:textSize="18sp"
-            android:textColor="@color/colorTextThree"
-            android:layout_marginLeft="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/nameInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/NameLog"
-            android:layout_marginTop="8dp" />
+            android:text="@string/pick_an_end_time" />
 
         <TextView
             android:id="@+id/CompanyName"
@@ -150,18 +133,19 @@
             android:text="@string/company"
             android:textSize="18sp"
             android:textColor="@color/colorTextThree"
-            android:layout_below="@id/nameInput"
-            app:layout_constraintBottom_toBottomOf="@id/nameInput"
+            app:layout_constraintBottom_toBottomOf="@id/shiftLogLabel"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="10dp"/>
-        <android.support.v7.widget.AppCompatEditText
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop= "50dp"/>
+        <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/companyInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/CompanyName"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            />
 
 
         <TextView
@@ -178,12 +162,71 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginLeft="10dp"/>
 
-        <android.support.v7.widget.AppCompatEditText
+        <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/AgencyInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/AgencyName"
             android:layout_marginTop="8dp" />
 
-    </RelativeLayout>
-</ScrollView>
+        <Button
+            android:id="@+id/btnBreaks"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnEndTimePicker"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/selector_button"
+            android:text="@string/total_break_time" />
+
+        <Button
+            android:id="@+id/btnpoa"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/RegInput"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
+            android:visibility="invisible"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/selector_button"
+            android:text="Total POA" />
+
+        <TextView
+            android:id="@+id/Registration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/registration_number"
+            android:textSize="14sp"
+            android:textColor="@color/colorTextThree"
+            android:layout_below="@id/vehicleUse"
+            android:visibility="invisible"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="10dp"/>
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/RegInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_below="@id/Registration"
+            android:layout_marginTop="1dp"
+           />
+
+        </RelativeLayout>
+
+
+    </ScrollView>
+</RelativeLayout>
