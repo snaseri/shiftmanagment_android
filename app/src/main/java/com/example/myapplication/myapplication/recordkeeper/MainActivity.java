@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         company = (findViewById(R.id.companyInput));
         agency = (findViewById(R.id.AgencyInput));
         saveButton = findViewById(R.id.Save_Button);
@@ -133,7 +134,6 @@ public class MainActivity extends AppCompatActivity
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override  //setting what happens when clicked below
             public void onClick(View v) {
-
             if (validateTimes()) {
 
             AsyncTask.execute(new Runnable() {
@@ -161,7 +161,6 @@ public class MainActivity extends AppCompatActivity
                 }
             });
             } else invalidDateTime();
-                
             }
 
         });
