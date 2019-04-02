@@ -203,7 +203,7 @@
         android:id="@+id/nightLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/night_shift_if_applicable2"
+        android:text="@string/night_shift_if_applicable"
         android:textColor="@color/colorTextThree"
         android:textSize="18sp"
         android:layout_marginLeft="20dp"
