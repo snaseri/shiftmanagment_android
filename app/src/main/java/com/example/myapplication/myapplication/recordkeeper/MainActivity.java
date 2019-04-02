@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity
                             new Shiftlog(((Company) company.getSelectedItem()).getId(),
                                     ((Agency) agency.getSelectedItem()).getId(),
                                     startDate, startTime,endDate, endTime,breakTime,
-                                    vehicleUse.isChecked(),registration.toString(), poa, nightOut.isChecked())
+                                    vehicleUse.isChecked(),registration.getText().toString(), poa, nightOut.isChecked())
                     );
 
                     final List<Shiftlog> shiftlogs = db.getAllShiftlogs();
