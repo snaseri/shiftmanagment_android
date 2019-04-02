@@ -178,6 +178,21 @@ public class MainActivity extends AppCompatActivity
                     System.out.println("yep new one");
                     parent.setSelection(0);
                     company.setSelection(0);
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                                    transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
+                                    transaction.replace(R.id.main_layout, NewCompanyFragment.newInstance());
+                                    transaction.addToBackStack(null);
+                                    transaction.commit();
+                                }
+                            });
+                        }
+                    });
                 }
             }
 

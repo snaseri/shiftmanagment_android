@@ -145,14 +145,12 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse("smsto:" + "0777"));
                     String textMessage;
-                    ShiftlogDAO db = Room.databaseBuilder(this, ShiftlogDatabase.class,
-                                "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
 
 
 //                    if (s.getVehicleUse()) {
                         textMessage = String.format(
-                                "Company: " + db.getCompanyByID(s.getCompany()).getName() + System.getProperty("line.separator") +
-                                "Agency: " + db.getAgencyByID(s.getAgency()).getName() + System.getProperty("line.separator") +
+                                "Company: " + s.getCompany() + System.getProperty("line.separator") +
+                                "Agency: " + s.getAgency() + System.getProperty("line.separator") +
                                 "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
                                 "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
                                 "End Date: " + s.getEndDate() + System.getProperty("line.separator") +

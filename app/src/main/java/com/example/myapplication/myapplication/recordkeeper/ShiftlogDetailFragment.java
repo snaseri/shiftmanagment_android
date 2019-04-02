@@ -63,13 +63,11 @@ public class ShiftlogDetailFragment extends Fragment {
     public static ShiftlogDetailFragment newInstance(Shiftlog details) {
         ShiftlogDetailFragment fragment = new ShiftlogDetailFragment();
         Bundle args = new Bundle();
-        ShiftlogDAO db = Room.databaseBuilder(getApplicati, ShiftlogDatabase.class,
-                "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
 
 
 
-        args.putString(SHIFTLOG_COMPANY_ARG, db.getCompanyByID(details.getCompany()).getName());
-        args.putString(SHIFTLOG_AGENCY_ARG, db.getAgencyByID(details.getAgency()).getName());
+        args.putString(SHIFTLOG_COMPANY_ARG, String.valueOf(details.getCompany()));
+        args.putString(SHIFTLOG_AGENCY_ARG, String.valueOf(details.getAgency()));
         args.putString(SHIFTLOG_START_TIME_ARG, details.getStartTime());
         args.putString(SHIFTLOG_END_TIME_ARG, details.getEndTime());
         args.putString(SHIFTLOG_START_DATE_ARG, details.getStartDate());
