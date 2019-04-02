@@ -32,6 +32,6 @@
     <string name="registration_number">Registration Number:</string>
     <string name="poa_if_applicable">POA (If Applicable):</string>
     <string name="registration_if_applicable">Registration (If Applicable):</string>
-    <string name="night_shift_if_applicable">Night Shift (if_applicable):</string>
+    <string name="night_shift_if_applicable">Night Shift (If applicable):</string>
     <string name="night_shift_if_applicable2">Night Shift_If_Applicable</string>
 </resources>
