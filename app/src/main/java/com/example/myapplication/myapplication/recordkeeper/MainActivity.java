@@ -38,7 +38,7 @@ interface DateTime extends TimePickerFragment.TimePickedListener,
 public class MainActivity extends AppCompatActivity
         implements DateTime, PastShiftLogsFragment.OnListFragmentInteractionListener {
 
-    private AppCompatEditText name;
+
     private AppCompatSpinner company;
     private AppCompatSpinner agency;
     private AppCompatButton saveButton;
@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity
 
         db = Room.databaseBuilder(this, ShiftlogDatabase.class,
                 "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
-
         setCompanyOptions();
         //Checkbox click listeners
         vehicleUse.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +128,6 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-
         //Save button Listener
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -143,11 +141,12 @@ public class MainActivity extends AppCompatActivity
 
                 @Override
                 public void run() {
+
                     db.insertShiftlog(
                             new Shiftlog(((Company) company.getSelectedItem()).getId(),
                                     ((Agency) agency.getSelectedItem()).getId(),
                                     startDate, startTime,endDate, endTime,breakTime,
-                                    vehicleUse.isChecked(),registration.toString(), poa, nightOut.isChecked())
+                                    vehicleUse.isChecked(),registration.getText().toString(), poa, nightOut.isChecked())
                     );
 
                     final List<Shiftlog> shiftlogs = db.getAllShiftlogs();
@@ -203,7 +202,7 @@ public class MainActivity extends AppCompatActivity
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-
+                //db.insertCompany(new Company("Company","3284245"));
                 final List<Company> companies = db.getAllCompanies();
                 companies.add(0, new Company("No Company", "0"));
                 companies.get(0).setId(-1);
