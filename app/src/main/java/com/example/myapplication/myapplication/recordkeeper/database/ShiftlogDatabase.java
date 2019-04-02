@@ -4,7 +4,7 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
 @Database(entities = {Shiftlog.class, Agency.class, Company.class},
-        version = 3, exportSchema = false)
+        version = 4, exportSchema = false)
 
 public abstract class ShiftlogDatabase extends RoomDatabase {
 
