@@ -1,6 +1,7 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
 import android.app.Application;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,6 +23,8 @@ import android.widget.Toast;
 
 import com.example.myapplication.myapplication.recordkeeper.PastShiftLogsFragment.OnListFragmentInteractionListener;
 import com.example.myapplication.myapplication.recordkeeper.database.Shiftlog;
+import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDAO;
+import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDatabase;
 import com.example.myapplication.myapplication.recordkeeper.views.ApplicationContextProvider;
 import com.example.myapplication.myapplication.recordkeeper.views.ShiftlogListItemView;
 
@@ -142,10 +145,14 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setData(Uri.parse("smsto:" + "0777"));
                     String textMessage;
+                    ShiftlogDAO db = Room.databaseBuilder(this, ShiftlogDatabase.class,
+                                "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
+
+
 //                    if (s.getVehicleUse()) {
                         textMessage = String.format(
-                                "Company: " + s.getCompany() + System.getProperty("line.separator") +
-                                "Agency: " + s.getAgency() + System.getProperty("line.separator") +
+                                "Company: " + db.getCompanyByID(s.getCompany()).getName() + System.getProperty("line.separator") +
+                                "Agency: " + db.getAgencyByID(s.getAgency()).getName() + System.getProperty("line.separator") +
                                 "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
                                 "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
                                 "End Date: " + s.getEndDate() + System.getProperty("line.separator") +

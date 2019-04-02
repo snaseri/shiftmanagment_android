@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-
+                db.insertAgency(new Agency("Agency", "0020202"));
                 final List<Agency> agencies = db.getAllAgencies();
                 agencies.add(0, new Agency("No Agency", "0"));
                 agencies.get(0).setId(-1);
@@ -383,6 +383,23 @@ public class MainActivity extends AppCompatActivity
                                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                                 transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
                                 transaction.replace(R.id.main_layout, PastShiftLogsFragment.newInstance(allshiftlogs));
+                                transaction.addToBackStack(null);
+                                transaction.commit();
+                            }
+                        });
+                    }
+                });
+                break;
+            case R.id.add_company:
+                AsyncTask.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                                transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
+                                transaction.replace(R.id.main_layout, NewCompanyFragment.newInstance());
                                 transaction.addToBackStack(null);
                                 transaction.commit();
                             }
