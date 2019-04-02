@@ -211,12 +211,12 @@ public class MainActivity extends AppCompatActivity
                 final ArrayAdapter<Company> adapter = new ArrayAdapter<Company>(getApplicationContext(),
                         android.R.layout.simple_spinner_dropdown_item, companies);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
                         company.setAdapter(adapter);
-//                    }
-//                });
+                    }
+                });
             }
         }
 
@@ -245,11 +245,16 @@ public class MainActivity extends AppCompatActivity
                 agencies.get(0).setId(-1);
                 agencies.add(new Agency("Add Agency", "0"));
                 agencies.get(agencies.size() - 1).setId(-2);
-                ArrayAdapter<Agency> adapter = new ArrayAdapter<Agency>(getApplicationContext(),
+                final ArrayAdapter<Agency> adapter = new ArrayAdapter<Agency>(getApplicationContext(),
                         android.R.layout.simple_spinner_dropdown_item, agencies);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-                agency.setAdapter(adapter);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        agency.setAdapter(adapter);
+                    }
+                });
                 }
           }
 
