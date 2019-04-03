@@ -50,5 +50,8 @@ public interface ShiftlogDAO {
 
     @Query("SELECT Shiftlog.* FROM Agency, Shiftlog WHERE Agency.id=:id AND Shiftlog.shiftlog_agency = Agency.id")
     Shiftlog getShiftLogByAgency(int id);
+
+    @Query("DELETE FROM Shiftlog WHERE id=:idToDelete")
+    void deleteShiftlogsbyid(int idToDelete);
 }
 

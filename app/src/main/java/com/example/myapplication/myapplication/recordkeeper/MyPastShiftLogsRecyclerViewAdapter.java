@@ -154,6 +154,8 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
             switch (menuItem.getItemId()) {
                 // Delete button
                 case R.id.option_1:
+                    db = Room.databaseBuilder(context, ShiftlogDatabase.class,
+                            "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
                     for (Shiftlog s : mCheckBoxSelected) {
                         int itemPosition = mValues.indexOf(s);
                         mValues.remove(s);
