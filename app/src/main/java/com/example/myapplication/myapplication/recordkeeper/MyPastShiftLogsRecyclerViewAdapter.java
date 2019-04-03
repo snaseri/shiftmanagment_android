@@ -7,6 +7,7 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
@@ -186,6 +187,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                                 ActivityCompat.requestPermissions((MainActivity)context, new String[]{Manifest.permission.SEND_SMS}, 1);
                             } else {
                                 SmsManager.getDefault().sendTextMessage("04322", null, textMessage, null, null);
+                            //  row should be name of particular list past log row.setBackgroundColor (Color.GRAY);
                                 Toast.makeText(context, "Sent!", Toast.LENGTH_SHORT).show();
                             }
         }
