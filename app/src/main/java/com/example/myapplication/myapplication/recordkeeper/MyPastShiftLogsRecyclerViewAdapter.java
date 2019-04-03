@@ -186,6 +186,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                                 ActivityCompat.requestPermissions((MainActivity)context, new String[]{Manifest.permission.SEND_SMS}, 1);
                             } else {
                                 SmsManager.getDefault().sendTextMessage("04322", null, textMessage, null, null);
+                                //  row should be name of particular list past log row.setBackgroundColor (Color.GRAY);
                                 Toast.makeText(context, "Sent!", Toast.LENGTH_SHORT).show();
                             }
         }
