@@ -50,22 +50,28 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     private final OnListFragmentInteractionListener mListener;
     private ActionMode mActionMode;
     private List<Shiftlog> mCheckBoxSelected = new ArrayList<>();
+    private List<CheckBox> mCheckBoxs = new ArrayList<>();
     private List readyToShareLogs = new ArrayList();
     private static  OnListFragmentInteractionListener mButtonListener;
     private boolean pageSwitched;
     private Context context;
+    private static ShiftlogDAO db;
 
 
 //save the context recievied via constructor in a local variable
 
     public MyPastShiftLogsRecyclerViewAdapter(Context c, List<Shiftlog> items, OnListFragmentInteractionListener listener) {
-        for (Shiftlog shiftlog : items) {
-            mValues.add(new ShiftlogListItemView(shiftlog));
-            mLogValues.add(shiftlog);
+        if (items != null || !items.isEmpty()) {
+            for (Shiftlog shiftlog : items) {
+                mValues.add(new ShiftlogListItemView(shiftlog));
+                mLogValues.add(shiftlog);
+            }
         }
         this.context = c;
         mListener = listener;
     }
+
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -84,16 +90,17 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
         final Shiftlog mShiftlog = mLogValues.get(position);
 
 
-
         holder.mSelectedLogs.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
                     if (holder.mSelectedLogs.isChecked()) {
+                        mCheckBoxs.add(holder.mSelectedLogs);
                         mCheckBoxSelected.add(mShiftlog);
                         Log.d("PAST_LOGS: ",String.format(holder.mItem.getId() + "Added to Selected list. Current list:" + mCheckBoxSelected.toString()));
                     } else if (!holder.mSelectedLogs.isChecked()) {
+                        mCheckBoxs.remove(holder.mSelectedLogs);
                         mCheckBoxSelected.remove(mShiftlog);
                         Log.d("PAST_LOGS: ",String.format(holder.mItem.getId() + "Removed from Selected list. Current list:" + mCheckBoxSelected.toString()));
                     }
@@ -145,8 +152,18 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
         @Override
         public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
             switch (menuItem.getItemId()) {
+                // Delete button
                 case R.id.option_1:
-
+                    for (Shiftlog s : mCheckBoxSelected) {
+                        int itemPosition = mValues.indexOf(s);
+                        mValues.remove(s);
+                        notifyItemRemoved(itemPosition);
+                    }
+                    mCheckBoxs.clear();
+                    mCheckBoxSelected.clear();
+                    mActionMode = null;
+                    return false;
+                    //Share button
                     case R.id.option_2:
                         for (Shiftlog s : mCheckBoxSelected) {
                             String textMessage;
@@ -182,20 +199,23 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 
                             //Checking for sms permission
                             if (ContextCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                                Toast.makeText(context,"This app doesn't have permission to send text", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context,"This app doesn't have permission to send text", Toast.LENGTH_LONG).show();
                                 ActivityCompat.requestPermissions((MainActivity)context, new String[]{Manifest.permission.SEND_SMS}, 1);
                             } else {
                                 SmsManager.getDefault().sendTextMessage("04322", null, textMessage, null, null);
-                                Toast.makeText(context, "Sent!", Toast.LENGTH_SHORT).show();
                             }
         }
+        for (CheckBox c : mCheckBoxs) {
+            c.setChecked(false); }
+        mCheckBoxs.clear();
         mCheckBoxSelected.clear();
         mActionMode = null;
-    default:
         return false;
+    default:
+        mActionMode = null;
+        return false;
+    }
 }
-}
-
         @Override
         public void onDestroyActionMode(ActionMode actionMode) {
             mActionMode = null;

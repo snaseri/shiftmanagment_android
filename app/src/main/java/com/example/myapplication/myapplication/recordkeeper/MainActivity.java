@@ -202,7 +202,6 @@ public class MainActivity extends AppCompatActivity
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                db.insertCompany(new Company("Company","3284245"));
                 final List<Company> companies = db.getAllCompanies();
                 companies.add(0, new Company("No Company", "0"));
                 companies.get(0).setId(-1);
@@ -239,7 +238,6 @@ public class MainActivity extends AppCompatActivity
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                db.insertAgency(new Agency("Agency", "0020202"));
                 final List<Agency> agencies = db.getAllAgencies();
                 agencies.add(0, new Agency("No Agency", "0"));
                 agencies.get(0).setId(-1);
