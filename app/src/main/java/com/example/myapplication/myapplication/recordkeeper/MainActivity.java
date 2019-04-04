@@ -145,8 +145,9 @@ public class MainActivity extends AppCompatActivity
                     db.insertShiftlog(
                             new Shiftlog(((Company) company.getSelectedItem()).getId(),
                                     ((Agency) agency.getSelectedItem()).getId(),
-                                    startDate, startTime,endDate, endTime,breakTime,
-                                    vehicleUse.isChecked(),registration.getText().toString(), poa, nightOut.isChecked())
+                                    0, startDate, startTime,endDate, endTime,breakTime,
+                                    vehicleUse.isChecked(),registration.getText().toString(), poa,
+                                    nightOut.isChecked(), false)
                     );
 
                     final List<Shiftlog> shiftlogs = db.getAllShiftlogs();
@@ -202,7 +203,7 @@ public class MainActivity extends AppCompatActivity
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                //db.insertCompany(new Company("Company","3284245"));
+                db.insertCompany(new Company("Company","3284245"));
                 final List<Company> companies = db.getAllCompanies();
                 companies.add(0, new Company("No Company", "0"));
                 companies.get(0).setId(-1);
@@ -395,13 +396,15 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void run() {
                         final List<Shiftlog> allshiftlogs = db.getAllShiftlogs();
+                        final List<Company> allcompanies = db.getAllCompanies();
+                        final List<Agency> allagencies = db.getAllAgencies();
                         // fragment animation: https://stackoverflow.com/questions/4932462/animate-the-transition-between-fragments
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                                 transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
-                                transaction.replace(R.id.main_layout, PastShiftLogsFragment.newInstance(allshiftlogs));
+                                transaction.replace(R.id.main_layout, PastShiftLogsFragment.newInstance(allshiftlogs, allcompanies, allagencies));
                                 transaction.addToBackStack(null);
                                 transaction.commit();
                             }
@@ -444,12 +447,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run() {
                 final Shiftlog clickedShiftLog = db.getShiftLogById(item.getId());
+                final Company c = db.getCompanyByID(clickedShiftLog.getCompany());
+                final Agency a = db.getAgencyByID(clickedShiftLog.getAgency());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                         transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
-                        transaction.replace(R.id.main_layout, ShiftlogDetailFragment.newInstance(clickedShiftLog));
+                        transaction.replace(R.id.main_layout, ShiftlogDetailFragment.newInstance(clickedShiftLog, c, a));
                         transaction.addToBackStack(null);
                         transaction.commit();
                     }

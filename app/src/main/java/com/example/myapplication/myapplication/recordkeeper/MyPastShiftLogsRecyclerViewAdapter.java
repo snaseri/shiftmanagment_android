@@ -28,6 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.myapplication.recordkeeper.PastShiftLogsFragment.OnListFragmentInteractionListener;
+import com.example.myapplication.myapplication.recordkeeper.database.Agency;
+import com.example.myapplication.myapplication.recordkeeper.database.Company;
 import com.example.myapplication.myapplication.recordkeeper.database.Shiftlog;
 import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDAO;
 import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDatabase;
@@ -47,6 +49,8 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     private Button mShareButton;
     private final List<ShiftlogListItemView> mValues = new ArrayList<>();
     private List<Shiftlog> mLogValues = new ArrayList<>();
+    private List<Company> companies;
+    private List<Agency> agencies;
     private final OnListFragmentInteractionListener mListener;
     private ActionMode mActionMode;
     private List<Shiftlog> mCheckBoxSelected = new ArrayList<>();
@@ -58,9 +62,11 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 
 //save the context recievied via constructor in a local variable
 
-    public MyPastShiftLogsRecyclerViewAdapter(Context c, List<Shiftlog> items, OnListFragmentInteractionListener listener) {
+    public MyPastShiftLogsRecyclerViewAdapter(Context c, List<Shiftlog> items, List<Company> allCompanies, List<Agency> allAgencies, OnListFragmentInteractionListener listener) {
+        companies = allCompanies;
+        agencies = allAgencies;
         for (Shiftlog shiftlog : items) {
-            mValues.add(new ShiftlogListItemView(shiftlog));
+            mValues.add(new ShiftlogListItemView(shiftlog, allCompanies, allAgencies));
             mLogValues.add(shiftlog);
         }
         this.context = c;
@@ -144,17 +150,32 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 
         @Override
         public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+
             switch (menuItem.getItemId()) {
                 case R.id.option_1:
 
                     case R.id.option_2:
                         for (Shiftlog s : mCheckBoxSelected) {
                             String textMessage;
+                            String company = "None";
+                            String agency = "None";
+                            for (Company c: companies
+                            ) {
+                                if (s.getCompany() == c.getId()){
+                                    company = c.getName();
+                                }
+                            }
+                            for (Agency a: agencies
+                            ) {
+                                if (s.getAgency() == a.getId()){
+                                    agency = a.getName();
+                                }
+                            }
 
                     if (s.getVehicleUse()) {
                         textMessage = String.format(
-                            "Company: " + s.getCompany() + System.getProperty("line.separator") +
-                            "Agency: " + s.getAgency() + System.getProperty("line.separator") +
+                            "Company: " + company + System.getProperty("line.separator") +
+                            "Agency: " + agency + System.getProperty("line.separator") +
                             "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
                             "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
                             "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
@@ -167,8 +188,8 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 
                     } else {
                         textMessage = String.format(
-                            "Company: " + s.getCompany() + System.getProperty("line.separator") +
-                            "Agency: " + s.getAgency() + System.getProperty("line.separator") +
+                            "Company: " + company + System.getProperty("line.separator") +
+                            "Agency: " + agency + System.getProperty("line.separator") +
                             "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
                             "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
                             "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
@@ -178,7 +199,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 
                     }
 
-                            //SMS MESSANGER
+                            //SMS MESSENGER
 
                             //Checking for sms permission
                             if (ContextCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
