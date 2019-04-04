@@ -81,23 +81,13 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_HEADER) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.layout_pastlogs_header, parent, false);
-            ViewHolder viewHolderHeader = new ViewHolder(view);
-            //inflate your layout and pass it to view holder
-            return new HeaderViewHolder();
-        } else if (viewType == TYPE_ITEM) {
+
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.fragment_pastshiftlogs2, parent, false);
             ViewHolder vh = new ViewHolder(view);
 
-            return new ;
-            //inflate your layout and pass it to view holder
+            return vh;
         }
-
-        throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
-    }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
