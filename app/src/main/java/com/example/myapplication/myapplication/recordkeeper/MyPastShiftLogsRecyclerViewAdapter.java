@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.HeaderViewListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +61,10 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     private List<Shiftlog> items;
     private static ShiftlogDAO db;
 
+    private String companyName;
+    private String agencyName;
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
 
 //save the context recievied via constructor in a local variable
 
@@ -71,16 +76,27 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
         }
         this.context = c;
         mListener = listener;
+
     }
-
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_pastshiftlogs2, parent, false);
-        ViewHolder vh = new ViewHolder(view);
-        return vh;
+        if (viewType == TYPE_HEADER) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.layout_pastlogs_header, parent, false);
+            ViewHolder viewHolderHeader = new ViewHolder(view);
+            //inflate your layout and pass it to view holder
+            return new HeaderViewHolder();
+        } else if (viewType == TYPE_ITEM) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.fragment_pastshiftlogs2, parent, false);
+            ViewHolder vh = new ViewHolder(view);
+
+            return new ;
+            //inflate your layout and pass it to view holder
+        }
+
+        throw new RuntimeException("there is no type that matches the type " + viewType + " + make sure your using types correctly");
     }
 
     @Override
@@ -90,7 +106,6 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
         holder.mStartTextView.setText(mValues.get(position).getStartDate());
         holder.mSelectedLogs.setTag(position);
         final Shiftlog mShiftlog = mLogValues.get(position);
-
 
         holder.mSelectedLogs.setOnClickListener(new View.OnClickListener() {
 
@@ -193,14 +208,24 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                     return false;
                     //Share button
                     case R.id.option_2:
+                        final ArrayList<String> testlist = new ArrayList<>();
                         for (Shiftlog s : mCheckBoxSelected) {
                             final Shiftlog logToGet = s;
                             final String textMessage;
+                            String companyName;
+                            String agencyName;
 
+                            AsyncTask.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    testlist.add(db.getCompanyByID(logToGet.getCompany()).getName());
+                                    testlist.add(db.getAgencyByID(logToGet.getAgency()).getName());
+                                }
+                            });
                     if (s.getVehicleUse()) {
                         textMessage = String.format(
-                            "Company: " + s.getCompany() + System.getProperty("line.separator") +
-                            "Agency: " + s.getAgency() + System.getProperty("line.separator") +
+                            "Company: " + testlist.get(0) + System.getProperty("line.separator") +
+                            "Agency: " + testlist.get(1) + System.getProperty("line.separator") +
                             "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
                             "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
                             "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
@@ -213,8 +238,8 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 
                     } else {
                         textMessage = String.format(
-                            "Company: " + s.getCompany() + System.getProperty("line.separator") +
-                            "Agency: " + s.getAgency() + System.getProperty("line.separator") +
+                            "Company: " + s.getNightOut() + System.getProperty("line.separator") +
+                            "Agency: " + s.getNightOut() + System.getProperty("line.separator") +
                             "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
                             "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
                             "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
@@ -231,7 +256,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                                 Toast.makeText(context,"This app doesn't have permission to send text", Toast.LENGTH_LONG).show();
                                 ActivityCompat.requestPermissions((MainActivity)context, new String[]{Manifest.permission.SEND_SMS}, 1);
                             } else {
-                                Toast.makeText(context, "Sending...", Toast.LENGTH_LONG);
+//                                Toast.makeText(context, "Sending...", Toast.LENGTH_LONG).show();
                                 AsyncTask.execute(new Runnable() {
                                     @Override
                                     public void run() {
@@ -241,6 +266,8 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                                 });
                             }
         }
+        Toast.makeText(context, testlist.toString(), Toast.LENGTH_SHORT).show();
+        testlist.clear();
         for (CheckBox c : mCheckBoxs) {
             c.setChecked(false); }
         mCheckBoxs.clear();

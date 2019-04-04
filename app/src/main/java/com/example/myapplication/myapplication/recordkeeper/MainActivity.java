@@ -410,6 +410,7 @@ public class MainActivity extends AppCompatActivity
                                 transaction.replace(R.id.main_layout, PastShiftLogsFragment.newInstance(allshiftlogs));
                                 transaction.addToBackStack(null);
                                 transaction.commit();
+
                             }
                         });
                     }

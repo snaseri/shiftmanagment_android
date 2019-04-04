@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical"-->
+    <!--tools:context="com.example.myapplication.myapplication.recordkeeper.MainActivity">-->
+
+
+<!--<EditText xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:id="@+id/search_bar"-->
+    <!--android:name="com.example.myapplication.myapplication.recordkeeper.PastShiftLogsFragment"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_margin="16dp"-->
+    <!--android:background="@android:color/white"-->
+    <!--/>-->
+
 <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,4 +31,7 @@
     app:layoutManager="LinearLayoutManager"
     tools:context=".PastShiftLogsFragment"
     tools:listitem="@layout/fragment_pastshiftlogs2"
+    android:scrollbars="vertical"
     />
+
+<!--</LinearLayout>-->
