@@ -205,17 +205,10 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                             String companyName;
                             String agencyName;
 
-                            AsyncTask.execute(new Runnable() {
-                                @Override
-                                public void run() {
-                                    testlist.add(db.getCompanyByID(logToGet.getCompany()).getName());
-                                    testlist.add(db.getAgencyByID(logToGet.getAgency()).getName());
-                                }
-                            });
+
                     if (s.getVehicleUse()) {
                         textMessage = String.format(
-                            "Company: " + testlist.get(0) + System.getProperty("line.separator") +
-                            "Agency: " + testlist.get(1) + System.getProperty("line.separator") +
+                            "Shift Log Summary: " + System.getProperty("line.separator") +
                             "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
                             "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
                             "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
@@ -228,8 +221,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 
                     } else {
                         textMessage = String.format(
-                            "Company: " + s.getNightOut() + System.getProperty("line.separator") +
-                            "Agency: " + s.getNightOut() + System.getProperty("line.separator") +
+                            "Shift Log Summary: " + System.getProperty("line.separator") +
                             "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
                             "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
                             "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
@@ -256,8 +248,6 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                                 });
                             }
         }
-        Toast.makeText(context, testlist.toString(), Toast.LENGTH_SHORT).show();
-        testlist.clear();
         for (CheckBox c : mCheckBoxs) {
             c.setChecked(false); }
         mCheckBoxs.clear();
