@@ -153,45 +153,49 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 
         @Override
         public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+            db = Room.databaseBuilder(context, ShiftlogDatabase.class,
+                    "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
             switch (menuItem.getItemId()) {
                 // Delete button
                 case R.id.option_1:
-                    db = Room.databaseBuilder(context, ShiftlogDatabase.class,
-                            "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
-//                    AlertDialog.Builder altdial = new AlertDialog.Builder(context);
-//                    altdial.setMessage("Are you sure you want to delete these shift logs?").setCancelable(false)
-//                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-                                    for (Shiftlog s : mCheckBoxSelected) {
-                                        final int itemPosition = mValues.indexOf(s);
-                                        items.remove(s);
-                                        final Shiftlog logToGet = s;
-                                        AsyncTask.execute(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                db.deleteShiftlogsbyid(logToGet.getId());
-                                            }
-                                        });
-                                        notifyItemRemoved(itemPosition);
-                                    }
+                    AlertDialog.Builder altdial = new AlertDialog.Builder(context);
+                    altdial.setMessage("Are you sure you want to delete these shift logs?").setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (Shiftlog s : mCheckBoxSelected) {
+                            final int itemPosition = mValues.indexOf(s);
+                            mValues.remove(s);
+                            final Shiftlog logToGet = s;
+                            AsyncTask.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    db.deleteShiftlogsbyid(logToGet.getId());
+                                }
+                            });
+                            notifyItemRemoved(itemPosition);
+                        }
 
-                                    mCheckBoxs.clear();
-                                    mCheckBoxSelected.clear();
+                        mCheckBoxs.clear();
+                        mCheckBoxSelected.clear();
+                }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
 
-//                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    dialog.cancel();
-//                                }
-//                            });
-
+                    AlertDialog alert = altdial.create();
+                    alert.setTitle("Deleting Shift-logs");
+                    alert.show();
                     mActionMode = null;
                     return false;
                     //Share button
                     case R.id.option_2:
                         for (Shiftlog s : mCheckBoxSelected) {
-                            String textMessage;
+                            final Shiftlog logToGet = s;
+                            final String textMessage;
 
                     if (s.getVehicleUse()) {
                         textMessage = String.format(
@@ -227,7 +231,14 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                                 Toast.makeText(context,"This app doesn't have permission to send text", Toast.LENGTH_LONG).show();
                                 ActivityCompat.requestPermissions((MainActivity)context, new String[]{Manifest.permission.SEND_SMS}, 1);
                             } else {
-                                SmsManager.getDefault().sendTextMessage("04322", null, textMessage, null, null);
+                                Toast.makeText(context, "Sending...", Toast.LENGTH_LONG);
+                                AsyncTask.execute(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        SmsManager.getDefault().sendTextMessage(db.getCompanyByID(logToGet.getCompany()).getPhoneNumber()
+                                                , null, textMessage, null, null);
+                                    }
+                                });
                             }
         }
         for (CheckBox c : mCheckBoxs) {
