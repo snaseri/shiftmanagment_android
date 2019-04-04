@@ -146,6 +146,14 @@ public class MainActivity extends AppCompatActivity
                             new Shiftlog(((Company) company.getSelectedItem()).getId(),
                                     ((Agency) agency.getSelectedItem()).getId(),
                                     startDate, startTime,endDate, endTime,breakTime,
+                                    vehicleUse.isChecked(),registration.getText().toString(), poa, nightOut.isChecked()),
+                            new Shiftlog(((Company) company.getSelectedItem()).getId(),
+                                    ((Agency) agency.getSelectedItem()).getId(),
+                                    startDate, startTime,endDate, endTime,breakTime,
+                                    vehicleUse.isChecked(),registration.getText().toString(), poa, nightOut.isChecked()),
+                            new Shiftlog(((Company) company.getSelectedItem()).getId(),
+                                    ((Agency) agency.getSelectedItem()).getId(),
+                                    startDate, startTime,endDate, endTime,breakTime,
                                     vehicleUse.isChecked(),registration.getText().toString(), poa, nightOut.isChecked())
                     );
 

@@ -2,9 +2,11 @@ package com.example.myapplication.myapplication.recordkeeper;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -55,17 +57,17 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     private static  OnListFragmentInteractionListener mButtonListener;
     private boolean pageSwitched;
     private Context context;
+    private List<Shiftlog> items;
     private static ShiftlogDAO db;
 
 
 //save the context recievied via constructor in a local variable
 
     public MyPastShiftLogsRecyclerViewAdapter(Context c, List<Shiftlog> items, OnListFragmentInteractionListener listener) {
-        if (items != null || !items.isEmpty()) {
+        this.items = items;
             for (Shiftlog shiftlog : items) {
                 mValues.add(new ShiftlogListItemView(shiftlog));
                 mLogValues.add(shiftlog);
-            }
         }
         this.context = c;
         mListener = listener;
@@ -156,13 +158,34 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                 case R.id.option_1:
                     db = Room.databaseBuilder(context, ShiftlogDatabase.class,
                             "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
-                    for (Shiftlog s : mCheckBoxSelected) {
-                        int itemPosition = mValues.indexOf(s);
-                        mValues.remove(s);
-                        notifyItemRemoved(itemPosition);
-                    }
-                    mCheckBoxs.clear();
-                    mCheckBoxSelected.clear();
+//                    AlertDialog.Builder altdial = new AlertDialog.Builder(context);
+//                    altdial.setMessage("Are you sure you want to delete these shift logs?").setCancelable(false)
+//                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+                                    for (Shiftlog s : mCheckBoxSelected) {
+                                        final int itemPosition = mValues.indexOf(s);
+                                        items.remove(s);
+                                        final Shiftlog logToGet = s;
+                                        AsyncTask.execute(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                db.deleteShiftlogsbyid(logToGet.getId());
+                                            }
+                                        });
+                                        notifyItemRemoved(itemPosition);
+                                    }
+
+                                    mCheckBoxs.clear();
+                                    mCheckBoxSelected.clear();
+
+//                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    dialog.cancel();
+//                                }
+//                            });
+
                     mActionMode = null;
                     return false;
                     //Share button
@@ -218,10 +241,10 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
         return false;
     }
 }
+
         @Override
         public void onDestroyActionMode(ActionMode actionMode) {
             mActionMode = null;
-
         }
     };
 
