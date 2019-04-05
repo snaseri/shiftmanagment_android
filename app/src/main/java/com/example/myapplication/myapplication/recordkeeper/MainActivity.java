@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity
                                     vehicleUse.isChecked(),registration.getText().toString(), poa, nightOut.isChecked(), false)
                     );
 
+
                     final List<Shiftlog> shiftlogs = db.getAllShiftlogs();
                     Log.d("STORED_SHIFTLOGS", String.format("Number of ShiftLogs: %d", shiftlogs.size()));
 
@@ -239,7 +240,6 @@ public class MainActivity extends AppCompatActivity
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                db.insertAgency(new Agency("Agency", "0020202"));
                 final List<Agency> agencies = db.getAllAgencies();
                 agencies.add(0, new Agency("No Agency", "0"));
                 agencies.get(0).setId(-1);
@@ -404,6 +404,7 @@ public class MainActivity extends AppCompatActivity
                                 transaction.replace(R.id.main_layout, PastShiftLogsFragment.newInstance(allshiftlogs));
                                 transaction.addToBackStack(null);
                                 transaction.commit();
+
                             }
                         });
                     }
