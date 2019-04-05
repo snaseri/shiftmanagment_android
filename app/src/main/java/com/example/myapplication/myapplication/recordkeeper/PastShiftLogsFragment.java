@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -43,6 +45,7 @@ public class PastShiftLogsFragment extends Fragment {
     public PastShiftLogsFragment() {
     }
 
+
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static PastShiftLogsFragment newInstance(List<Shiftlog> shiftlogs) {
@@ -54,6 +57,8 @@ public class PastShiftLogsFragment extends Fragment {
 
         return fragment;
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,7 +88,6 @@ public class PastShiftLogsFragment extends Fragment {
         }
 
 
-
         return view;
     }
 
@@ -99,12 +103,19 @@ public class PastShiftLogsFragment extends Fragment {
         }
     }
 
+
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.searchbar_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
