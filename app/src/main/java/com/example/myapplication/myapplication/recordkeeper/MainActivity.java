@@ -403,10 +403,12 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    public boolean setToOtherMenu = false;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.navigation, menu);
+        getMenuInflater().inflate((setToOtherMenu ? R.menu.searchbar_menu : R.menu.navigation), menu);
 
         return true;
     }

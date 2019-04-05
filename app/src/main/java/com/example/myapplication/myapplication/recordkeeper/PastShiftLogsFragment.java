@@ -88,6 +88,10 @@ public class PastShiftLogsFragment extends Fragment {
         }
 
 
+        ((MainActivity)getActivity()).setToOtherMenu = true;
+        ((MainActivity)getActivity()).invalidateOptionsMenu();
+
+
         return view;
     }
 
@@ -111,11 +115,11 @@ public class PastShiftLogsFragment extends Fragment {
     }
 
 
-    @Override
+    /*@Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.searchbar_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
-    }
+    }*/
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
