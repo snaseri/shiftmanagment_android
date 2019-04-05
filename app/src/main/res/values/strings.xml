@@ -28,11 +28,11 @@
     <string name="pick_an_end_date">Pick an End Date</string>
     <string name="pick_an_end_time">Pick an End Time</string>
     <string name="pick_a_start_date">Pick a Start Date</string>
-    <string name="total_break_time">Total Break Time:</string>
+    <string name="total_break_time">Total Break Time</string>
     <string name="registration_number">Registration Number:</string>
     <string name="poa_if_applicable">POA (If Applicable):</string>
     <string name="registration_if_applicable">Registration (If Applicable):</string>
-    <string name="night_shift_if_applicable">Night Shift (If applicable):</string>
+    <string name="night_shift_if_applicable">Night Shift (If Applicable):</string>
     <string name="night_shift_if_applicable2">Night Shift_If_Applicable</string>
     <string name="new_company">New Company</string>
     <string name="add_company">Add Company</string>

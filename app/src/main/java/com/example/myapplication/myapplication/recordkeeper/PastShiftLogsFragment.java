@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.myapplication.myapplication.recordkeeper.database.Agency;
 import com.example.myapplication.myapplication.recordkeeper.database.Company;
@@ -76,7 +77,6 @@ public class PastShiftLogsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pastshiftlogs_list, container, false);
 
-
         if (view instanceof RecyclerView) {
             final Context context = view.getContext();
             final RecyclerView recyclerView = (RecyclerView) view;
@@ -86,8 +86,8 @@ public class PastShiftLogsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyPastShiftLogsRecyclerViewAdapter(getActivity(), allShiftlogs, allCompanies, allAgencies, mListener));
-
+            recyclerView.setAdapter(new MyPastShiftLogsRecyclerViewAdapter(getActivity(), allShiftlogs, mListener));
+            Log.d("TEST", "aaaaaaa");
         }
 
 

@@ -1,6 +1,8 @@
 package com.example.myapplication.myapplication.recordkeeper.views;
 
 import android.arch.persistence.room.Room;
+import android.content.Context;
+import android.os.AsyncTask;
 
 import com.example.myapplication.myapplication.recordkeeper.database.Agency;
 import com.example.myapplication.myapplication.recordkeeper.database.Company;
@@ -16,19 +18,28 @@ public class ShiftlogListItemView {
     private String company ;
     private String start;
     private String end;
+    private Boolean shared;
+    private static ShiftlogDAO db;
 
-    public ShiftlogListItemView(Shiftlog shiftLog, List<Company> allCompanies, List<Agency> allAgencies) {
+    public ShiftlogListItemView(final Shiftlog shiftLog, Context c) {
 
         company = String.valueOf(shiftLog.getCompany());
-        for (Company c: allCompanies
-        ) {
-            if (shiftLog.getCompany() == c.getId()){
-                company = c.getName();
-            }
-        }
+        db = Room.databaseBuilder(c, ShiftlogDatabase.class,
+                "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
+
+
+        AsyncTask.execute(new Runnable() {
+                              @Override
+                              public void run() {
+                                  if (db.getCompanyByID(shiftLog.getCompany()) != null) {
+                                      company = db.getCompanyByID(shiftLog.getCompany()).getName();
+                                  }
+                              }
+                          });
         start = shiftLog.getStartDate();
-        end =shiftLog.getEndDate();
+        end = shiftLog.getEndDate();
         id = shiftLog.getId();
+        shared = shiftLog.getShared();
     }
 
     public String getCompany() {
@@ -43,5 +54,9 @@ public class ShiftlogListItemView {
     }
     public int getId() {
         return id;
+    }
+
+    public Boolean getShared() {
+        return shared;
     }
 }

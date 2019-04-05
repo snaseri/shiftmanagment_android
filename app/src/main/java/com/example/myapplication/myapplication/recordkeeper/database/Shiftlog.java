@@ -4,6 +4,7 @@ package com.example.myapplication.myapplication.recordkeeper.database;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.Room;
 
 
 @Entity
@@ -65,11 +66,12 @@ public class Shiftlog {
         this.startTime = startTime;
         this.endDate = endDate;
         this.endTime = endTime;
-        this.breaks =breaks;
+        this.breaks = breaks;
         this.vehicleUse = vehicleUse;
         this.registration = registration;
-        this.poa =poa;
+        this.poa = poa;
         this.nightOut = nightOut;
+        this.shared = shared;
 
     }
 
