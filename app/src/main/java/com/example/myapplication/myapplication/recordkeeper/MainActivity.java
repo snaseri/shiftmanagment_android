@@ -143,11 +143,11 @@ public class MainActivity extends AppCompatActivity
                 public void run() {
 
                     int sendid;
-                    if (useAgencyyno.isChecked() == true && useCompanyno.isChecked() == true) {
+                    if (useAgencyyno.isChecked() && useCompanyno.isChecked()) {
                         sendid = 3;
-                    } else if (useAgencyyno.isChecked() == true && useCompanyno.isChecked() != true) {
+                    } else if (useAgencyyno.isChecked() && !useCompanyno.isChecked()) {
                         sendid = 2;
-                    } else if (useAgencyyno.isChecked() != true && useCompanyno.isChecked() == true) {
+                    } else if (!useAgencyyno.isChecked() && useCompanyno.isChecked()) {
                         sendid = 1;
                     } else {
                         sendid = 0;
