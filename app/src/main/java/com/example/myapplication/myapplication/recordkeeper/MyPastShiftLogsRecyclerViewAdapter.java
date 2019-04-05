@@ -7,6 +7,7 @@ import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
@@ -50,6 +51,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     private final OnListFragmentInteractionListener mListener;
     private ActionMode mActionMode;
     private List<Shiftlog> mCheckBoxSelected = new ArrayList<>();
+    private List<ViewHolder> mSelectedViewHolders = new ArrayList<>();
     private List readyToShareLogs = new ArrayList();
     private static  OnListFragmentInteractionListener mButtonListener;
     private boolean pageSwitched;
@@ -92,9 +94,11 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                 if (null != mListener) {
                     if (holder.mSelectedLogs.isChecked()) {
                         mCheckBoxSelected.add(mShiftlog);
+                        mSelectedViewHolders.add(holder);
                         Log.d("PAST_LOGS: ",String.format(holder.mItem.getId() + "Added to Selected list. Current list:" + mCheckBoxSelected.toString()));
                     } else if (!holder.mSelectedLogs.isChecked()) {
                         mCheckBoxSelected.remove(mShiftlog);
+                        mSelectedViewHolders.remove(holder);
                         Log.d("PAST_LOGS: ",String.format(holder.mItem.getId() + "Removed from Selected list. Current list:" + mCheckBoxSelected.toString()));
                     }
 
@@ -146,55 +150,59 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
         public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.option_1:
+                    break;
+                case R.id.option_2:
+                    for (Shiftlog s : mCheckBoxSelected) {
+                        String textMessage;
 
-                    case R.id.option_2:
-                        for (Shiftlog s : mCheckBoxSelected) {
-                            String textMessage;
+                        if (s.getVehicleUse()) {
+                            textMessage = String.format(
+                                "Company: " + s.getCompany() + System.getProperty("line.separator") +
+                                "Agency: " + s.getAgency() + System.getProperty("line.separator") +
+                                "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
+                                "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
+                                "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
+                                "End Time: " + s.getEndTime() + System.getProperty("line.separator") +
+                                "Break Time: " + s.getBreaks() + System.getProperty("line.separator") +
+                                "Nights out: " + s.getNightOut() + System.getProperty("line.separator") +
+                                "Registered Vehicle: " + s.getVehicleUse() + System.getProperty("line.separator") +
+                                "Vehicle Registration: " + s.getRegistration() + System.getProperty("line.separator") +
+                                "POA: " +  s.getPoa() + System.getProperty("line.separator"));
 
-                    if (s.getVehicleUse()) {
-                        textMessage = String.format(
-                            "Company: " + s.getCompany() + System.getProperty("line.separator") +
-                            "Agency: " + s.getAgency() + System.getProperty("line.separator") +
-                            "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
-                            "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
-                            "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
-                            "End Time: " + s.getEndTime() + System.getProperty("line.separator") +
-                            "Break Time: " + s.getBreaks() + System.getProperty("line.separator") +
-                            "Nights out: " + s.getNightOut() + System.getProperty("line.separator") +
-                            "Registered Vehicle: " + s.getVehicleUse() + System.getProperty("line.separator") +
-                            "Vehicle Registration: " + s.getRegistration() + System.getProperty("line.separator") +
-                            "POA: " +  s.getPoa() + System.getProperty("line.separator"));
+                        } else {
+                            textMessage = String.format(
+                                "Company: " + s.getCompany() + System.getProperty("line.separator") +
+                                "Agency: " + s.getAgency() + System.getProperty("line.separator") +
+                                "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
+                                "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
+                                "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
+                                "End Time: " + s.getEndTime() + System.getProperty("line.separator") +
+                                "Break Time: " + s.getBreaks() + System.getProperty("line.separator") +
+                                "Nights out: " + s.getNightOut() + System.getProperty("line.separator"));
 
-                    } else {
-                        textMessage = String.format(
-                            "Company: " + s.getCompany() + System.getProperty("line.separator") +
-                            "Agency: " + s.getAgency() + System.getProperty("line.separator") +
-                            "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
-                            "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
-                            "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
-                            "End Time: " + s.getEndTime() + System.getProperty("line.separator") +
-                            "Break Time: " + s.getBreaks() + System.getProperty("line.separator") +
-                            "Nights out: " + s.getNightOut() + System.getProperty("line.separator"));
+                        }
 
+                        //SMS MESSANGER
+
+                        //Checking for sms permission
+                        if (ContextCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(context,"This app doesn't have permission to send text", Toast.LENGTH_SHORT).show();
+                            ActivityCompat.requestPermissions((MainActivity)context, new String[]{Manifest.permission.SEND_SMS}, 1);
+                        } else {
+                            SmsManager.getDefault().sendTextMessage("04322", null, textMessage, null, null);
+
+                            Toast.makeText(context, "Sent!", Toast.LENGTH_SHORT).show();
+                        }
                     }
-
-                            //SMS MESSANGER
-
-                            //Checking for sms permission
-                            if (ContextCompat.checkSelfPermission(context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                                Toast.makeText(context,"This app doesn't have permission to send text", Toast.LENGTH_SHORT).show();
-                                ActivityCompat.requestPermissions((MainActivity)context, new String[]{Manifest.permission.SEND_SMS}, 1);
-                            } else {
-                                SmsManager.getDefault().sendTextMessage("04322", null, textMessage, null, null);
-                                //row should be name of particular list past log row.setBackgroundColor (Color.GRAY);
-                                Toast.makeText(context, "Sent!", Toast.LENGTH_SHORT).show();
-                            }
+                    for (ViewHolder v : mSelectedViewHolders){
+                        v.mView.setBackgroundColor(Color.GRAY);
+                    }
+                    break;
         }
-        mCheckBoxSelected.clear();
+            mCheckBoxSelected.clear();
+            mSelectedViewHolders.clear();
         mActionMode = null;
-    default:
         return false;
-}
 }
 
         @Override
