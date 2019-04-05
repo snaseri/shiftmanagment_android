@@ -155,8 +155,10 @@ public class MainActivity extends AppCompatActivity
                     db.insertShiftlog(
                             new Shiftlog(((Company) company.getSelectedItem()).getId(),
                                     ((Agency) agency.getSelectedItem()).getId(),
-                                    startDate, startTime,endDate, endTime,breakTime,
-                                    vehicleUse.isChecked(),registration.getText().toString(), poa, nightOut.isChecked(), false, sendid)
+                                    sendid, startDate, startTime,endDate, endTime,breakTime,
+                                    vehicleUse.isChecked(),registration.getText().toString(), poa,
+                                    nightOut.isChecked(), false)
+
                     );
 
 
@@ -457,12 +459,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run() {
                 final Shiftlog clickedShiftLog = db.getShiftLogById(item.getId());
+                final Company c = db.getCompanyByID(clickedShiftLog.getCompany());
+                final Agency a = db.getAgencyByID(clickedShiftLog.getAgency());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                         transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
-                        transaction.replace(R.id.main_layout, ShiftlogDetailFragment.newInstance(clickedShiftLog));
+                        transaction.replace(R.id.main_layout, ShiftlogDetailFragment.newInstance(clickedShiftLog, c, a));
                         transaction.addToBackStack(null);
                         transaction.commit();
                     }

@@ -18,8 +18,8 @@ public interface ShiftlogDAO {
     @Query("DELETE FROM Shiftlog")
     void clearShiftlogs();
 
-    @Query("DELETE FROM Shiftlog WHERE shiftlog_company=:nameToDelete")
-    void deleteShiftlogs(String nameToDelete);
+    @Query("DELETE FROM Shiftlog WHERE id=:id")
+    void deleteShiftlog(int id);
 
     @Query("SELECT * FROM Shiftlog WHERE id=:id")
     Shiftlog getShiftLogById(int id);

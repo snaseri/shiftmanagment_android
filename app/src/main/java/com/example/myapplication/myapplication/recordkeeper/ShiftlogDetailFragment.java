@@ -1,8 +1,6 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
 
-import android.app.ActionBar;
-import android.arch.persistence.room.Room;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatTextView;
@@ -10,9 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.myapplication.myapplication.recordkeeper.database.Agency;
+import com.example.myapplication.myapplication.recordkeeper.database.Company;
 import com.example.myapplication.myapplication.recordkeeper.database.Shiftlog;
-import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDAO;
-import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDatabase;
 
 
 /**
@@ -60,14 +58,20 @@ public class ShiftlogDetailFragment extends Fragment {
      * @return A new instance of fragment ShiftlogDetailFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ShiftlogDetailFragment newInstance(Shiftlog details) {
+    public static ShiftlogDetailFragment newInstance(Shiftlog details, Company c, Agency a) {
         ShiftlogDetailFragment fragment = new ShiftlogDetailFragment();
         Bundle args = new Bundle();
+        if (c == null) {
+            c = new Company("No Company", "Not Applicable");
+        }
+        if (a == null) {
+            a = new Agency("No Agency", "Not Applicable");
+        }
 
 
 
-        args.putString(SHIFTLOG_COMPANY_ARG, String.valueOf(details.getCompany()));
-        args.putString(SHIFTLOG_AGENCY_ARG, String.valueOf(details.getAgency()));
+        args.putString(SHIFTLOG_COMPANY_ARG, String.valueOf(c.getName()));
+        args.putString(SHIFTLOG_AGENCY_ARG, String.valueOf(a.getName()));
         args.putString(SHIFTLOG_START_TIME_ARG, details.getStartTime());
         args.putString(SHIFTLOG_END_TIME_ARG, details.getEndTime());
         args.putString(SHIFTLOG_START_DATE_ARG, details.getStartDate());

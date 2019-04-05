@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.example.myapplication.myapplication.recordkeeper.database.Agency;
+import com.example.myapplication.myapplication.recordkeeper.database.Company;
 import com.example.myapplication.myapplication.recordkeeper.database.Shiftlog;
 import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDAO;
 import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDatabase;

@@ -13,6 +13,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +35,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.myapplication.recordkeeper.PastShiftLogsFragment.OnListFragmentInteractionListener;
+import com.example.myapplication.myapplication.recordkeeper.database.Agency;
+import com.example.myapplication.myapplication.recordkeeper.database.Company;
 import com.example.myapplication.myapplication.recordkeeper.database.Shiftlog;
 import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDAO;
 import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDatabase;
@@ -46,14 +50,18 @@ import java.util.List;
  * {@link RecyclerView.Adapter} that can display a {@link ShiftlogListItemView} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  */
-public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyPastShiftLogsRecyclerViewAdapter.ViewHolder> {
+public class MyPastShiftLogsRecyclerViewAdapter
+        extends RecyclerView.Adapter<MyPastShiftLogsRecyclerViewAdapter.ViewHolder>{
 
     private Button mShareButton;
     private final List<ShiftlogListItemView> mValues = new ArrayList<>();
     private List<Shiftlog> mLogValues = new ArrayList<>();
+    private List<Company> companies;
+    private List<Agency> agencies;
     private final OnListFragmentInteractionListener mListener;
     private ActionMode mActionMode;
     private List<Shiftlog> mCheckBoxSelected = new ArrayList<>();
+    private List<ViewHolder> mAllViewHolders = new ArrayList<>();
 
     private List<ViewHolder> mSelectedViewHolders = new ArrayList<>();
 
@@ -74,11 +82,30 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 //save the context recievied via constructor in a local variable
 
     public MyPastShiftLogsRecyclerViewAdapter(Context c, List<Shiftlog> items, OnListFragmentInteractionListener listener) {
+
+
         this.items = items;
             for (Shiftlog shiftlog : items) {
-                mValues.add(new ShiftlogListItemView(shiftlog));
+                ShiftlogListItemView toAdd = new ShiftlogListItemView(shiftlog, c, mValues.size());
+                toAdd.setUpdate(new ShiftlogListItemView.UpdateUI() {
+                    @Override
+                    public void update(final int i) {
+                        ((Activity)context).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ViewHolder item = mAllViewHolders.get(i);
+                                item.mShitLogNameView.setText(item.mItem.getCompany());
+                            }
+                        });
+                        Log.d("SIZE", String.valueOf(mValues.size()));
+                        Log.d("SIZE", String.valueOf(mAllViewHolders.size()));
+                    }
+                });
+                mValues.add(toAdd);
                 mLogValues.add(shiftlog);
         }
+        Log.d("SIZE", String.valueOf(mValues.size()));
+        Log.d("SIZE", String.valueOf(mAllViewHolders.size()));
         this.context = c;
         mListener = listener;
 
@@ -86,6 +113,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        "".split(",\n");
 
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.fragment_pastshiftlogs2, parent, false);
@@ -100,7 +128,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
         if (holder.mItem.getShared()){
             holder.mView.setBackgroundColor(Color.GRAY);
         }
-        holder.mShitLogNameView.setText(mValues.get(position).getCompany());
+        holder.mItem.generateName();
         holder.mStartTextView.setText(mValues.get(position).getStartDate());
         holder.mSelectedLogs.setTag(position);
         final Shiftlog mShiftlog = mLogValues.get(position);
@@ -168,8 +196,10 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 
         @Override
         public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+
             db = Room.databaseBuilder(context, ShiftlogDatabase.class,
                     "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
+
             switch (menuItem.getItemId()) {
                 // Delete button
                 case R.id.option_1:
@@ -258,21 +288,16 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                             AsyncTask.execute(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Log.d("TESTING", String.format("receiver is " + logToGet.getLogReceiver()));
+                                    Log.d("TESTING", String.format("receiver is " + logToGet.getShareWith()));
                                         // Send to Company Only
-                                    if (logToGet.getLogReceiver() == 1) {
+                                    if (logToGet.getShareWith()% 2 == 1) {
                                         SmsManager.getDefault().sendTextMessage(db.getCompanyByID(logToGet.getCompany()).getPhoneNumber()
                                                 , null, textMessage, null, null);
                                         //Send to Agecny Only
-                                    } else if (logToGet.getLogReceiver() == 2) {
+                                    } else if (logToGet.getShareWith() >= 2) {
                                         SmsManager.getDefault().sendTextMessage(db.getAgencyByID(logToGet.getAgency()).getPhoneNumber()
                                                 , null, textMessage, null, null);
                                         //Send to Company and Agency
-                                    } else if (logToGet.getLogReceiver() == 3) {
-                                        SmsManager.getDefault().sendTextMessage(db.getCompanyByID(logToGet.getCompany()).getPhoneNumber()
-                                                , null, textMessage, null, null);
-                                        SmsManager.getDefault().sendTextMessage(db.getAgencyByID(logToGet.getAgency()).getPhoneNumber()
-                                                , null, textMessage, null, null);
                                     }
                                 }
                             });
@@ -314,6 +339,13 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     public int getItemCount() {
         return mValues.size();
     }
+//    @Override
+//    public void update(int i) {
+//        ViewHolder item = mAllViewHolders.get(i);
+//        item.mShitLogNameView.setText(item.mItem.getCompany());
+//        Log.d("SIZE", String.valueOf(mValues.size()));
+//        Log.d("SIZE", String.valueOf(mAllViewHolders.size()));
+//    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
@@ -329,6 +361,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
             mShitLogNameView = (TextView) view.findViewById(R.id.CompanyName);
             mStartTextView =(TextView) view.findViewById(R.id.start_date);
             mSelectedLogs = (CheckBox) view.findViewById(R.id.shiftSelect);
+            mAllViewHolders.add(this);
 
         }
     }
