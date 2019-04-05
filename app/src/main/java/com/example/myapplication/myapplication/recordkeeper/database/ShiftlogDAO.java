@@ -53,5 +53,8 @@ public interface ShiftlogDAO {
 
     @Query("UPDATE Shiftlog SET shiftlog_shared = 1 WHERE id = :id")
     void setSharedFor(int id);
+    
+    @Query("DELETE FROM Shiftlog WHERE id=:idToDelete")
+    void deleteShiftlogsbyid(int idToDelete);
 }
 

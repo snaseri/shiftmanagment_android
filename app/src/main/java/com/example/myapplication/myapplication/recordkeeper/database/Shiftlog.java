@@ -4,6 +4,7 @@ package com.example.myapplication.myapplication.recordkeeper.database;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.Room;
 
 
 @Entity
@@ -49,7 +50,6 @@ public class Shiftlog {
 
     @ColumnInfo(name = "shiftlog_nightout")
     private Boolean nightOut;
-
 
     @ColumnInfo(name = "shiftlog_shared")
     private Boolean shared;
