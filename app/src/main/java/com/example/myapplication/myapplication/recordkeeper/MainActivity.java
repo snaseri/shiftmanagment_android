@@ -3,7 +3,6 @@ package com.example.myapplication.myapplication.recordkeeper;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +10,8 @@ import android.os.Bundle;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,7 +19,6 @@ import android.widget.CheckBox;
 import android.support.v7.widget.AppCompatButton;
 import android.view.Menu;
 import android.view.View;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +53,8 @@ public class MainActivity extends AppCompatActivity
     //Detail checkboxes
     private CheckBox vehicleUse;
     private CheckBox nightOut;
+    private CheckBox useCompanyno;
+    private CheckBox useAgencyyno;
     private ActionMode mActionMode;
 
 
@@ -97,6 +95,8 @@ public class MainActivity extends AppCompatActivity
         //Detail checkboxes
         vehicleUse = (findViewById(R.id.vehicleUse));
         nightOut = (findViewById(R.id.nightOut));
+        useCompanyno = (findViewById(R.id.useCompanyno));
+        useAgencyyno = (findViewById(R.id.useAgencyyno));
 
 
         db = Room.databaseBuilder(this, ShiftlogDatabase.class,
@@ -142,11 +142,22 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void run() {
 
+                    int sendid;
+                    if (useAgencyyno.isChecked() == true && useCompanyno.isChecked() == true) {
+                        sendid = 3;
+                    } else if (useAgencyyno.isChecked() == true && useCompanyno.isChecked() != true) {
+                        sendid = 2;
+                    } else if (useAgencyyno.isChecked() != true && useCompanyno.isChecked() == true) {
+                        sendid = 1;
+                    } else {
+                        sendid = 0;
+                    }
+
                     db.insertShiftlog(
                             new Shiftlog(((Company) company.getSelectedItem()).getId(),
                                     ((Agency) agency.getSelectedItem()).getId(),
                                     startDate, startTime,endDate, endTime,breakTime,
-                                    vehicleUse.isChecked(),registration.getText().toString(), poa, nightOut.isChecked(), false)
+                                    vehicleUse.isChecked(),registration.getText().toString(), poa, nightOut.isChecked(), false, sendid)
                     );
 
 

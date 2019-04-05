@@ -43,10 +43,8 @@ public class Shiftlog {
     @ColumnInfo(name = "shiftlog_registration")
     private String registration;
 
-
     @ColumnInfo(name = "shiftlog_poa")
     private String poa;
-
 
     @ColumnInfo(name = "shiftlog_nightout")
     private Boolean nightOut;
@@ -54,9 +52,12 @@ public class Shiftlog {
     @ColumnInfo(name = "shiftlog_shared")
     private Boolean shared;
 
+    @ColumnInfo(name = "shiftlog_receiver")
+    private int logReceiver;
+
 
     public Shiftlog(int company, int agency, String startDate, String startTime, String endDate, String endTime, String breaks,
-                    Boolean vehicleUse, String registration, String poa, Boolean nightOut, Boolean shared) {
+                    Boolean vehicleUse, String registration, String poa, Boolean nightOut, Boolean shared, int logReceiver) {
         this.company = company;
         this.agency = agency;
         this.startDate= startDate;
@@ -69,6 +70,7 @@ public class Shiftlog {
         this.poa = poa;
         this.nightOut = nightOut;
         this.shared = shared;
+        this.logReceiver = logReceiver;
 
     }
 
@@ -183,4 +185,9 @@ public class Shiftlog {
     public void setShared(Boolean shared) {
         this.shared = shared;
     }
+
+    public int getLogReceiver() { return logReceiver; }
+
+    public void setLogReceiver(int logReceiver) { this.logReceiver = logReceiver; }
+
 }
