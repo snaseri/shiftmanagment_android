@@ -178,6 +178,7 @@ public class MainActivity extends AppCompatActivity
                     });
                 }
             });
+            reloadPage();
             } else invalidDateTime();
                 
             }
@@ -220,7 +221,6 @@ public class MainActivity extends AppCompatActivity
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                db.clearShiftlogs();
                 final List<Company> companies = db.getAllCompanies();
                 companies.add(0, new Company("No Company", "0"));
                 companies.get(0).setId(-1);
@@ -306,9 +306,12 @@ public class MainActivity extends AppCompatActivity
                 !useCompanyno.isChecked()) {
             return false;
         } else { return true;}
+    }
 
-
-
+    //A method to reset all the values of all the shift log fields
+    public void reloadPage() {
+        finish();
+        startActivity(getIntent());
     }
 
     public boolean validateTimes() { //
@@ -458,55 +461,38 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(final MenuItem item) {
         final ShiftlogDAO db = Room.databaseBuilder(this,
                 ShiftlogDatabase.class, "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
-        AlertDialog.Builder changedial = new AlertDialog.Builder(getApplication());
-        changedial.setMessage("Any unsaved changes will be deleted. Are you sure you want to proceed?");
-        changedial.setCancelable(false);
-        changedial.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+
         switch (item.getItemId()) {
-                            case R.id.past_logs:
-                            AsyncTask.execute(new Runnable() {
-                                @Override
-                                public void run() {
-                                    final List<Shiftlog> allshiftlogs = db.getAllShiftlogs();
-                                    // fragment animation: https://stackoverflow.com/questions/4932462/animate-the-transition-between-fragments
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                                            transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
-                                            transaction.replace(R.id.main_layout, PastShiftLogsFragment.newInstance(allshiftlogs));
-                                            transaction.addToBackStack(null);
-                                            transaction.commit();
+            case R.id.past_logs:
+                AsyncTask.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        final List<Shiftlog> allshiftlogs = db.getAllShiftlogs();
+                        // fragment animation: https://stackoverflow.com/questions/4932462/animate-the-transition-between-fragments
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                                transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
+                                transaction.replace(R.id.main_layout, PastShiftLogsFragment.newInstance(allshiftlogs));
+                                transaction.addToBackStack(null);
+                                transaction.commit();
 
-                                        }
-                                    });
-                                }
-                            });
-                            break;
-                            case R.id.ShiftLogs:
-                            //start Activity: https://stackoverflow.com/questions/24610527/how-do-i-get-a-button-to-open-another-activity-in-android-studio
-                            startActivity(new Intent(MainActivity.this, MainActivity.class));
-                            break;
-                            default:
-                            break;
-                        }
-
+                            }
+                        });
                     }
-        });
-        changedial.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+                });
+                break;
+            case R.id.ShiftLogs:
+                //start Activity: https://stackoverflow.com/questions/24610527/how-do-i-get-a-button-to-open-another-activity-in-android-studio
+                startActivity(new Intent(MainActivity.this, MainActivity.class));
 
-        AlertDialog alert = changedial.create();
-        alert.setTitle("Confirmation");
-        alert.show();
-
+                break;
+            default:
+                break;
+        }
         return super.onOptionsItemSelected(item);
+
     }
 
     @Override

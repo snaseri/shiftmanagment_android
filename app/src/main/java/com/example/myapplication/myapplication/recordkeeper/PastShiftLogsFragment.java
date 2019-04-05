@@ -25,6 +25,7 @@ import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDAO
 import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDatabase;
 import com.example.myapplication.myapplication.recordkeeper.views.ShiftlogListItemView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
