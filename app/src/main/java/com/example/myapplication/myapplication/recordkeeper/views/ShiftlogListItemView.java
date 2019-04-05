@@ -12,6 +12,7 @@ public class ShiftlogListItemView {
     private String company;
     private String start;
     private String end;
+    private Boolean shared;
 
     public ShiftlogListItemView(Shiftlog shiftLog) {
 
@@ -19,6 +20,7 @@ public class ShiftlogListItemView {
         start = shiftLog.getStartDate();
         end =shiftLog.getEndDate();
         id = shiftLog.getId();
+        shared = shiftLog.getShared();
     }
 
     public String getCompany() {
@@ -33,5 +35,9 @@ public class ShiftlogListItemView {
     }
     public int getId() {
         return id;
+    }
+
+    public Boolean getShared() {
+        return shared;
     }
 }

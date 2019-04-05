@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
 import android.arch.persistence.room.Room;
+import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -41,7 +42,6 @@ import java.util.List;
 /**
  * {@link RecyclerView.Adapter} that can display a {@link ShiftlogListItemView} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
  */
 public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyPastShiftLogsRecyclerViewAdapter.ViewHolder> {
 
@@ -80,6 +80,9 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
+        if (holder.mItem.getShared()){
+            holder.mView.setBackgroundColor(Color.GRAY);
+        }
         holder.mShitLogNameView.setText(mValues.get(position).getCompany());
         holder.mStartTextView.setText(mValues.get(position).getStartDate());
         holder.mSelectedLogs.setTag(position);
@@ -194,8 +197,16 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                             Toast.makeText(context, "Sent!", Toast.LENGTH_SHORT).show();
                         }
                     }
-                    for (ViewHolder v : mSelectedViewHolders){
+                    final ShiftlogDAO db = Room.databaseBuilder(context, ShiftlogDatabase.class,"ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
+                    for (final ViewHolder v : mSelectedViewHolders){
                         v.mView.setBackgroundColor(Color.GRAY);
+                        AsyncTask.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                db.setSharedFor(v.mItem.getId());
+                            }
+                        });
+
                     }
                     break;
         }
