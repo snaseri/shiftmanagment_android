@@ -51,19 +51,24 @@ public class Shiftlog {
     private Boolean nightOut;
 
 
+    @ColumnInfo(name = "shiftlog_shared")
+    private Boolean shared;
+
+
     public Shiftlog(int company, int agency, String startDate, String startTime, String endDate, String endTime, String breaks,
-                    Boolean vehicleUse, String registration,String poa,  Boolean nightOut) {
+                    Boolean vehicleUse, String registration, String poa, Boolean nightOut, Boolean shared) {
         this.company = company;
         this.agency = agency;
         this.startDate= startDate;
         this.startTime = startTime;
         this.endDate = endDate;
         this.endTime = endTime;
-        this.breaks =breaks;
+        this.breaks = breaks;
         this.vehicleUse = vehicleUse;
         this.registration = registration;
-        this.poa =poa;
+        this.poa = poa;
         this.nightOut = nightOut;
+        this.shared = shared;
 
     }
 
@@ -169,5 +174,13 @@ public class Shiftlog {
 
     public void setNightOut(Boolean nightOut) {
         this.nightOut = nightOut;
+    }
+
+    public Boolean getShared() {
+        return shared;
+    }
+
+    public void setShared(Boolean shared) {
+        this.shared = shared;
     }
 }
