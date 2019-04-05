@@ -169,8 +169,11 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         for (Shiftlog s : mCheckBoxSelected) {
-                            final int itemPosition = mValues.indexOf(s);
-                            mValues.remove(s);
+                            final int itemPosition = mLogValues.indexOf(s);
+                            Log.d("ITEM POSITION", String.valueOf(itemPosition));
+
+                            mValues.remove(itemPosition);
+                            mLogValues.remove(itemPosition);
                             final Shiftlog logToGet = s;
                             AsyncTask.execute(new Runnable() {
                                 @Override
@@ -178,7 +181,10 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                                     db.deleteShiftlogsbyid(logToGet.getId());
                                 }
                             });
+
                             notifyItemRemoved(itemPosition);
+                            //notifyDataSetChanged();
+
                         }
 
                         mCheckBoxs.clear();
