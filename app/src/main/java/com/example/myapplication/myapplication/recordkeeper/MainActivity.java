@@ -3,7 +3,6 @@ package com.example.myapplication.myapplication.recordkeeper;
 
 import android.arch.persistence.room.Room;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +10,8 @@ import android.os.Bundle;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,7 +19,6 @@ import android.widget.CheckBox;
 import android.support.v7.widget.AppCompatButton;
 import android.view.Menu;
 import android.view.View;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +53,8 @@ public class MainActivity extends AppCompatActivity
     //Detail checkboxes
     private CheckBox vehicleUse;
     private CheckBox nightOut;
-    private ActionMode mActionMode;
+    private CheckBox useCompanyno;
+    private CheckBox useAgencyyno;
 
 
     //Strings of the selected DateTimes
@@ -97,6 +94,8 @@ public class MainActivity extends AppCompatActivity
         //Detail checkboxes
         vehicleUse = (findViewById(R.id.vehicleUse));
         nightOut = (findViewById(R.id.nightOut));
+        useCompanyno = (findViewById(R.id.useCompanyno));
+        useAgencyyno = (findViewById(R.id.useAgencyyno));
 
 
         db = Room.databaseBuilder(this, ShiftlogDatabase.class,
@@ -142,12 +141,24 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void run() {
 
+                    int sendid;
+                    if (useAgencyyno.isChecked() && useCompanyno.isChecked()) {
+                        sendid = 3;
+                    } else if (useAgencyyno.isChecked() && !useCompanyno.isChecked()) {
+                        sendid = 2;
+                    } else if (!useAgencyyno.isChecked() && useCompanyno.isChecked()) {
+                        sendid = 1;
+                    } else {
+                        sendid = 0;
+                    }
+
                     db.insertShiftlog(
                             new Shiftlog(((Company) company.getSelectedItem()).getId(),
                                     ((Agency) agency.getSelectedItem()).getId(),
-                                    0, startDate, startTime,endDate, endTime,breakTime,
+                                    sendid, startDate, startTime,endDate, endTime,breakTime,
                                     vehicleUse.isChecked(),registration.getText().toString(), poa,
                                     nightOut.isChecked(), false)
+
                     );
 
 
@@ -176,7 +187,6 @@ public class MainActivity extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (((Company)parent.getItemAtPosition(position)).getId() == -2) {
                     // Add new Company
-                    System.out.println("yep new one");
                     parent.setSelection(0);
                     company.setSelection(0);
                     AsyncTask.execute(new Runnable() {
@@ -195,6 +205,7 @@ public class MainActivity extends AppCompatActivity
                         }
                     });
                 }
+
             }
 
             @Override
@@ -232,8 +243,25 @@ public class MainActivity extends AppCompatActivity
                     // Add new Agency
                     parent.setSelection(0);
                     agency.setSelection(0);
+
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                                        transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
+                                        transaction.replace(R.id.main_layout, NewAgencyFragment.newInstance());
+                                        transaction.addToBackStack(null);
+                                        transaction.commit();
+                                }
+                            });
+                        }
+                    });
                 }
             }
+
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
@@ -396,35 +424,16 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void run() {
                         final List<Shiftlog> allshiftlogs = db.getAllShiftlogs();
-                        final List<Company> allcompanies = db.getAllCompanies();
-                        final List<Agency> allagencies = db.getAllAgencies();
                         // fragment animation: https://stackoverflow.com/questions/4932462/animate-the-transition-between-fragments
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                                 transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
-                                transaction.replace(R.id.main_layout, PastShiftLogsFragment.newInstance(allshiftlogs, allcompanies, allagencies));
+                                transaction.replace(R.id.main_layout, PastShiftLogsFragment.newInstance(allshiftlogs));
                                 transaction.addToBackStack(null);
                                 transaction.commit();
 
-                            }
-                        });
-                    }
-                });
-                break;
-            case R.id.add_company:
-                AsyncTask.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                                transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
-                                transaction.replace(R.id.main_layout, NewCompanyFragment.newInstance());
-                                transaction.addToBackStack(null);
-                                transaction.commit();
                             }
                         });
                     }

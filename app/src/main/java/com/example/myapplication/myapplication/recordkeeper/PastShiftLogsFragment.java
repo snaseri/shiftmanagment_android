@@ -37,8 +37,6 @@ public class PastShiftLogsFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     public List<Shiftlog> allShiftlogs;
-    public List<Company> allCompanies;
-    public List<Agency> allAgencies;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -49,16 +47,12 @@ public class PastShiftLogsFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static PastShiftLogsFragment newInstance(List<Shiftlog> shiftlogs,
-                                                    List<Company> companies,
-                                                    List<Agency> agencies) {
+    public static PastShiftLogsFragment newInstance(List<Shiftlog> shiftlogs) {
         PastShiftLogsFragment fragment = new PastShiftLogsFragment();
         Bundle args = new Bundle();
 
         //fragment.setArguments(args);
         fragment.allShiftlogs = shiftlogs;
-        fragment.allCompanies = companies;
-        fragment.allAgencies = agencies;
 
         return fragment;
     }

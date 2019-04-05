@@ -56,6 +56,7 @@ public class Shiftlog {
     private Boolean shared ;
 
 
+
     public Shiftlog(int company, int agency, int shareWith, String startDate, String startTime,
                     String endDate, String endTime, String breaks, Boolean vehicleUse,
                     String registration, String poa, Boolean nightOut, Boolean shared) {
@@ -194,4 +195,5 @@ public class Shiftlog {
     public void setShared(Boolean shared) {
         this.shared = shared;
     }
+
 }
