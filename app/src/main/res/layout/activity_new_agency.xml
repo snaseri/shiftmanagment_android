@@ -9,15 +9,6 @@
     android:background="@android:color/white"
     tools:context=".MainActivity">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/newAgencyLabel"
@@ -26,53 +17,72 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerInParent="true"
                 android:layout_marginTop="15dp"
+                android:textColor="@color/colorTextThree"
                 android:text="@string/new_agency"
                 android:textSize="20sp">
 
             </TextView>
 
-            <EditText
-                android:id="@+id/phoneNumberInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/companyInput"
-                android:layout_marginTop="50dp"/>
+    <TextView
+        android:id="@+id/PhoneLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/contact_number"
+        android:textSize="18sp"
+        android:textColor="@color/colorTextThree"
+        android:layout_below="@+id/AgencyInputInput"
+        android:layout_marginTop="40dp"
+        app:layout_constraintBottom_toBottomOf="@id/newAgencyLabel"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="10dp"/>
+
+
+    <EditText
+        android:id="@+id/phoneNumberInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/PhoneLabel"
+        android:layout_marginTop="3dp" />
             <TextView
                 android:id="@+id/AgencyName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Agency Name"
-                android:textSize="14sp"
+                android:text="@string/AgencyName"
+                android:textSize="18sp"
                 android:textColor="@color/colorTextThree"
                 android:layout_below="@id/newAgencyLabel"
                 android:layout_marginTop="40dp"
-                app:layout_constraintBottom_toBottomOf="@id/companyInput"
+                app:layout_constraintBottom_toBottomOf="@id/newAgencyLabel"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginLeft="10dp"/>
-            <EditText
-                android:id="@+id/companyInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/CompanyName"
-                android:layout_marginTop="30dp"/>
 
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/Save_Button"
-                android:layout_width="106dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="14dp"
-                android:layout_marginBottom="144dp"
-                android:background="@drawable/selector_button"
-                android:text="@string/save"
-                android:textColor="@color/colorTextTwo"
-                app:layout_constraintRight_toRightOf="parent" />
 
-        </RelativeLayout>
+    <EditText
+        android:id="@+id/AgencyInputInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/AgencyName"
+        android:layout_marginTop="2dp" />
 
-    </ScrollView>
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/Save_Button"
+        android:layout_width="106dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/btnpoa"
+        android:background="@drawable/selector_button"
+        android:text="@string/save"
+        android:textColor="@color/colorTextTwo"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+
+
 </RelativeLayout>
