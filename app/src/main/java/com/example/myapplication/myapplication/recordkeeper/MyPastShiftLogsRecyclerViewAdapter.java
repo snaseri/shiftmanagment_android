@@ -258,8 +258,22 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                             AsyncTask.execute(new Runnable() {
                                 @Override
                                 public void run() {
-                                    SmsManager.getDefault().sendTextMessage(db.getCompanyByID(logToGet.getCompany()).getPhoneNumber()
-                                            , null, textMessage, null, null);
+                                    Log.d("TESTING", String.format("receiver is " + logToGet.getLogReceiver()));
+                                        // Send to Company Only
+                                    if (logToGet.getLogReceiver() == 1) {
+                                        SmsManager.getDefault().sendTextMessage(db.getCompanyByID(logToGet.getCompany()).getPhoneNumber()
+                                                , null, textMessage, null, null);
+                                        //Send to Agecny Only
+                                    } else if (logToGet.getLogReceiver() == 2) {
+                                        SmsManager.getDefault().sendTextMessage(db.getAgencyByID(logToGet.getAgency()).getPhoneNumber()
+                                                , null, textMessage, null, null);
+                                        //Send to Company and Agency
+                                    } else if (logToGet.getLogReceiver() == 3) {
+                                        SmsManager.getDefault().sendTextMessage(db.getCompanyByID(logToGet.getCompany()).getPhoneNumber()
+                                                , null, textMessage, null, null);
+                                        SmsManager.getDefault().sendTextMessage(db.getAgencyByID(logToGet.getAgency()).getPhoneNumber()
+                                                , null, textMessage, null, null);
+                                    }
                                 }
                             });
                         }
