@@ -174,7 +174,6 @@ public class MainActivity extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (((Company)parent.getItemAtPosition(position)).getId() == -2) {
                     // Add new Company
-                    System.out.println("yep new one");
                     parent.setSelection(0);
                     company.setSelection(0);
                     AsyncTask.execute(new Runnable() {
@@ -193,6 +192,7 @@ public class MainActivity extends AppCompatActivity
                         }
                     });
                 }
+
             }
 
             @Override
@@ -230,8 +230,25 @@ public class MainActivity extends AppCompatActivity
                     // Add new Agency
                     parent.setSelection(0);
                     agency.setSelection(0);
+
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                                        transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
+                                        transaction.replace(R.id.main_layout, NewAgencyFragment.newInstance());
+                                        transaction.addToBackStack(null);
+                                        transaction.commit();
+                                }
+                            });
+                        }
+                    });
                 }
             }
+
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }

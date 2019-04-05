@@ -36,4 +36,7 @@
     <string name="night_shift_if_applicable2">Night Shift_If_Applicable</string>
     <string name="new_company">New Company</string>
     <string name="add_company">Add Company</string>
+    <string name="new_agency">New Agency</string>
+    <string name="AgencyName">Agency Name</string>
+    <string name="contact_number">Contact Number</string>
 </resources>
