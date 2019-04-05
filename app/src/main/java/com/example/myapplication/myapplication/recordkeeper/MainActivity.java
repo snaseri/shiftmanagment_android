@@ -7,9 +7,9 @@ import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.ActionMode;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.AdapterView;
@@ -26,6 +26,8 @@ import com.example.myapplication.myapplication.recordkeeper.database.*;
 import com.example.myapplication.myapplication.recordkeeper.views.ShiftlogListItemView;
 
 import java.util.List;
+
+import static com.example.myapplication.myapplication.recordkeeper.PastShiftLogsFragment.adapter;
 
 // DateTime interface includes both custom Listeners for TimePicker and DatePicker
 interface DateTime extends TimePickerFragment.TimePickedListener,
@@ -215,7 +217,7 @@ public class MainActivity extends AppCompatActivity
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                db.insertCompany(new Company("Company","078789089563"));
+                db.clearShiftlogs();
                 final List<Company> companies = db.getAllCompanies();
                 companies.add(0, new Company("No Company", "0"));
                 companies.get(0).setId(-1);
@@ -410,7 +412,25 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate((setToOtherMenu ? R.menu.searchbar_menu : R.menu.navigation), menu);
+        getMenuInflater().inflate(R.menu.navigation, menu);
+        if (setToOtherMenu) {
+            menu.findItem(R.id.menu_search_bar).setVisible(true);
+        }
+        MenuItem searchItem = menu.findItem(R.id.menu_search_bar);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
 
         return true;
     }
