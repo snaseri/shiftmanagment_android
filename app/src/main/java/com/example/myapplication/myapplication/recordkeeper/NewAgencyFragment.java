@@ -35,7 +35,7 @@ public class NewAgencyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_new_company, container, false);
+        View view = inflater.inflate(R.layout.activity_new_agency, container, false);
         return view;
     }
 
