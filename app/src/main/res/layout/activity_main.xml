@@ -58,6 +58,7 @@
             android:text="@string/will_you_be_operating_a_vehicle"
             android:textColorLink="@color/buttonColour" />
 
+
         <CheckBox
             android:id="@+id/nightOut"
             android:layout_width="match_parent"
@@ -224,6 +225,26 @@
             android:layout_below="@id/Registration"
             android:layout_marginTop="1dp"
            />
+
+            <CheckBox
+                android:id="@+id/useCompanyno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/shiftLogLabel"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+
+            />
+
+            <CheckBox
+                android:id="@+id/useAgencyyno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/companyInput"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+
+                />
 
         </RelativeLayout>
 
