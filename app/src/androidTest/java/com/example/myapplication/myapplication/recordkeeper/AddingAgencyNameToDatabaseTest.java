@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.List;
 
+import static java.lang.Character.getName;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -45,8 +46,10 @@ public class AddingAgencyNameToDatabaseTest {
             Agency agency = new Agency("Agency","01234567891" );
 
             ShiftlogDAO.insertAgency(agency);
-            List<Agency> byName = Agency.getallAgencies("Agency");
-            assertThat(byName.get(0), equalTo(agency));
+
+            Dao.getAllAgencies();
+
+            assertEquals(agency.getName(), Dao.getAgencyByID(1));
         }
     }
 
