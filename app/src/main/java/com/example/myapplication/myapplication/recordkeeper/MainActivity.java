@@ -13,7 +13,9 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     private AppCompatSpinner agency;
     private AppCompatButton saveButton;
     private AppCompatEditText registration;
+    private Button addAgency;
 
     //Time pickers
     private TimePickerApp startTimePicker;
@@ -76,6 +79,7 @@ public class MainActivity extends AppCompatActivity
         agency = (findViewById(R.id.AgencyInput));
         saveButton = findViewById(R.id.Save_Button);
         registration =findViewById(R.id.RegInput);
+        addAgency =findViewById(R.id.AddAgency);
 
 
         //Time pickers
@@ -186,6 +190,9 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
+
+
+
 
     public void setCompanyOptions(){
         company.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -465,6 +472,14 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+
+    /*@Override
+    public void onclick() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_layout, PastShiftLogsFragment.newInstance(allshiftlogs));
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }*/
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         final ShiftlogDAO db = Room.databaseBuilder(this,
