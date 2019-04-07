@@ -357,7 +357,12 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
             } else  {
                 String filterpattern = constraint.toString().toLowerCase().trim();
                 for (ShiftlogListItemView shiftlog : mValuesComplete) {
+                    shiftlog.generateName();
+                    Log.d("COMPANY NAME " , shiftlog.getCompany());
                     if (shiftlog.getStartDate().contains(filterpattern)) {
+                        filteredList.add(shiftlog);
+                    }
+                    if (shiftlog.getCompany().toLowerCase().contains(filterpattern)) {
                         filteredList.add(shiftlog);
                     }
                 }
