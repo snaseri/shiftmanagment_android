@@ -30,6 +30,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.HeaderViewListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,14 +52,15 @@ import java.util.List;
  * {@link RecyclerView.Adapter} that can display a {@link ShiftlogListItemView} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  */
-public class MyPastShiftLogsRecyclerViewAdapter
-        extends RecyclerView.Adapter<MyPastShiftLogsRecyclerViewAdapter.ViewHolder>{
+
+public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyPastShiftLogsRecyclerViewAdapter.ViewHolder> implements Filterable {
 
     private Button mShareButton;
     private final List<ShiftlogListItemView> mValues = new ArrayList<>();
     private List<Shiftlog> mLogValues = new ArrayList<>();
     private List<Company> companies;
     private List<Agency> agencies;
+    private final List<ShiftlogListItemView> mValuesComplete = new ArrayList<>();
     private final OnListFragmentInteractionListener mListener;
     private ActionMode mActionMode;
     private List<Shiftlog> mCheckBoxSelected = new ArrayList<>();
@@ -85,23 +88,25 @@ public class MyPastShiftLogsRecyclerViewAdapter
 
 
         this.items = items;
-            for (Shiftlog shiftlog : items) {
-                ShiftlogListItemView toAdd = new ShiftlogListItemView(shiftlog, c, mValues.size());
-                toAdd.setUpdate(new ShiftlogListItemView.UpdateUI() {
-                    @Override
-                    public void update(final int i) {
-                        ((Activity)context).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                ViewHolder item = mAllViewHolders.get(i);
-                                item.mShitLogNameView.setText(item.mItem.getCompany());
-                            }
-                        });
-                        Log.d("SIZE", String.valueOf(mValues.size()));
-                        Log.d("SIZE", String.valueOf(mAllViewHolders.size()));
-                    }
-                });
+        for (Shiftlog shiftlog : items) {
+            ShiftlogListItemView toAdd = new ShiftlogListItemView(shiftlog, c, mValues.size());
+            toAdd.setUpdate(new ShiftlogListItemView.UpdateUI() {
+                @Override
+                public void update(final int i) {
+                    ((Activity)context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ViewHolder item = mAllViewHolders.get(i);
+                            item.mShitLogNameView.setText(item.mItem.getCompany());
+                        }
+                    });
+                    Log.d("SIZE", String.valueOf(mValues.size()));
+                    Log.d("SIZE", String.valueOf(mAllViewHolders.size()));
+                }
+            });
+
                 mValues.add(toAdd);
+                mValuesComplete.addAll(mValues);
                 mLogValues.add(shiftlog);
         }
         Log.d("SIZE", String.valueOf(mValues.size()));
@@ -130,6 +135,8 @@ public class MyPastShiftLogsRecyclerViewAdapter
         }
         holder.mItem.generateName();
         holder.mStartTextView.setText(mValues.get(position).getStartDate());
+        holder.mShitLogNameView.setText(mValues.get(position).getCompany());
+        holder.mStartTextView.setText("Start date: " + mValues.get(position).getStartDate());
         holder.mSelectedLogs.setTag(position);
         final Shiftlog mShiftlog = mLogValues.get(position);
 
@@ -214,6 +221,7 @@ public class MyPastShiftLogsRecyclerViewAdapter
 
                                         mValues.remove(itemPosition);
                                         mLogValues.remove(itemPosition);
+                                        mValuesComplete.remove(itemPosition);
                                         final Shiftlog logToGet = s;
                                         AsyncTask.execute(new Runnable() {
                                             @Override
@@ -333,8 +341,42 @@ public class MyPastShiftLogsRecyclerViewAdapter
             mActionMode = null;
         }
     };
+    
+    @Override
+    public Filter getFilter() {
+        return logFilter;
+    }
+    
+    private Filter logFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<ShiftlogListItemView> filteredList = new ArrayList<>();
+            
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(mValuesComplete);
+            } else  {
+                String filterpattern = constraint.toString().toLowerCase().trim();
+                for (ShiftlogListItemView shiftlog : mValuesComplete) {
+                    if (shiftlog.getStartDate().contains(filterpattern)) {
+                        filteredList.add(shiftlog);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            
+            return results; 
+        }
 
-
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            mValues.clear();
+            mValues.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
+    
+    
     @Override
     public int getItemCount() {
         return mValues.size();

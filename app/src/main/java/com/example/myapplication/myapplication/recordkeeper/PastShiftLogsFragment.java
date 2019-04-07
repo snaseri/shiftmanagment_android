@@ -12,9 +12,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 
 import com.example.myapplication.myapplication.recordkeeper.database.Agency;
 import com.example.myapplication.myapplication.recordkeeper.database.Company;
@@ -23,6 +25,7 @@ import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDAO
 import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDatabase;
 import com.example.myapplication.myapplication.recordkeeper.views.ShiftlogListItemView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,6 +40,7 @@ public class PastShiftLogsFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+    public static MyPastShiftLogsRecyclerViewAdapter adapter;
     private OnListFragmentInteractionListener mListener;
     public List<Shiftlog> allShiftlogs;
 
@@ -85,8 +89,9 @@ public class PastShiftLogsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyPastShiftLogsRecyclerViewAdapter(getActivity(), allShiftlogs, mListener));
-            Log.d("TEST", "aaaaaaa");
+            adapter = (new MyPastShiftLogsRecyclerViewAdapter(getActivity(), allShiftlogs, mListener));
+            recyclerView.setAdapter(adapter);
+
         }
 
 
