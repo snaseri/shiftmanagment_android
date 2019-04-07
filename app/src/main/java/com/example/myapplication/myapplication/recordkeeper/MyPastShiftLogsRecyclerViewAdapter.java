@@ -292,7 +292,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                             Toast.makeText(context, "This app doesn't have permission to send text", Toast.LENGTH_LONG).show();
                             ActivityCompat.requestPermissions((MainActivity) context, new String[]{Manifest.permission.SEND_SMS}, 1);
                         } else {
-//                                Toast.makeText(context, "Sending...", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Sending...", Toast.LENGTH_LONG).show();
                             AsyncTask.execute(new Runnable() {
                                 @Override
                                 public void run() {
