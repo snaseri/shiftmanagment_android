@@ -195,9 +195,13 @@ public class MainActivity extends AppCompatActivity
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    NewCompanyFragment.Callback callback = new NewCompanyFragment.Callback() {
+                                        @Override
+                                        public void reset() { setCompanyOptions(); }
+                                    };
                                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                                     transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
-                                    transaction.replace(R.id.main_layout, NewCompanyFragment.newInstance());
+                                    transaction.replace(R.id.main_layout, NewCompanyFragment.newInstance(callback));
                                     transaction.addToBackStack(null);
                                     transaction.commit();
                                 }
@@ -215,7 +219,6 @@ public class MainActivity extends AppCompatActivity
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                db.insertCompany(new Company("Company","078789089563"));
                 final List<Company> companies = db.getAllCompanies();
                 companies.add(0, new Company("No Company", "0"));
                 companies.get(0).setId(-1);
@@ -250,11 +253,15 @@ public class MainActivity extends AppCompatActivity
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                                        transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
-                                        transaction.replace(R.id.main_layout, NewAgencyFragment.newInstance());
-                                        transaction.addToBackStack(null);
-                                        transaction.commit();
+                                    NewAgencyFragment.Callback callback = new NewAgencyFragment.Callback() {
+                                        @Override
+                                        public void reset() { setCompanyOptions(); }
+                                    };
+                                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                                    transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
+                                    transaction.replace(R.id.main_layout, NewAgencyFragment.newInstance(callback));
+                                    transaction.addToBackStack(null);
+                                    transaction.commit();
                                 }
                             });
                         }

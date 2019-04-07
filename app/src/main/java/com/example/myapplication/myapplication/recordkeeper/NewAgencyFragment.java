@@ -1,5 +1,7 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
+import android.arch.persistence.room.Room;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -7,6 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.myapplication.myapplication.recordkeeper.database.Agency;
+import com.example.myapplication.myapplication.recordkeeper.database.Company;
+import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDAO;
+import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDatabase;
 
 import java.util.regex.Pattern;
 
@@ -16,18 +23,23 @@ import java.util.regex.Pattern;
  * create an instance of this fragment.
  */
 public class NewAgencyFragment extends Fragment {
+    Callback callback;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
+    interface Callback{
+        void reset();
+    }
 
     public NewAgencyFragment() {
         // Required empty public constructor
     }
 
-    public static NewAgencyFragment newInstance() {
+    public static NewAgencyFragment newInstance(Callback callback) {
         NewAgencyFragment fragment = new NewAgencyFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+        fragment.callback = callback;
         return fragment;
     }
 
@@ -44,7 +56,7 @@ public class NewAgencyFragment extends Fragment {
         view.findViewById(R.id.Agency_Save_Button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText phoneNumber = ((EditText) view.findViewById(R.id.phoneNumberInput));
+                final EditText phoneNumber = ((EditText) view.findViewById(R.id.phoneNumberInput));
                 if(phoneNumber.getText().length() != 11) {
                     Toast.makeText(view.getContext(), "Phone number must be 11 digits", Toast.LENGTH_SHORT).show();
                     return;
@@ -52,6 +64,22 @@ public class NewAgencyFragment extends Fragment {
                 if(!Pattern.matches("\\d+", phoneNumber.getText())) {
                     Toast.makeText(view.getContext(), "Phone number must be all numbers", Toast.LENGTH_SHORT).show();
                     return;
+                }
+                else {
+                    final ShiftlogDAO db = Room.databaseBuilder(getContext(), ShiftlogDatabase.class,
+                            "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
+                    final String name = ((EditText)view.findViewById(R.id.AgencyInput)).getText().toString();
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            db.insertAgency(new Agency(name, phoneNumber.getText().toString()));
+                            if (getFragmentManager() != null) {
+                                getFragmentManager().popBackStack();
+                            }
+                            callback.reset();
+                        }
+                    });
+                    Toast.makeText(view.getContext(), "Agency "+name+" has been added", Toast.LENGTH_SHORT).show();
                 }
             }
         });
