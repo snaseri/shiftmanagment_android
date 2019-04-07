@@ -29,23 +29,23 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class AddingAgencyNameToDatabaseTest {
 
-        private Shiftlog Dao;
+        private ShiftlogDAO Dao;
         private Agency db;
 
         @Before
         public void createDb() {
-            Context context = ApplicationProvider.getApplicationContext();
-            db = Room.inMemoryDatabaseBuilder(context, Agency.class).build();
-            Dao = db.getAgency();
+            Context applicationContext = InstrumentationRegistry.getTargetContext();
+            db = Room.databaseBuilder(applicationContext, Agency.class,"Database Test").build();
+            Dao = db.ShiftlogDAO();
         }
 
 
         @Test
         public void writeUserAndReadInList() throws Exception {
-            Agency agency = Agency.createAgency(3);
-            Dao.setName("ExampleAgency");
+            Agency agency = new Agency("Agency","01234567891" );
+
             ShiftlogDAO.insertAgency(agency);
-            List<Agency> byName = Agency.getallAgencies("ExampleAgency");
+            List<Agency> byName = Agency.getallAgencies("Agency");
             assertThat(byName.get(0), equalTo(agency));
         }
     }
