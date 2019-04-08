@@ -10,6 +10,7 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.MediumTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.v4.app.FragmentTransaction;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -38,11 +39,10 @@ public class newAgencyTestButton {
     @Test
     public void agencySaveButtonTakesYouToShiftlog(){
 
-        Espresso.onView(
-                ViewMatchers.withId(R.id.AddAgency)
-        ).perform(
-                ViewActions.click()
-        );
+        FragmentTransaction transaction =
+                mainActivityActivtyTestRule.getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_layout, NewAgencyFragment.newInstance(null));
+        transaction.commit();
 
         Espresso.onView(
                 ViewMatchers.withId(R.id.phoneNumberInput)

@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity
         agency = (findViewById(R.id.AgencyInput));
         saveButton = findViewById(R.id.Save_Button);
         registration =findViewById(R.id.RegInput);
-        addAgency =findViewById(R.id.AddAgency);
 
 
         //Time pickers
@@ -187,16 +186,6 @@ public class MainActivity extends AppCompatActivity
                 
             }
 
-        });
-
-        ((Button) findViewById(R.id.AddAgency)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.main_layout, NewAgencyFragment.newInstance(null));
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
         });
     }
 
