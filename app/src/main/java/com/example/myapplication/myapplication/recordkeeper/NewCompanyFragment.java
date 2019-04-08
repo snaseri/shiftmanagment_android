@@ -59,18 +59,23 @@ public class NewCompanyFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.activity_new_company, container, false);
 
+
         view.findViewById(R.id.Company_Save_Button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final EditText phoneNumber = ((EditText) view.findViewById(R.id.phoneNumberInput));
-                if(phoneNumber.getText().length() != 11) {
+
+                if(validateLength(phoneNumber.getText().length()) ) {
                     Toast.makeText(view.getContext(), "Phone number must be 11 digits", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                else if(!Pattern.matches("\\d+", phoneNumber.getText())) {
+
+
+                if(validateType(phoneNumber)){
                     Toast.makeText(view.getContext(), "Phone number must be all numbers", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 else {
                     final ShiftlogDAO db = Room.databaseBuilder(getContext(), ShiftlogDatabase.class,
                             "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
@@ -93,6 +98,34 @@ public class NewCompanyFragment extends Fragment {
         return view;
     }
 
+    public boolean validateLength(Integer numberLength){
+        if(numberLength != 11) {
+            return false;
+        }
+        else return true;
+    }
+
+    public boolean validateType( EditText dataType){
+        if(!Pattern.matches("\\d+", dataType.getText())) {
+            return false;
+        }
+        else return true;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -106,4 +139,3 @@ public class NewCompanyFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-}

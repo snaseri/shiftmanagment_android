@@ -1,9 +1,7 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
 
-import android.app.AlertDialog;
 import android.arch.persistence.room.Room;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
@@ -81,13 +79,13 @@ public class MainActivity extends AppCompatActivity
 
         //Time pickers
         startTimePicker = new TimePickerApp(getSupportFragmentManager(),
-                (Button) findViewById(R.id.btnStartTimePicker), 0);
+                (Button) findViewById(R.id.btnStartTimePicker), 0, true);
         endTimePicker = new TimePickerApp(getSupportFragmentManager(),
-                (Button) findViewById(R.id.btnEndTimePicker), 1);
+                (Button) findViewById(R.id.btnEndTimePicker), 1, true);
         breakTimePicker = new TimePickerApp(getSupportFragmentManager(),
-                (Button) findViewById(R.id.btnBreaks), 2);
+                (Button) findViewById(R.id.btnBreaks), 2, false);
         poaPicker= new TimePickerApp(getSupportFragmentManager(),
-                (Button) findViewById(R.id.btnpoa), 3);
+                (Button) findViewById(R.id.btnpoa), 3, false);
 
 
         //Date pickers
@@ -230,7 +228,7 @@ public class MainActivity extends AppCompatActivity
                 companies.get(0).setId(-1);
                 companies.add(new Company("Add Company", "0"));
                 companies.get(companies.size() - 1).setId(-2);
-                final ArrayAdapter<Company> adapter = new ArrayAdapter<Company>(getApplicationContext(),
+                final ArrayAdapter<Company> adapter = new ArrayAdapter<>(getApplicationContext(),
                         android.R.layout.simple_spinner_dropdown_item, companies);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 runOnUiThread(new Runnable() {
@@ -303,15 +301,17 @@ public class MainActivity extends AppCompatActivity
         );
     }
 
-    public boolean logIsChanged() {
-        if (company.getSelectedItem().toString().equalsIgnoreCase("No Company") &&
-                agency.getSelectedItem().toString().equalsIgnoreCase("No Agency")  &&
-                startTime == null && endTime == null && startDate == null && endDate == null &&
-                breakTime == null &&
-                !nightOut.isChecked() &&
-                !vehicleUse.isChecked() &&
-                !useAgencyyno.isChecked() &&
-                !useCompanyno.isChecked()) {
+    public boolean logIsChanged(String company, String agency, String startTime, String endTime,
+                                String startDate, String endDate, String breakTime, Boolean nightOut,
+                                Boolean vehicleUse, Boolean useAgencyno, Boolean useCompanyno) {
+        if (company.equalsIgnoreCase("No Company") &&
+                agency.equalsIgnoreCase("No Agency")  &&
+                startTime == null && endTime == null && startDate == null &&
+                endDate == null && breakTime == null &&
+                !nightOut &&
+                !vehicleUse &&
+                !useAgencyno &&
+                !useCompanyno) {
             return false;
         } else { return true;}
     }
@@ -340,28 +340,31 @@ public class MainActivity extends AppCompatActivity
         Integer endDay = endDatePicker.getDay();
         Integer endHour = endTimePicker.getHour();
         Integer endMinute = endTimePicker.getMinute();
-        return validate(companyID, agencyID, sendToAgency, sendToCompany, mStartTime, mStartDate,
-                mEndTime, mEndDate, startYear, startMonth, startDay, startHour, startMinute,
-                endYear, endMonth, endDay, endHour, endMinute);
+        if (validate(companyID, agencyID, sendToAgency, sendToCompany)){
+
+            return validateTimes(mStartTime, mStartDate, mEndTime, mEndDate, startYear,
+                                startMonth, startDay, startHour, startMinute, endYear, endMonth,
+                                endDay, endHour, endMinute);
+        }
+        else return false;
     }
 
     public boolean validate(Integer companyID, Integer agencyID, Boolean sendToAgency,
-                            Boolean sendToCompany, String mStartTime, String mStartDate,
-                            String mEndTime, String mEndDate, Integer startYear, Integer startMonth,
-                            Integer startDay, Integer startHour, Integer startMinute,
-                            Integer endYear, Integer endMonth, Integer endDay, Integer endHour,
-                            Integer endMinute) { //
+                            Boolean sendToCompany) { //
 
         if (companyID < 0 && agencyID < 0) {
             return false;
-        }
-        else if (!(sendToAgency || sendToCompany)) {
+        } else if (!(sendToAgency || sendToCompany)) {
             return false;
         }
-        if ( (companyID < 0 && sendToCompany) || (agencyID < 0 && sendToAgency) ){
-            return false;
-        }
-        else if (mStartTime == null || mStartDate == null || mEndTime == null || mEndDate == null) {
+        return (companyID >= 0 || !sendToCompany) && (agencyID >= 0 || !sendToAgency);
+    }
+    public Boolean validateTimes(String mStartTime, String mStartDate, String mEndTime,
+                                 String mEndDate, Integer startYear, Integer startMonth,
+                                 Integer startDay, Integer startHour, Integer startMinute,
+                                 Integer endYear, Integer endMonth, Integer endDay,
+                                 Integer endHour, Integer endMinute){
+        if (mStartTime == null || mStartDate == null || mEndTime == null || mEndDate == null) {
             return false;
         }
         else if (startYear < endYear) {
@@ -430,25 +433,25 @@ public class MainActivity extends AppCompatActivity
         if (hourOfDay < 10) hour = "0" + hour;
 
         switch (id){ //id determines start (0) or end (1)
-            case 0: startTimePicker.getTimeButton().setText("Start time - " + hour + ":" + min);
+            case 0: startTimePicker.getTimeButton().setText(String.format("Start time - %s:%s", hour, min));
                 startTimePicker.setHour(hourOfDay);
                 startTimePicker.setMinute(minute);
-                startTime = String.format(hour + ":" + min);
+                startTime = hour + ":" + min;
                 break;
-            case 1: endTimePicker.getTimeButton().setText("End time - " + hour + ":" + min);
+            case 1: endTimePicker.getTimeButton().setText(String.format("End time - %s:%s", hour, min));
                 endTimePicker.setHour(hourOfDay);
                 endTimePicker.setMinute(minute);
-                endTime = String.format(hour + ":" + min);
+                endTime = hour + ":" + min;
                 break;
-            case 2: breakTimePicker.getTimeButton().setText("Break time - " + hour + ":" + min);
+            case 2: breakTimePicker.getTimeButton().setText(String.format("Break time - %s:%s", hour, min));
                 breakTimePicker.setHour(hourOfDay);
                breakTimePicker.setMinute(minute);
-                breakTime = String.format(hour + ":" + min);
+                breakTime = hour + ":" + min;
                 break;
-            case 3: poaPicker.getTimeButton().setText("POA - " + hour + ":" + min);
+            case 3: poaPicker.getTimeButton().setText(String.format("POA - %s:%s", hour, min));
                 poaPicker.setHour(hourOfDay);
                 poaPicker.setMinute(minute);
-                poa = String.format(hour + ":" + min);
+                poa = hour + ":" + min;
                 break;
 
 
@@ -464,14 +467,14 @@ public class MainActivity extends AppCompatActivity
 
         switch (id){ //id determines start (0) or end (1)
             case 0: startDatePicker.getDateButton().setText(
-                    "Start date - " + day + "/" + mon + "/" + year);
+                    String.format("Start date - %s/%s/%d", day, mon, year));
                 startDatePicker.setYear(year);
                 startDatePicker.setMonth(month);
                 startDatePicker.setDay(dayOfMonth);
                 startDate = day + "/" + mon + "/" + year;
                 break;
             case 1: endDatePicker.getDateButton().setText(
-                    "End date - " + day + "/" + mon + "/" + year);
+                    String.format("End date - %s/%s/%d", day, mon, year));
                 endDatePicker.setYear(year);
                 endDatePicker.setMonth(month);
                 endDatePicker.setDay(dayOfMonth);
