@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 
 public class PhoneNoHasNumbersNotLettersTest {
     @Test
-    public void validatype() {
+    public void validateType() {
 
         assertFalse(NewAgencyFragment.validateType("6561674639f"));
         assertTrue(NewAgencyFragment.validateType("6561674639"));
