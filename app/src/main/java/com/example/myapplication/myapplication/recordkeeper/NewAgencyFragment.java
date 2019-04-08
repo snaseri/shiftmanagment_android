@@ -94,14 +94,14 @@ public class NewAgencyFragment extends Fragment {
     }
 
 
-    public boolean validateLength(Integer numberLength){
+    public static boolean validateLength(Integer numberLength){
         if(numberLength != 11) {
             return false;
         }
         else return true;
     }
 
-    public boolean validateType( EditText dataType){
+    public static boolean validateType( EditText dataType){
         if(!Pattern.matches("\\d+", dataType.getText())) {
             return false;
         }
