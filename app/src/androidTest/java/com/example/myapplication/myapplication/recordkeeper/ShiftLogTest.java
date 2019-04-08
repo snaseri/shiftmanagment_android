@@ -1,12 +1,10 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
-import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.matcher.ViewMatchers;
-import android.support.test.filters.LargeTest;
 import android.support.test.filters.MediumTest;
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +14,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import android.support.test.rule.ActivityTestRule;
+
 
 
 @MediumTest
@@ -27,10 +25,6 @@ public class ShiftLogTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActicityTestRule = new ActivityTestRule<>(MainActivity.class);
-
-    @Before
-    public void checkTheVehiceUseBox() {
-    }
 
     @Test
     public void regInputVisibilityWhenVisible() {
