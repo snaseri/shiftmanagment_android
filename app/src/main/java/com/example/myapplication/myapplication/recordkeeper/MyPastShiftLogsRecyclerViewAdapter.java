@@ -106,9 +106,9 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
             });
 
                 mValues.add(toAdd);
-                mValuesComplete.addAll(mValues);
                 mLogValues.add(shiftlog);
         }
+        mValuesComplete.addAll(mValues);
         Log.d("SIZE", String.valueOf(mValues.size()));
         Log.d("SIZE", String.valueOf(mAllViewHolders.size()));
         this.context = c;
