@@ -88,6 +88,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 
 
         this.items = items;
+        Log.d("Test", String.valueOf(items.size()));
         for (Shiftlog shiftlog : items) {
             ShiftlogListItemView toAdd = new ShiftlogListItemView(shiftlog, c, mValues.size());
             toAdd.setUpdate(new ShiftlogListItemView.UpdateUI() {
@@ -100,16 +101,14 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                             item.mShitLogNameView.setText(item.mItem.getCompany());
                         }
                     });
-                    Log.d("SIZE", String.valueOf(mValues.size()));
-                    Log.d("SIZE", String.valueOf(mAllViewHolders.size()));
                 }
             });
 
                 mValues.add(toAdd);
-                mValuesComplete.addAll(mValues);
                 mLogValues.add(shiftlog);
         }
-        Log.d("SIZE", String.valueOf(mValues.size()));
+        mValuesComplete.addAll(mValues);
+        Log.d("SIZE aaa", String.valueOf(mValues.size()));
         Log.d("SIZE", String.valueOf(mAllViewHolders.size()));
         this.context = c;
         mListener = listener;
@@ -138,6 +137,8 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
         holder.mShitLogNameView.setText(mValues.get(position).getCompany());
         holder.mStartTextView.setText("Start date: " + mValues.get(position).getStartDate());
         holder.mSelectedLogs.setTag(position);
+        Log.d("text", String.valueOf(position));
+        Log.d("text4", String.valueOf(mLogValues.size()));
         final Shiftlog mShiftlog = mLogValues.get(position);
 
         holder.mSelectedLogs.setOnClickListener(new View.OnClickListener() {
