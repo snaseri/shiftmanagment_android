@@ -11,7 +11,7 @@ public class PhoneNoHasNumbersNotLettersTest {
     @Test
     public void validateType() {
 
-        assertFalse(NewAgencyFragment.validateType("6561674639f"));
-        assertTrue(NewAgencyFragment.validateType("6561674639"));
+        assertFalse(NewAgencyFragment.invalidValidateType("6561674639f"));
+        assertTrue(NewAgencyFragment.invalidValidateType("6561674639"));
     }
 }

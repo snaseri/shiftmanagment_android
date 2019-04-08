@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 public class PhoneNoHasElevenCharacters {
     @Test
     public void validateLength() {
-        assertTrue(NewAgencyFragment.validateLength(11));
+        assertTrue(NewAgencyFragment.invalidValidateLength(11));
 
     }
 }
