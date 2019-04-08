@@ -65,13 +65,13 @@ public class NewCompanyFragment extends Fragment {
             public void onClick(View v) {
                 final EditText phoneNumber = ((EditText) view.findViewById(R.id.phoneNumberInput));
 
-                if(validateLength(phoneNumber.getText().length()) ) {
+                if(invalidValidateLength(phoneNumber.getText().length()) ) {
                     Toast.makeText(view.getContext(), "Phone number must be 11 digits", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
 
-                if(validateType(phoneNumber)){
+                if(invalidValidateType(phoneNumber.getText().toString())){
                     Toast.makeText(view.getContext(), "Phone number must be all numbers", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -98,20 +98,21 @@ public class NewCompanyFragment extends Fragment {
         return view;
     }
 
-    public boolean validateLength(Integer numberLength){
+    public boolean invalidValidateLength(Integer numberLength){
         if(numberLength != 11) {
             return false;
         }
         else return true;
     }
 
-    public boolean validateType( EditText dataType){
-        if(!Pattern.matches("\\d+", dataType.getText())) {
+    public static boolean invalidValidateType( String dataType){
+        if(!Pattern.matches("\\d+", dataType)) {
             return false;
         }
         else return true;
     }
 }
+
 
 
 
