@@ -8,6 +8,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.example.myapplication.myapplication.recordkeeper.database.Agency;
 import com.example.myapplication.myapplication.recordkeeper.database.Shiftlog;
 import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDAO;
+import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDatabase;
 
 import org.junit.After;
 import org.junit.Before;
@@ -31,25 +32,26 @@ import static org.junit.Assert.assertEquals;
 public class AddingAgencyNameToDatabaseTest {
 
         private ShiftlogDAO Dao;
-        private Agency db;
+        private ShiftlogDatabase db;
 
         @Before
         public void createDb() {
             Context applicationContext = InstrumentationRegistry.getTargetContext();
-            db = Room.databaseBuilder(applicationContext, Agency.class,"Database Test").build();
-            Dao = db.ShiftlogDAO();
+            db = Room.databaseBuilder(applicationContext, ShiftlogDatabase.class,"Database Test").build();
+            Dao = db.shiftlogDAO();
         }
 
 
         @Test
         public void writeUserAndReadInList() throws Exception {
-            Agency agency = new Agency("Agency","01234567891" );
+            Agency agency = new Agency("Custom Agency","01234567891" );
 
-            ShiftlogDAO.insertAgency(agency);
+            Dao.insertAgency(agency);
 
-            Dao.getAllAgencies();
+            List<Agency> allAgencies = Dao.getAllAgencies();
 
-            assertEquals(agency.getName(), Dao.getAgencyByID(1));
+            assertEquals(agency.getName(), allAgencies.get(allAgencies.size() - 1).getName());
+            assertEquals(agency.getPhoneNumber(), allAgencies.get(allAgencies.size() - 1).getPhoneNumber());
         }
     }
 
