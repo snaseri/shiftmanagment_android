@@ -318,13 +318,17 @@ public class MainActivity extends AppCompatActivity
 
     //A method to reset all the values of all the shift log fields
     public void reloadPage() {
-        finish();
-        startActivity(getIntent());
+        startActivity(new Intent(MainActivity.this, MainActivity.class));
     }
 
     public boolean validateTimes() { //
         if (((Company) company.getSelectedItem()).getId() < 0
             &&((Agency) agency.getSelectedItem()).getId() < 0){return false;}
+        else if (!(useAgencyyno.isChecked() || useCompanyno.isChecked())){return false;}
+        if ((((Company) company.getSelectedItem()).getId() < 0 && useCompanyno.isChecked()) ||
+                (((Agency) agency.getSelectedItem()).getId() < 0 && useAgencyyno.isChecked())){
+            return false;
+        }
         else if (startTime == null || endTime == null || startDate == null || endDate == null) {
             return false;
         } else if (startDatePicker.getYear() < endDatePicker.getYear()) {
@@ -349,7 +353,14 @@ public class MainActivity extends AppCompatActivity
         String message = "There appears to be an issue with your log:";
         if (((Company) company.getSelectedItem()).getId() < 0
                 &&((Agency) agency.getSelectedItem()).getId() < 0){
-            message += "\nSet an agency or Company.";
+            message += "\nSet an agency or company";
+        }
+        if (!(useAgencyyno.isChecked() || useCompanyno.isChecked())){
+            message += "\nSelect the company or agency to share the log with";
+        }
+        if ((((Company) company.getSelectedItem()).getId() < 0 && useCompanyno.isChecked()) ||
+                (((Agency) agency.getSelectedItem()).getId() < 0 && useAgencyyno.isChecked())){
+            message += "\nOnly select company or agency to share with if chosen";
         }
         if (startTime == null || endTime == null || startDate == null || endDate == null){
             message += "\nFill out both the start and end date and time.";
