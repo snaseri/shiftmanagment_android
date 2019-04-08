@@ -324,6 +324,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                         }
 
                     }
+
                     for (CheckBox c : mCheckBoxs) {
                         c.setChecked(false);
                     }
@@ -387,13 +388,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
     public int getItemCount() {
         return mValues.size();
     }
-//    @Override
-//    public void update(int i) {
-//        ViewHolder item = mAllViewHolders.get(i);
-//        item.mShitLogNameView.setText(item.mItem.getCompany());
-//        Log.d("SIZE", String.valueOf(mValues.size()));
-//        Log.d("SIZE", String.valueOf(mAllViewHolders.size()));
-//    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;

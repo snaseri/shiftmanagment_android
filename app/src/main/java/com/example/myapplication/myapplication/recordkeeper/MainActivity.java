@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         company = (findViewById(R.id.companyInput));
         agency = (findViewById(R.id.AgencyInput));
         saveButton = findViewById(R.id.Save_Button);
@@ -180,7 +181,6 @@ public class MainActivity extends AppCompatActivity
             });
             reloadPage();
             } else invalidLog();
-                
             }
 
         });
