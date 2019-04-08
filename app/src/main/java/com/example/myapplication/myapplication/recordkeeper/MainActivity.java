@@ -189,6 +189,15 @@ public class MainActivity extends AppCompatActivity
 
         });
 
+        ((Button) findViewById(R.id.AddAgency)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.main_layout, NewAgencyFragment.newInstance(null));
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
     }
 
 
@@ -473,13 +482,6 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    /*@Override
-    public void onclick() {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_layout, PastShiftLogsFragment.newInstance(allshiftlogs));
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }*/
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         final ShiftlogDAO db = Room.databaseBuilder(this,

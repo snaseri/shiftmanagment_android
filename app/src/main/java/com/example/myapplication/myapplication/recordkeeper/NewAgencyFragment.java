@@ -68,7 +68,7 @@ public class NewAgencyFragment extends Fragment {
                 else {
                     final ShiftlogDAO db = Room.databaseBuilder(getContext(), ShiftlogDatabase.class,
                             "ShiftlogDatabase").fallbackToDestructiveMigration().build().shiftlogDAO();
-                    final String name = ((EditText)view.findViewById(R.id.AgencyInput)).getText().toString();
+                    final String name = ((EditText)view.findViewById(R.id.AgencyInput2)).getText().toString();
                     AsyncTask.execute(new Runnable() {
                         @Override
                         public void run() {

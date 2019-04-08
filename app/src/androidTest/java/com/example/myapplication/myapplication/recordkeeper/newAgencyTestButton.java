@@ -7,6 +7,7 @@ import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.intent.matcher.IntentMatchers;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.test.filters.MediumTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -14,6 +15,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -22,6 +29,7 @@ import static org.junit.Assert.assertEquals;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
+@MediumTest
 public class newAgencyTestButton {
 
     @Rule
@@ -30,29 +38,23 @@ public class newAgencyTestButton {
     @Test
     public void agencySaveButtonTakesYouToShiftlog(){
 
-        Intents.init();
         Espresso.onView(
                 ViewMatchers.withId(R.id.AddAgency)
         ).perform(
                 ViewActions.click()
         );
 
-        Intents.intended(
-                IntentMatchers.hasComponent(NewAgencyFragment.class.getName())
-        );
-
-        Intents.init();
         Espresso.onView(
-                ViewMatchers.withId(R.id.Agency_Save_Button)
-        ).perform(
-                ViewActions.click()
-        );
+                ViewMatchers.withId(R.id.phoneNumberInput)
+        ).check(matches(isDisplayed()));
 
-        Intents.intended(
-                IntentMatchers.hasComponent(MainActivity.class.getName())
-        );
-        Intents.release();
+        Espresso.onView(
+                ViewMatchers.withId(R.id.phoneNumberInput)
+        ).perform(typeText("11111111111"));
 
+        Espresso.onView(
+                ViewMatchers.withId(R.id.phoneNumberInput)
+        ).check(matches(withText("11111111111")));
     }
 }
 
