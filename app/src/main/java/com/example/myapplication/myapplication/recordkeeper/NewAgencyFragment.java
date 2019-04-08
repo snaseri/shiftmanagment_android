@@ -64,7 +64,7 @@ public class NewAgencyFragment extends Fragment {
                 }
 
 
-                if(validateType(phoneNumber)){
+                if(validateType(phoneNumber.getText().toString())){
                     Toast.makeText(view.getContext(), "Phone number must be all numbers", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -101,8 +101,8 @@ public class NewAgencyFragment extends Fragment {
         else return true;
     }
 
-    public static boolean validateType( EditText dataType){
-        if(!Pattern.matches("\\d+", dataType.getText())) {
+    public static boolean validateType( String dataType){
+        if(!Pattern.matches("\\d+", dataType)) {
             return false;
         }
         else return true;
