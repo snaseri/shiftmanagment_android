@@ -58,13 +58,13 @@ public class NewAgencyFragment extends Fragment {
             public void onClick(View v) {
                 final EditText phoneNumber = ((EditText) view.findViewById(R.id.phoneNumberInput));
 
-                if(validateLength(phoneNumber.getText().length()) ) {
+                if(invalidValidateLength(phoneNumber.getText().length()) ) {
                     Toast.makeText(view.getContext(), "Phone number must be 11 digits", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
 
-                if(validateType(phoneNumber)){
+                if(invalidValidateType(phoneNumber.getText().toString())){
                     Toast.makeText(view.getContext(), "Phone number must be all numbers", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -88,21 +88,21 @@ public class NewAgencyFragment extends Fragment {
         });
 
 
-       return view;
+        return view;
 
 
     }
 
 
-    public boolean validateLength(Integer numberLength){
+    public static boolean invalidValidateLength(Integer numberLength){
         if(numberLength != 11) {
             return false;
         }
         else return true;
     }
 
-    public boolean validateType( EditText dataType){
-        if(!Pattern.matches("\\d+", dataType.getText())) {
+    public static boolean invalidValidateType( String dataType){
+        if(!Pattern.matches("\\d+", dataType)) {
             return false;
         }
         else return true;
@@ -112,15 +112,4 @@ public class NewAgencyFragment extends Fragment {
 
 
 
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
 
