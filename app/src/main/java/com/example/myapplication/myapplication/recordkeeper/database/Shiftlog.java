@@ -4,6 +4,7 @@ package com.example.myapplication.myapplication.recordkeeper.database;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.Room;
 
 
 @Entity
@@ -17,6 +18,9 @@ public class Shiftlog {
 
     @ColumnInfo(name = "shiftlog_agency")
     private int agency ;
+
+    @ColumnInfo(name = "shiftlog_sharewith")
+    private int shareWith ;
 
     @ColumnInfo(name = "shiftlog_numbertocall")
     private int numberToCall;
@@ -33,7 +37,7 @@ public class Shiftlog {
     @ColumnInfo(name = "shiftlog_endtime")
     private String endTime;
 
-    @ColumnInfo(name ="shiftlog break")
+    @ColumnInfo(name = "shiftlog break")
     private String breaks;
 
     @ColumnInfo(name = "shiftlog_vehicleuse")
@@ -42,28 +46,33 @@ public class Shiftlog {
     @ColumnInfo(name = "shiftlog_registration")
     private String registration;
 
-
     @ColumnInfo(name = "shiftlog_poa")
     private String poa;
-
 
     @ColumnInfo(name = "shiftlog_nightout")
     private Boolean nightOut;
 
+    @ColumnInfo(name = "shiftlog_shared")
+    private Boolean shared ;
 
-    public Shiftlog(int company, int agency, String startDate, String startTime, String endDate, String endTime, String breaks,
-                    Boolean vehicleUse, String registration,String poa,  Boolean nightOut) {
+
+
+    public Shiftlog(int company, int agency, int shareWith, String startDate, String startTime,
+                    String endDate, String endTime, String breaks, Boolean vehicleUse,
+                    String registration, String poa, Boolean nightOut, Boolean shared) {
         this.company = company;
         this.agency = agency;
+        this.shareWith = shareWith;
         this.startDate= startDate;
         this.startTime = startTime;
         this.endDate = endDate;
         this.endTime = endTime;
-        this.breaks =breaks;
+        this.breaks = breaks;
         this.vehicleUse = vehicleUse;
         this.registration = registration;
-        this.poa =poa;
+        this.poa = poa;
         this.nightOut = nightOut;
+        this.shared = shared;
 
     }
 
@@ -89,6 +98,14 @@ public class Shiftlog {
 
     public void setAgency(int agency) {
         this.agency = agency;
+    }
+
+    public int getShareWith() {
+        return shareWith;
+    }
+
+    public void setShareWith(int shareWith) {
+        this.shareWith = shareWith;
     }
 
     public int getNumberToCall() {
@@ -170,4 +187,13 @@ public class Shiftlog {
     public void setNightOut(Boolean nightOut) {
         this.nightOut = nightOut;
     }
+
+    public Boolean getShared() {
+        return shared;
+    }
+
+    public void setShared(Boolean shared) {
+        this.shared = shared;
+    }
+
 }

@@ -54,7 +54,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     public void onDateSet(DatePicker view, int year, int month, int day) {
         //Handles the date being set and triggers the callback to the listener
         if(listener != null) //If the listener exists
-            listener.onDatePicked(year, month, day, id);
+            listener.onDatePicked(year, month+1, day, id);
     }
 
     public interface DatePickedListener {

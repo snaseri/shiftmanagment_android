@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main_layout"
+    android:background="@android:color/white"
+    android:clickable="true"
+    android:focusable="true"
+    tools:context=".MainActivity">
+
+            <TextView
+                android:id="@+id/newCompanyLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/colorTextThree"
+                android:text="@string/new_company"
+                android:textSize="20sp">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/CompanyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Company name"
+                android:textSize="18sp"
+                android:textColor="@color/colorTextThree"
+                android:layout_below="@id/newCompanyLabel"
+                android:layout_marginTop="40dp"
+                app:layout_constraintBottom_toBottomOf="@id/companyInput"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginLeft="10dp"/>
+            <EditText
+                android:id="@+id/CompanyInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/CompanyName"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/PhoneLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone Number"
+                android:textSize="18sp"
+                android:textColor="@color/colorTextThree"
+                android:layout_below="@id/CompanyInput"
+                android:layout_marginTop="40dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginLeft="10dp"/>
+            <EditText
+                android:id="@+id/phoneNumberInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/PhoneLabel"
+                android:layout_marginTop="10dp"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/Company_Save_Button"
+                android:layout_width="106dp"
+                android:layout_height="50dp"
+                android:layout_below="@id/phoneNumberInput"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="230dp"
+                android:background="@drawable/selector_button"
+                android:text="@string/save"
+                android:textColor="@color/colorTextTwo"
+                app:layout_constraintRight_toRightOf="parent" />
+
+
+</RelativeLayout>

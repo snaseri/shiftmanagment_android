@@ -1,20 +1,19 @@
 package com.example.myapplication.myapplication.recordkeeper;
 
 
+import android.app.AlertDialog;
 import android.arch.persistence.room.Room;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.ActionMode;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatSpinner;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -22,7 +21,6 @@ import android.widget.CheckBox;
 import android.support.v7.widget.AppCompatButton;
 import android.view.Menu;
 import android.view.View;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +28,8 @@ import com.example.myapplication.myapplication.recordkeeper.database.*;
 import com.example.myapplication.myapplication.recordkeeper.views.ShiftlogListItemView;
 
 import java.util.List;
+
+import static com.example.myapplication.myapplication.recordkeeper.PastShiftLogsFragment.adapter;
 
 // DateTime interface includes both custom Listeners for TimePicker and DatePicker
 interface DateTime extends TimePickerFragment.TimePickedListener,
@@ -57,7 +57,8 @@ public class MainActivity extends AppCompatActivity
     //Detail checkboxes
     private CheckBox vehicleUse;
     private CheckBox nightOut;
-    private ActionMode mActionMode;
+    private CheckBox useCompanyno;
+    private CheckBox useAgencyyno;
 
 
     //Strings of the selected DateTimes
@@ -98,6 +99,9 @@ public class MainActivity extends AppCompatActivity
         //Detail checkboxes
         vehicleUse = (findViewById(R.id.vehicleUse));
         nightOut = (findViewById(R.id.nightOut));
+        useCompanyno = (findViewById(R.id.useCompanyno));
+        useAgencyyno = (findViewById(R.id.useAgencyyno));
+
 
 
         db = Room.databaseBuilder(this, ShiftlogDatabase.class,
@@ -142,12 +146,26 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void run() {
 
+                    int sendid;
+                    if (useAgencyyno.isChecked() && useCompanyno.isChecked()) {
+                        sendid = 3;
+                    } else if (useAgencyyno.isChecked() && !useCompanyno.isChecked()) {
+                        sendid = 2;
+                    } else if (!useAgencyyno.isChecked() && useCompanyno.isChecked()) {
+                        sendid = 1;
+                    } else {
+                        sendid = 0;
+                    }
+
                     db.insertShiftlog(
                             new Shiftlog(((Company) company.getSelectedItem()).getId(),
                                     ((Agency) agency.getSelectedItem()).getId(),
-                                    startDate, startTime,endDate, endTime,breakTime,
-                                    vehicleUse.isChecked(),registration.getText().toString(), poa, nightOut.isChecked())
+                                    sendid, startDate, startTime,endDate, endTime,breakTime,
+                                    vehicleUse.isChecked(),registration.getText().toString(), poa,
+                                    nightOut.isChecked(), false)
+
                     );
+
 
                     final List<Shiftlog> shiftlogs = db.getAllShiftlogs();
                     Log.d("STORED_SHIFTLOGS", String.format("Number of ShiftLogs: %d", shiftlogs.size()));
@@ -160,6 +178,7 @@ public class MainActivity extends AppCompatActivity
                     });
                 }
             });
+            reloadPage();
             } else invalidDateTime();
             }
 
@@ -173,10 +192,29 @@ public class MainActivity extends AppCompatActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (((Company)parent.getItemAtPosition(position)).getId() == -2) {
                     // Add new Company
-                    System.out.println("yep new one");
                     parent.setSelection(0);
                     company.setSelection(0);
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    NewCompanyFragment.Callback callback = new NewCompanyFragment.Callback() {
+                                        @Override
+                                        public void reset() { setCompanyOptions(); }
+                                    };
+                                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                                    transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
+                                    transaction.replace(R.id.main_layout, NewCompanyFragment.newInstance(callback));
+                                    transaction.addToBackStack(null);
+                                    transaction.commit();
+                                }
+                            });
+                        }
+                    });
                 }
+
             }
 
             @Override
@@ -186,7 +224,6 @@ public class MainActivity extends AppCompatActivity
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                //db.insertCompany(new Company("Company","3284245"));
                 final List<Company> companies = db.getAllCompanies();
                 companies.add(0, new Company("No Company", "0"));
                 companies.get(0).setId(-1);
@@ -195,12 +232,12 @@ public class MainActivity extends AppCompatActivity
                 final ArrayAdapter<Company> adapter = new ArrayAdapter<Company>(getApplicationContext(),
                         android.R.layout.simple_spinner_dropdown_item, companies);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
                         company.setAdapter(adapter);
-//                    }
-//                });
+                    }
+                });
             }
         }
 
@@ -214,8 +251,29 @@ public class MainActivity extends AppCompatActivity
                     // Add new Agency
                     parent.setSelection(0);
                     agency.setSelection(0);
+
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    NewAgencyFragment.Callback callback = new NewAgencyFragment.Callback() {
+                                        @Override
+                                        public void reset() { setCompanyOptions(); }
+                                    };
+                                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                                    transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
+                                    transaction.replace(R.id.main_layout, NewAgencyFragment.newInstance(callback));
+                                    transaction.addToBackStack(null);
+                                    transaction.commit();
+                                }
+                            });
+                        }
+                    });
                 }
             }
+
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) { }
@@ -223,26 +281,53 @@ public class MainActivity extends AppCompatActivity
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-
                 final List<Agency> agencies = db.getAllAgencies();
                 agencies.add(0, new Agency("No Agency", "0"));
                 agencies.get(0).setId(-1);
                 agencies.add(new Agency("Add Agency", "0"));
                 agencies.get(agencies.size() - 1).setId(-2);
-                ArrayAdapter<Agency> adapter = new ArrayAdapter<Agency>(getApplicationContext(),
+                final ArrayAdapter<Agency> adapter = new ArrayAdapter<Agency>(getApplicationContext(),
                         android.R.layout.simple_spinner_dropdown_item, agencies);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-                agency.setAdapter(adapter);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        agency.setAdapter(adapter);
+                    }
+                });
                 }
           }
 
         );
     }
 
+    public boolean logIsChanged() {
+        if (company.getSelectedItem().toString().equalsIgnoreCase("No Company") &&
+                agency.getSelectedItem().toString().equalsIgnoreCase("No Agency")  &&
+                startTime == null && endTime == null && startDate == null && endDate == null &&
+                breakTime == null &&
+                !nightOut.isChecked() &&
+                !vehicleUse.isChecked() &&
+                !useAgencyyno.isChecked() &&
+                !useCompanyno.isChecked()) {
+            return false;
+        } else { return true;}
+    }
+
+    //A method to reset all the values of all the shift log fields
+    public void reloadPage() {
+        startActivity(new Intent(MainActivity.this, MainActivity.class));
+    }
+
     public boolean validateTimes() { //
         if (((Company) company.getSelectedItem()).getId() < 0
             &&((Agency) agency.getSelectedItem()).getId() < 0){return false;}
+        else if (!(useAgencyyno.isChecked() || useCompanyno.isChecked())){return false;}
+        if ((((Company) company.getSelectedItem()).getId() < 0 && useCompanyno.isChecked()) ||
+                (((Agency) agency.getSelectedItem()).getId() < 0 && useAgencyyno.isChecked())){
+            return false;
+        }
         else if (startTime == null || endTime == null || startDate == null || endDate == null) {
             return false;
         } else if (startDatePicker.getYear() < endDatePicker.getYear()) {
@@ -267,7 +352,14 @@ public class MainActivity extends AppCompatActivity
         String message = "There appears to be an issue with your log:";
         if (((Company) company.getSelectedItem()).getId() < 0
                 &&((Agency) agency.getSelectedItem()).getId() < 0){
-            message += "\nSet an agency or Company.";
+            message += "\nSet an agency or company";
+        }
+        if (!(useAgencyyno.isChecked() || useCompanyno.isChecked())){
+            message += "\nSelect the company or agency to share the log with";
+        }
+        if ((((Company) company.getSelectedItem()).getId() < 0 && useCompanyno.isChecked()) ||
+                (((Agency) agency.getSelectedItem()).getId() < 0 && useAgencyyno.isChecked())){
+            message += "\nOnly select company or agency to share with if chosen";
         }
         if (startTime == null || endTime == null || startDate == null || endDate == null){
             message += "\nFill out both the start and end date and time.";
@@ -309,17 +401,17 @@ public class MainActivity extends AppCompatActivity
                 startTimePicker.setMinute(minute);
                 startTime = String.format(hour + ":" + min);
                 break;
-            case 1: endTimePicker.getTimeButton().setText("End time - " + hour + ":" + minute);
+            case 1: endTimePicker.getTimeButton().setText("End time - " + hour + ":" + min);
                 endTimePicker.setHour(hourOfDay);
                 endTimePicker.setMinute(minute);
                 endTime = String.format(hour + ":" + min);
                 break;
-            case 2: breakTimePicker.getTimeButton().setText("Break time - " + hour + ":" + minute);
+            case 2: breakTimePicker.getTimeButton().setText("Break time - " + hour + ":" + min);
                 breakTimePicker.setHour(hourOfDay);
                breakTimePicker.setMinute(minute);
                 breakTime = String.format(hour + ":" + min);
                 break;
-            case 3: poaPicker.getTimeButton().setText("POA - " + hour + ":" + minute);
+            case 3: poaPicker.getTimeButton().setText("POA - " + hour + ":" + min);
                 poaPicker.setHour(hourOfDay);
                 poaPicker.setMinute(minute);
                 poa = String.format(hour + ":" + min);
@@ -355,10 +447,30 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    public boolean setToOtherMenu = false;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.navigation, menu);
+        if (setToOtherMenu) {
+            menu.findItem(R.id.menu_search_bar).setVisible(true);
+        }
+        MenuItem searchItem = menu.findItem(R.id.menu_search_bar);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
 
         return true;
     }
@@ -383,6 +495,7 @@ public class MainActivity extends AppCompatActivity
                                 transaction.replace(R.id.main_layout, PastShiftLogsFragment.newInstance(allshiftlogs));
                                 transaction.addToBackStack(null);
                                 transaction.commit();
+
                             }
                         });
                     }
@@ -392,9 +505,9 @@ public class MainActivity extends AppCompatActivity
                 //start Activity: https://stackoverflow.com/questions/24610527/how-do-i-get-a-button-to-open-another-activity-in-android-studio
                 startActivity(new Intent(MainActivity.this, MainActivity.class));
 
-                   break;
-                   default:
-                        break;
+                break;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
 
@@ -406,12 +519,14 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run() {
                 final Shiftlog clickedShiftLog = db.getShiftLogById(item.getId());
+                final Company c = db.getCompanyByID(clickedShiftLog.getCompany());
+                final Agency a = db.getAgencyByID(clickedShiftLog.getAgency());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                         transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
-                        transaction.replace(R.id.main_layout, ShiftlogDetailFragment.newInstance(clickedShiftLog));
+                        transaction.replace(R.id.main_layout, ShiftlogDetailFragment.newInstance(clickedShiftLog, c, a));
                         transaction.addToBackStack(null);
                         transaction.commit();
                     }

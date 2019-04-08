@@ -10,14 +10,22 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.SearchView;
 
+import com.example.myapplication.myapplication.recordkeeper.database.Agency;
+import com.example.myapplication.myapplication.recordkeeper.database.Company;
 import com.example.myapplication.myapplication.recordkeeper.database.Shiftlog;
 import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDAO;
 import com.example.myapplication.myapplication.recordkeeper.database.ShiftlogDatabase;
 import com.example.myapplication.myapplication.recordkeeper.views.ShiftlogListItemView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,6 +40,7 @@ public class PastShiftLogsFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+    public static MyPastShiftLogsRecyclerViewAdapter adapter;
     private OnListFragmentInteractionListener mListener;
     public List<Shiftlog> allShiftlogs;
 
@@ -41,6 +50,7 @@ public class PastShiftLogsFragment extends Fragment {
      */
     public PastShiftLogsFragment() {
     }
+
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
@@ -53,6 +63,8 @@ public class PastShiftLogsFragment extends Fragment {
 
         return fragment;
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +80,6 @@ public class PastShiftLogsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pastshiftlogs_list, container, false);
 
-
         if (view instanceof RecyclerView) {
             final Context context = view.getContext();
             final RecyclerView recyclerView = (RecyclerView) view;
@@ -78,10 +89,14 @@ public class PastShiftLogsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyPastShiftLogsRecyclerViewAdapter(getActivity(), allShiftlogs, mListener));
+            adapter = (new MyPastShiftLogsRecyclerViewAdapter(getActivity(), allShiftlogs, mListener));
+            recyclerView.setAdapter(adapter);
 
         }
 
+
+        ((MainActivity)getActivity()).setToOtherMenu = true;
+        ((MainActivity)getActivity()).invalidateOptionsMenu();
 
 
         return view;
@@ -99,12 +114,19 @@ public class PastShiftLogsFragment extends Fragment {
         }
     }
 
+
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+
+    /*@Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.searchbar_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }*/
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

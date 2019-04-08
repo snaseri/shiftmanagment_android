@@ -13,4 +13,5 @@
     app:layoutManager="LinearLayoutManager"
     tools:context=".PastShiftLogsFragment"
     tools:listitem="@layout/fragment_pastshiftlogs2"
+    android:scrollbars="vertical"
     />
