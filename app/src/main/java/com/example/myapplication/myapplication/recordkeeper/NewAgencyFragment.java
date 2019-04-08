@@ -57,11 +57,14 @@ public class NewAgencyFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final EditText phoneNumber = ((EditText) view.findViewById(R.id.phoneNumberInput));
-                if(phoneNumber.getText().length() != 11) {
+
+                if(validateLength(phoneNumber.getText().length()) ) {
                     Toast.makeText(view.getContext(), "Phone number must be 11 digits", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(!Pattern.matches("\\d+", phoneNumber.getText())) {
+
+
+                if(validateType(phoneNumber)){
                     Toast.makeText(view.getContext(), "Phone number must be all numbers", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -91,6 +94,20 @@ public class NewAgencyFragment extends Fragment {
     }
 
 
+    public boolean validateLength(Integer numberLength){
+        if(numberLength != 11) {
+            return false;
+        }
+        else return true;
+    }
+
+    public boolean validateType( EditText dataType){
+        if(!Pattern.matches("\\d+", dataType.getText())) {
+            return false;
+        }
+        else return true;
+    }
+}
 
 
 
@@ -106,4 +123,4 @@ public class NewAgencyFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-}
+
