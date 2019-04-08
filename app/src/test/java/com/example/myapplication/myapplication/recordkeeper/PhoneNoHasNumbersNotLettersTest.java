@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-public class PhoneNoIsElevenCharTest {
+public class PhoneNoHasNumbersNotLettersTest {
     @Test
     public void PhoneNoHasElevenCharacters() {
 

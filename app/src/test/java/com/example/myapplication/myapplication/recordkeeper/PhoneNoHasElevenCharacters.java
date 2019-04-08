@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
-public class PhoneNoHasNosTest {
+public class PhoneNoHasElevenCharacters {
     @Test
     public void validateLength() {
         assertTrue(NewAgencyFragment.validateLength(11));
