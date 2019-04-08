@@ -233,7 +233,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/shiftLogLabel"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="10dp"
 
             />
 
@@ -243,7 +243,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/companyInput"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="10dp"
 
                 />
 
