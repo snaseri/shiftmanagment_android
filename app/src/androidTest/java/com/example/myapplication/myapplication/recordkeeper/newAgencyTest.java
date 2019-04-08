@@ -31,13 +31,13 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(AndroidJUnit4.class)
 @MediumTest
-public class newAgencyTestButton {
+public class newAgencyTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mainActivityActivtyTestRule = new ActivityTestRule<MainActivity>(MainActivity.class);
 
     @Test
-    public void agencySaveButtonTakesYouToShiftlog(){
+    public void agencyCheckPhoneNoInput(){
 
         FragmentTransaction transaction =
                 mainActivityActivtyTestRule.getActivity().getSupportFragmentManager().beginTransaction();
