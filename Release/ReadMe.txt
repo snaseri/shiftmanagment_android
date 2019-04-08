@@ -22,4 +22,8 @@ Keystore information are given below:
 	First and Last Name: Iskander Abd-Al-Kerim
 	Country Code: UK
 
+- When building in the APK you will be asked to locate the keystore and the keystore password.
+keystore file can be found in Release\DRK_keystore.jks and the password is the given password
+above.
+
 
