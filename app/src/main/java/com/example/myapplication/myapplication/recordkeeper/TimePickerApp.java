@@ -9,12 +9,13 @@ class TimePickerApp{
     private Button timeButton;
     private Integer hour;
     private Integer minute;
-    TimePickerApp(final FragmentManager supportFragmentManager, Button button, final int tag) {
+    TimePickerApp(final FragmentManager supportFragmentManager,
+                  Button button, final int tag, final boolean time) {
         timeButton = button;
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment timePicker = TimePickerFragment.newInstance(tag);
+                DialogFragment timePicker = TimePickerFragment.newInstance(tag, time);
                 timePicker.show(supportFragmentManager, "timePicker");
             }
         });

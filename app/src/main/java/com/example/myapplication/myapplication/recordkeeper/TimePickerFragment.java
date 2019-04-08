@@ -17,10 +17,12 @@ import java.util.Calendar;
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
     TimePickedListener listener;
     Integer id;
+    Boolean time;
 
-    static TimePickerFragment newInstance(Integer id) {
+    static TimePickerFragment newInstance(Integer id, Boolean time) {
         Bundle args = new Bundle();
         args.putInt("picker_id", id);
+        args.putBoolean("picker_time", time);
         TimePickerFragment fragment = new TimePickerFragment();
         fragment.setArguments(args);
         return fragment;
@@ -29,11 +31,16 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        Calendar cal = Calendar.getInstance();
-        int hour = cal.get(Calendar.HOUR_OF_DAY);
-        int min = cal.get(Calendar.MINUTE);
+        int hour = 0;
+        int min = 0;
 
         id = getArguments().getInt("picker_id");
+        if (getArguments().getBoolean("picker_time")){
+            Calendar cal = Calendar.getInstance();
+            hour = cal.get(Calendar.HOUR_OF_DAY);
+            min = cal.get(Calendar.MINUTE);
+
+        }
 
         return new TimePickerDialog(
                 getActivity(), AlertDialog.THEME_HOLO_LIGHT, this,
