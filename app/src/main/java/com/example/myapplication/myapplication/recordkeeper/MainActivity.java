@@ -79,13 +79,13 @@ public class MainActivity extends AppCompatActivity
 
         //Time pickers
         startTimePicker = new TimePickerApp(getSupportFragmentManager(),
-                (Button) findViewById(R.id.btnStartTimePicker), 0);
+                (Button) findViewById(R.id.btnStartTimePicker), 0, true);
         endTimePicker = new TimePickerApp(getSupportFragmentManager(),
-                (Button) findViewById(R.id.btnEndTimePicker), 1);
+                (Button) findViewById(R.id.btnEndTimePicker), 1, true);
         breakTimePicker = new TimePickerApp(getSupportFragmentManager(),
-                (Button) findViewById(R.id.btnBreaks), 2);
+                (Button) findViewById(R.id.btnBreaks), 2, false);
         poaPicker= new TimePickerApp(getSupportFragmentManager(),
-                (Button) findViewById(R.id.btnpoa), 3);
+                (Button) findViewById(R.id.btnpoa), 3, false);
 
 
         //Date pickers
