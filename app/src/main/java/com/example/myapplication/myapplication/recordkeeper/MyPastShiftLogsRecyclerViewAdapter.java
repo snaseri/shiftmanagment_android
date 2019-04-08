@@ -88,6 +88,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
 
 
         this.items = items;
+        Log.d("Test", String.valueOf(items.size()));
         for (Shiftlog shiftlog : items) {
             ShiftlogListItemView toAdd = new ShiftlogListItemView(shiftlog, c, mValues.size());
             toAdd.setUpdate(new ShiftlogListItemView.UpdateUI() {
@@ -100,8 +101,6 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                             item.mShitLogNameView.setText(item.mItem.getCompany());
                         }
                     });
-                    Log.d("SIZE", String.valueOf(mValues.size()));
-                    Log.d("SIZE", String.valueOf(mAllViewHolders.size()));
                 }
             });
 
@@ -138,6 +137,8 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
         holder.mShitLogNameView.setText(mValues.get(position).getCompany());
         holder.mStartTextView.setText("Start date: " + mValues.get(position).getStartDate());
         holder.mSelectedLogs.setTag(position);
+        Log.d("text", String.valueOf(position));
+        Log.d("text4", String.valueOf(mLogValues.size()));
         final Shiftlog mShiftlog = mLogValues.get(position);
 
         holder.mSelectedLogs.setOnClickListener(new View.OnClickListener() {
@@ -292,7 +293,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                             Toast.makeText(context, "This app doesn't have permission to send text", Toast.LENGTH_LONG).show();
                             ActivityCompat.requestPermissions((MainActivity) context, new String[]{Manifest.permission.SEND_SMS}, 1);
                         } else {
-//                                Toast.makeText(context, "Sending...", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Sending...", Toast.LENGTH_LONG).show();
                             AsyncTask.execute(new Runnable() {
                                 @Override
                                 public void run() {
@@ -323,6 +324,7 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                         }
 
                     }
+
                     for (CheckBox c : mCheckBoxs) {
                         c.setChecked(false);
                     }
@@ -357,7 +359,12 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
             } else  {
                 String filterpattern = constraint.toString().toLowerCase().trim();
                 for (ShiftlogListItemView shiftlog : mValuesComplete) {
+                    shiftlog.generateName();
+                    Log.d("COMPANY NAME " , shiftlog.getCompany());
                     if (shiftlog.getStartDate().contains(filterpattern)) {
+                        filteredList.add(shiftlog);
+                    }
+                    if (shiftlog.getCompany().toLowerCase().contains(filterpattern)) {
                         filteredList.add(shiftlog);
                     }
                 }

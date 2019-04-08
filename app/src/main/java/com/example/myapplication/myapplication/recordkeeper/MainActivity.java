@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         company = (findViewById(R.id.companyInput));
         agency = (findViewById(R.id.AgencyInput));
         saveButton = findViewById(R.id.Save_Button);
@@ -138,7 +139,7 @@ public class MainActivity extends AppCompatActivity
             @Override  //setting what happens when clicked below
             public void onClick(View v) {
 
-            if (validateTimes()) {
+            if (getDataToValidate()) {
 
             AsyncTask.execute(new Runnable() {
 
@@ -179,8 +180,7 @@ public class MainActivity extends AppCompatActivity
                 }
             });
             reloadPage();
-            } else invalidDateTime();
-                
+            } else invalidLog();
             }
 
         });
@@ -201,9 +201,13 @@ public class MainActivity extends AppCompatActivity
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    NewCompanyFragment.Callback callback = new NewCompanyFragment.Callback() {
+                                        @Override
+                                        public void reset() { setCompanyOptions(); }
+                                    };
                                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                                     transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
-                                    transaction.replace(R.id.main_layout, NewCompanyFragment.newInstance());
+                                    transaction.replace(R.id.main_layout, NewCompanyFragment.newInstance(callback));
                                     transaction.addToBackStack(null);
                                     transaction.commit();
                                 }
@@ -255,11 +259,15 @@ public class MainActivity extends AppCompatActivity
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                                        transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
-                                        transaction.replace(R.id.main_layout, NewAgencyFragment.newInstance());
-                                        transaction.addToBackStack(null);
-                                        transaction.commit();
+                                    NewAgencyFragment.Callback callback = new NewAgencyFragment.Callback() {
+                                        @Override
+                                        public void reset() { setCompanyOptions(); }
+                                    };
+                                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                                    transaction.setCustomAnimations(R.anim.slide_from_bottom, R.anim.slide_out_bottom);
+                                    transaction.replace(R.id.main_layout, NewAgencyFragment.newInstance(callback));
+                                    transaction.addToBackStack(null);
+                                    transaction.commit();
                                 }
                             });
                         }
@@ -310,38 +318,82 @@ public class MainActivity extends AppCompatActivity
 
     //A method to reset all the values of all the shift log fields
     public void reloadPage() {
-        finish();
-        startActivity(getIntent());
+        startActivity(new Intent(MainActivity.this, MainActivity.class));
     }
 
-    public boolean validateTimes() { //
-        if (((Company) company.getSelectedItem()).getId() < 0
-            &&((Agency) agency.getSelectedItem()).getId() < 0){return false;}
-        else if (startTime == null || endTime == null || startDate == null || endDate == null) {
+    public boolean getDataToValidate() {
+        Integer companyID = ((Company) company.getSelectedItem()).getId();
+        Integer agencyID = ((Agency) agency.getSelectedItem()).getId();
+        Boolean sendToAgency = useAgencyyno.isChecked();
+        Boolean sendToCompany = useCompanyno.isChecked();
+        String mStartTime = startTime;
+        String mStartDate = startDate;
+        String mEndTime = endTime;
+        String mEndDate = endDate;
+        Integer startYear = startDatePicker.getYear();
+        Integer startMonth = startDatePicker.getMonth();
+        Integer startDay = startDatePicker.getDay();
+        Integer startHour = startTimePicker.getHour();
+        Integer startMinute = startTimePicker.getMinute();
+        Integer endYear = endDatePicker.getYear();
+        Integer endMonth = endDatePicker.getMonth();
+        Integer endDay = endDatePicker.getDay();
+        Integer endHour = endTimePicker.getHour();
+        Integer endMinute = endTimePicker.getMinute();
+        return validate(companyID, agencyID, sendToAgency, sendToCompany, mStartTime, mStartDate,
+                mEndTime, mEndDate, startYear, startMonth, startDay, startHour, startMinute,
+                endYear, endMonth, endDay, endHour, endMinute);
+    }
+
+    public boolean validate(Integer companyID, Integer agencyID, Boolean sendToAgency,
+                            Boolean sendToCompany, String mStartTime, String mStartDate,
+                            String mEndTime, String mEndDate, Integer startYear, Integer startMonth,
+                            Integer startDay, Integer startHour, Integer startMinute,
+                            Integer endYear, Integer endMonth, Integer endDay, Integer endHour,
+                            Integer endMinute) { //
+
+        if (companyID < 0 && agencyID < 0) {
             return false;
-        } else if (startDatePicker.getYear() < endDatePicker.getYear()) {
+        }
+        else if (!(sendToAgency || sendToCompany)) {
+            return false;
+        }
+        if ( (companyID < 0 && sendToCompany) || (agencyID < 0 && sendToAgency) ){
+            return false;
+        }
+        else if (mStartTime == null || mStartDate == null || mEndTime == null || mEndDate == null) {
+            return false;
+        }
+        else if (startYear < endYear) {
             return true;
-        } else if (startDatePicker.getYear().equals(endDatePicker.getYear()) &&
-                startDatePicker.getMonth() < endDatePicker.getMonth()) {
+        }
+        else if (startYear.equals(endYear) && startMonth < endMonth) {
             return true;
-        } else if (startDatePicker.getMonth().equals(endDatePicker.getMonth()) &&
-                startDatePicker.getDay() < endDatePicker.getDay()) {
+        }
+        else if (startMonth.equals(endMonth) && startDay < endDay) {
             return true;
-        } else if (startDatePicker.getDay().equals(endDatePicker.getDay()) &&
-                startTimePicker.getHour() < endTimePicker.getHour()) {
+        }
+        else if (startDay.equals(endDay) && startHour < endHour) {
             return true;
-        } else return startTimePicker.getHour().equals(endTimePicker.getHour()) &&
-                startTimePicker.getMinute() < endTimePicker.getMinute();
+        }
+        else return startHour.equals(endHour) &&
+                startMinute <= endMinute;
 
     }
 
 
-
-    public void invalidDateTime(){
+    public void invalidLog(){
         String message = "There appears to be an issue with your log:";
         if (((Company) company.getSelectedItem()).getId() < 0
                 &&((Agency) agency.getSelectedItem()).getId() < 0){
-            message += "\nSet an agency or Company.";
+            message += "\nSet an agency or company";
+        }
+        if (!(useAgencyyno.isChecked() || useCompanyno.isChecked())){
+            message += "\nSelect the company or agency to share the log with";
+        }
+        if ((((Company) company.getSelectedItem()).getId() < 0 && useCompanyno.isChecked()) ||
+                (((Agency) agency.getSelectedItem()).getId() < 0 && useAgencyyno.isChecked())){
+            message += "\nOnly select company or agency to share with if chosen";
         }
         if (startTime == null || endTime == null || startDate == null || endDate == null){
             message += "\nFill out both the start and end date and time.";

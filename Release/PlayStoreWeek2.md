@@ -1,5 +1,5 @@
 Darek PlayStore.MD
-(Current Realease)
+(Week 2 Realease)
 
   Features:
 . Create a new shift Log - Name your shift log

@@ -12,41 +12,20 @@
     tools:context=".MainActivity">
 
 
-            <TextView
-                android:id="@+id/newAgencyLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="15dp"
-                android:textColor="@color/colorTextThree"
-                android:text="@string/new_agency"
-                android:textSize="20sp">
-
-            </TextView>
-
     <TextView
-        android:id="@+id/PhoneLabel"
+        android:id="@+id/newAgencyLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/contact_number"
-        android:textSize="18sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/new_agency"
         android:textColor="@color/colorTextThree"
-        android:layout_below="@+id/AgencyInputInput"
-        android:layout_marginTop="40dp"
-        app:layout_constraintBottom_toBottomOf="@id/newAgencyLabel"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="10dp"/>
+        android:textSize="20sp">
+
+    </TextView>
 
 
-    <EditText
-        android:id="@+id/phoneNumberInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/PhoneLabel"
-        android:layout_marginTop="3dp" />
             <TextView
                 android:id="@+id/AgencyName"
                 android:layout_width="wrap_content"
@@ -62,27 +41,51 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginLeft="10dp"/>
 
+            <EditText
+                android:id="@+id/AgencyInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/AgencyName"
+                android:layout_marginTop="10dp" />
 
-    <EditText
-        android:id="@+id/AgencyInputInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/AgencyName"
-        android:layout_marginTop="2dp" />
+            <TextView
+                android:id="@+id/PhoneLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/contact_number"
+                android:textSize="18sp"
+                android:textColor="@color/colorTextThree"
+                android:layout_below="@+id/AgencyInput"
+                android:layout_marginTop="40dp"
+                app:layout_constraintBottom_toBottomOf="@id/newAgencyLabel"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginLeft="10dp"/>
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/Agency_Save_Button"
-        android:layout_width="106dp"
-        android:layout_height="50dp"
-        android:layout_centerInParent="true"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/btnpoa"
-        android:background="@drawable/selector_button"
-        android:text="@string/save"
-        android:textColor="@color/colorTextTwo"
-        app:layout_constraintRight_toRightOf="parent" />
+
+            <EditText
+                android:id="@+id/phoneNumberInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/PhoneLabel"
+                android:layout_marginTop="10dp" />
+
+
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/Agency_Save_Button"
+                android:layout_width="106dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="230dp"
+                android:layout_below="@id/phoneNumberInput"
+                android:background="@drawable/selector_button"
+                android:text="@string/save"
+                android:textColor="@color/colorTextTwo"
+                app:layout_constraintRight_toRightOf="parent" />
 
 
 
