@@ -301,15 +301,17 @@ public class MainActivity extends AppCompatActivity
         );
     }
 
-    public boolean logIsChanged() {
-        if (company.getSelectedItem().toString().equalsIgnoreCase("No Company") &&
-                agency.getSelectedItem().toString().equalsIgnoreCase("No Agency")  &&
-                startTime == null && endTime == null && startDate == null && endDate == null &&
-                breakTime == null &&
-                !nightOut.isChecked() &&
-                !vehicleUse.isChecked() &&
-                !useAgencyyno.isChecked() &&
-                !useCompanyno.isChecked()) {
+    public boolean logIsChanged(String company, String agency, String startTime, String endTime,
+                                String startDate, String endDate, String breakTime, Boolean nightOut,
+                                Boolean vehicleUse, Boolean useAgencyno, Boolean useCompanyno) {
+        if (company.equalsIgnoreCase("No Company") &&
+                agency.equalsIgnoreCase("No Agency")  &&
+                startTime == null && endTime == null && startDate == null &&
+                endDate == null && breakTime == null &&
+                !nightOut &&
+                !vehicleUse &&
+                !useAgencyno &&
+                !useCompanyno) {
             return false;
         } else { return true;}
     }
