@@ -98,18 +98,18 @@ public class NewCompanyFragment extends Fragment {
         return view;
     }
 
-    public boolean invalidValidateLength(Integer numberLength){
+    public static boolean invalidValidateLength(Integer numberLength){
         if(numberLength != 11) {
-            return false;
+            return true;
         }
-        else return true;
+        else return false;
     }
 
     public static boolean invalidValidateType( String dataType){
         if(!Pattern.matches("\\d+", dataType)) {
             return false;
         }
-        else return true;
+        else return false;
     }
 }
 
