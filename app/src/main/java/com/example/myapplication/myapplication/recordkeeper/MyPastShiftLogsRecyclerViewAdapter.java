@@ -247,33 +247,36 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                     final ArrayList<String> testlist = new ArrayList<>();
                     for (Shiftlog s : mCheckBoxSelected) {
                         final Shiftlog logToGet = s;
-                        final String textMessage;
+                        final String textMessage1;
+                        final String textMessage2;
                         String companyName;
                         String agencyName;
 
 
                         if (s.getVehicleUse()) {
-                            textMessage = String.format(
+                            textMessage1 = String.format(
                                     "Shift Log Summary: " + System.getProperty("line.separator") +
                                             "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
                                             "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
                                             "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
-                                            "End Time: " + s.getEndTime() + System.getProperty("line.separator") +
+                                            "End Time: " + s.getEndTime());
+                            textMessage2 = String.format(
                                             "Break Time: " + s.getBreaks() + System.getProperty("line.separator") +
                                             "Nights out: " + s.getNightOut() + System.getProperty("line.separator") +
                                             "Registered Vehicle: " + s.getVehicleUse() + System.getProperty("line.separator") +
                                             "Vehicle Registration: " + s.getRegistration() + System.getProperty("line.separator") +
-                                            "POA: " + s.getPoa() + System.getProperty("line.separator"));
+                                            "POA: " + s.getPoa());
 
                         } else {
-                            textMessage = String.format(
+                            textMessage1 = String.format(
                                     "Shift Log Summary: " + System.getProperty("line.separator") +
                                             "Start Date: " + s.getStartDate() + System.getProperty("line.separator") +
                                             "Start Time: " + s.getStartTime() + System.getProperty("line.separator") +
                                             "End Date: " + s.getEndDate() + System.getProperty("line.separator") +
-                                            "End Time: " + s.getEndTime() + System.getProperty("line.separator") +
+                                            "End Time: " + s.getEndTime());
+                            textMessage2 = String.format(
                                             "Break Time: " + s.getBreaks() + System.getProperty("line.separator") +
-                                            "Nights out: " + s.getNightOut() + System.getProperty("line.separator"));
+                                            "Nights out: " + s.getNightOut());
 
                         }
 
@@ -289,15 +292,20 @@ public class MyPastShiftLogsRecyclerViewAdapter extends RecyclerView.Adapter<MyP
                                 @Override
                                 public void run() {
                                     Log.d("TESTING", String.format("receiver is " + logToGet.getShareWith()));
-                                        // Send to Company Only
+                                        // Send to Company
                                     if (logToGet.getShareWith()% 2 == 1) {
                                         SmsManager.getDefault().sendTextMessage(db.getCompanyByID(logToGet.getCompany()).getPhoneNumber()
-                                                , null, textMessage, null, null);
-                                        //Send to Agecny Only
-                                    } else if (logToGet.getShareWith() >= 2) {
+                                                , null, textMessage1, null, null);
+                                        SmsManager.getDefault().sendTextMessage(db.getCompanyByID(logToGet.getCompany()).getPhoneNumber()
+                                                , null, textMessage2, null, null);
+                                        //Send to Agency
+                                    }
+                                    if (logToGet.getShareWith() >= 2) {
                                         SmsManager.getDefault().sendTextMessage(db.getAgencyByID(logToGet.getAgency()).getPhoneNumber()
-                                                , null, textMessage, null, null);
-                                        //Send to Company and Agency
+                                                , null, textMessage1, null, null);
+                                        SmsManager.getDefault().sendTextMessage(db.getAgencyByID(logToGet.getAgency()).getPhoneNumber()
+                                                , null, textMessage2, null, null);
+
                                     }
                                 }
                             });
