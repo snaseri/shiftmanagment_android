@@ -34,6 +34,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation 'com.afollestad:material-cab:0.1.12'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
 
     //Add Library
 //    compile 'com.github.wdullaer:MaterialDateTimePicker:v3.0.0'
