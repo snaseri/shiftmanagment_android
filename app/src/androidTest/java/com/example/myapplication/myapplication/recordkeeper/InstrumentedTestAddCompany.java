@@ -3,6 +3,7 @@ package com.example.myapplication.myapplication.recordkeeper;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.MediumTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -19,6 +20,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+@MediumTest
 @RunWith(AndroidJUnit4.class)
 public class InstrumentedTestAddCompany {
 
