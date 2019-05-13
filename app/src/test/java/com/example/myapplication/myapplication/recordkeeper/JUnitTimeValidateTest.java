@@ -11,8 +11,6 @@ import static org.junit.Assert.assertEquals;
  */
 public class JUnitTimeValidateTest {
 
-
-
     @Test
     public void validateDate() {
         MainActivity mainActivity = new MainActivity();
@@ -26,22 +24,6 @@ public class JUnitTimeValidateTest {
                                         12, 0);
         assertEquals(validTime, true);
     }
-
-
-    @Test(expected = AssertionError.class)
-    public void invalidDate() {
-        MainActivity mainActivity = new MainActivity();
-
-        Boolean validTime =
-                mainActivity.validateTimes("12:00", "01/01/2020",
-                                        "12:00", "01/01/2019",
-                                        2020, 1, 1,
-                                        12, 0,
-                                        2019, 1, 1,
-                                        12, 0);
-        assertEquals(validTime, true);
-    }
-
 
 
     @Test
@@ -59,23 +41,6 @@ public class JUnitTimeValidateTest {
     }
 
 
-    @Test(expected = AssertionError.class)
-    public void invalidDateMonth() {
-        MainActivity mainActivity = new MainActivity();
-
-        Boolean validTime =
-                mainActivity.validateTimes("12:00", "01/02/2019",
-                                        "12:00", "01/01/2019",
-                                        2019, 2, 1,
-                                        12, 0,
-                                        2019, 1, 1,
-                                        12, 0);
-        System.out.print(validTime);
-        assertEquals(validTime, true);
-    }
-
-
-
     @Test
     public void validateDateDay() {
         MainActivity mainActivity = new MainActivity();
@@ -91,22 +56,6 @@ public class JUnitTimeValidateTest {
     }
 
 
-    @Test(expected = AssertionError.class)
-    public void invalidDateDay() {
-        MainActivity mainActivity = new MainActivity();
-
-        Boolean validTime =
-                mainActivity.validateTimes("12:00", "02/01/2019",
-                                        "12:00", "01/01/2019",
-                                        2019, 1, 2,
-                                        12, 0,
-                                        2019, 1, 1,
-                                        12, 0);
-        assertEquals(validTime, true);
-    }
-
-
-
     @Test
     public void validateTimeHour() {
         MainActivity mainActivity = new MainActivity();
@@ -120,22 +69,6 @@ public class JUnitTimeValidateTest {
                                         20, 0);
         assertEquals(validTime, true);
     }
-
-
-    @Test(expected = AssertionError.class)
-    public void invalidTimeHour() {
-        MainActivity mainActivity = new MainActivity();
-
-        Boolean validTime =
-                mainActivity.validateTimes("20:00", "01/01/2019",
-                                        "20:00", "01/01/2019",
-                                        2019, 1, 1,
-                                        12, 0,
-                                        2019, 1, 1,
-                                        20, 0);
-        assertEquals(validTime, true);
-    }
-
 
 
     @Test
@@ -154,16 +87,31 @@ public class JUnitTimeValidateTest {
 
 
     @Test(expected = AssertionError.class)
-    public void invalidTimeMinute() {
+    public void invalidTime() {
         MainActivity mainActivity = new MainActivity();
 
         Boolean validTime =
                 mainActivity.validateTimes("12:30", "01/01/2019",
-                                        "12:00", "01/01/2019",
-                                        2019, 1, 1,
-                                        12, 30,
-                                        2019, 1, 1,
-                                        12, 0);
+                        "12:00", "01/01/2019",
+                        2019, 1, 1,
+                        12, 30,
+                        2019, 1, 1,
+                        12, 0);
+        assertEquals(validTime, true);
+    }
+
+
+    @Test(expected = AssertionError.class)
+    public void noTime() {
+        MainActivity mainActivity = new MainActivity();
+
+        Boolean validTime =
+                mainActivity.validateTimes(null, null,
+                        null, null,
+                        2019, 1, 1,
+                        12, 0,
+                        2019, 1, 1,
+                        12, 30);
         assertEquals(validTime, true);
     }
 }
